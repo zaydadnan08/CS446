@@ -1,2 +1,2 @@
 # CS446
-CS 446 Software Design and Architectu re Porject 
+CS 446 Software Design and Architecture Project 
