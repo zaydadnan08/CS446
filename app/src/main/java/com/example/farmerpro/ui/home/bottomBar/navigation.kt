@@ -14,9 +14,9 @@ import com.example.farmerpro.ui.landing.UserSignupScreen
 
 @Composable
 fun navigation(navController: NavHostController){
-    NavHost(navController = navController, startDestination = Screens.Home.name){
-        composable(route = Screens.Home.name) {
-            MarketScreen(navController = navController)
+    NavHost(navController = navController, startDestination = Screens.Market.name){
+        composable(route = Screens.Market.name) {
+            StartScreen(navController = navController)
         }
         composable(route = Screens.Farmer.name) {
             FarmScreen(navController = navController)
@@ -29,6 +29,6 @@ fun navigation(navController: NavHostController){
 
 enum class Screens {
     Farmer,
-    Home,
+    Market,
     Fridge,
 }
