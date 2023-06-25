@@ -16,7 +16,7 @@ import com.example.farmerpro.ui.landing.UserSignupScreen
 fun navigation(navController: NavHostController){
     NavHost(navController = navController, startDestination = Screens.Market.name){
         composable(route = Screens.Market.name) {
-            StartScreen(navController = navController)
+            MarketScreen()
         }
         composable(route = Screens.Farmer.name) {
             FarmScreen(navController = navController)

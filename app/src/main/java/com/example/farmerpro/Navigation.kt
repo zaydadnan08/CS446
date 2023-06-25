@@ -12,7 +12,7 @@ import com.example.farmerpro.ui.landing.UserSignupScreen
 @Composable
 fun Navigation(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.Start.name){
+    NavHost(navController = navController, startDestination = Screens.Home.name){
         composable(route = Screens.Start.name) {
             StartScreen(navController = navController)
         }
