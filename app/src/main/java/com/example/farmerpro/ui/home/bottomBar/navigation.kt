@@ -7,10 +7,6 @@ import androidx.navigation.compose.composable
 import com.example.farmerpro.ui.home.farmer.FarmScreen
 import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
 import com.example.farmerpro.ui.home.market.MarketScreen
-import com.example.farmerpro.ui.landing.StartScreen
-import com.example.farmerpro.ui.landing.UserSelectScreen
-import com.example.farmerpro.ui.landing.UserSignupScreen
-
 
 @Composable
 fun navigation(navController: NavHostController){
@@ -19,10 +15,10 @@ fun navigation(navController: NavHostController){
             MarketScreen()
         }
         composable(route = Screens.Farmer.name) {
-            FarmScreen(navController = navController)
+            FarmScreen()
         }
         composable(route = Screens.Fridge.name) {
-            CommunityFridgeScreen(navController = navController)
+            CommunityFridgeScreen()
         }
     }
 }

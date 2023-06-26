@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.farmerpro.Screens
+import com.example.farmerpro.ui.home.fridge.fridge
 
 @Preview
 @Composable
@@ -34,6 +35,5 @@ fun MarketScreen(){
                 textAlign = TextAlign.Start
             )
         )
-        Spacer(modifier = Modifier.height(8.dp))
     }
 }
