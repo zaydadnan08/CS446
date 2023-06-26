@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.landing
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -24,7 +25,7 @@ fun UserSignupScreen(navController: NavController) {
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        Icon(
+        Image(
             painter = painterResource(id = R.drawable.farmer),
             modifier = Modifier.size(64.dp),
             contentDescription = null
