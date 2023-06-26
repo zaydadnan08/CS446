@@ -2,9 +2,7 @@ package com.example.farmerpro.ui.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -24,61 +22,72 @@ import com.example.farmerpro.R
 @Composable
 fun HomeScreen() {
     val navController = rememberNavController()
-        Scaffold(
-            bottomBar = {
-                BottomNavigation(
-                    backgroundColor = Color.White,
-                    contentColor = Color.Black,
-                    modifier = Modifier
-                        .border(
-                            BorderStroke(3.dp, Color.Black),
-                            CircleShape
-                        )
+    Scaffold(
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .padding(start = 16.dp, end= 16.dp, bottom = 16.dp, top = 0.dp) // Adjust the padding as desired
+                    .border(
+                        BorderStroke(2.dp, Color.Black),
+                        CircleShape
+                    )
+            ) {
+                Surface(
+                    elevation = 0.dp, // Remove the drop shadow
+                    color = Color.White
                 ) {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
+                    BottomNavigation(
+                        backgroundColor = Color.White,
+                        contentColor = Color.Black,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
 
-                    Screens.values().forEach { screen ->
-                        BottomNavigationItem(
-                            selected = currentDestination?.hierarchy?.any {
-                                it.route == screen.name
-                            }.isTrue(),
-                            label = { Text(text = screen.name) },
-                            onClick = {
-                                navController.navigate(screen.name) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                        Screens.values().forEach { screen ->
+                            BottomNavigationItem(
+                                selected = currentDestination?.hierarchy?.any {
+                                    it.route == screen.name
+                                }.isTrue(),
+                                label = { Text(text = screen.name) },
+                                onClick = {
+                                    navController.navigate(screen.name) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
+                                },
+                                icon = {
+                                    val id = when (screen) {
+                                        Screens.Market -> R.drawable.home
+                                        Screens.Fridge -> R.drawable.notification
+                                        Screens.Farmer -> R.drawable.edit
+                                    }
+                                    Icon(
+                                        painter = painterResource(id = id),
+                                        modifier = Modifier.size(24.dp),
+                                        contentDescription = null
+                                    )
                                 }
-                            },
-                            icon = {
-                                val id = when (screen) {
-                                    Screens.Market -> R.drawable.home
-                                    Screens.Fridge -> R.drawable.notification
-                                    Screens.Farmer -> R.drawable.edit
-                                }
-                                Icon(
-                                    painter = painterResource(id = id),
-                                    modifier = Modifier.size(24.dp),
-                                    contentDescription = null
-                                )
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
-        ) { innerPadding ->
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                color = MaterialTheme.colors.background
-            ) {
-                navigation(navController = navController)
-            }
         }
+    ) { innerPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            color = MaterialTheme.colors.background
+        ) {
+            navigation(navController = navController)
+        }
+    }
 }
 
 fun Boolean?.isTrue() = this == true

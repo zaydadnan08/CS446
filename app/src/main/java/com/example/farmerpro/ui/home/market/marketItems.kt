@@ -1,51 +1,63 @@
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.farmerpro.R
 
 @Composable
-fun MarketplaceItemList(items: List<Item>) {
-    val rows = items.chunked(2)
-    Column(modifier = Modifier.fillMaxSize()) {
-        for (row in rows) {
-            Row(Modifier.fillMaxWidth()) {
-                for (item in row) {
-                    MarketplaceItemCard(item = item, modifier = Modifier.weight(1f))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun MarketplaceItemCard(item: Item, modifier: Modifier = Modifier) {
+fun MarketplaceItemCard(item: Item) {
     Card(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(8.dp)
-            .aspectRatio(1f)
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
+            Image(
+                painter = painterResource(id = item.imageResId),
+                contentDescription = "Image",
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(150.dp)
+                    .padding(4.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .align(Alignment.CenterHorizontally)
+            )
             Text(
                 text = item.name,
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h6,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = item.price,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
-            Text(
-                text = item.description,
-                style = MaterialTheme.typography.body2
-            )
+            Box(modifier = Modifier.height(36.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item.description,
+                        style = MaterialTheme.typography.body2,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
         }
     }
 }
