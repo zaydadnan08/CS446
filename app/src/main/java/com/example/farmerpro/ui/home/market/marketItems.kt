@@ -1,4 +1,6 @@
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -12,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.farmerpro.R
+import com.example.farmerpro.ui.theme.Gray400
 
 @Composable
 fun MarketplaceItemCard(item: Item) {
@@ -19,6 +22,11 @@ fun MarketplaceItemCard(item: Item) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .border(
+                BorderStroke(0.5.dp, Gray400),
+                RoundedCornerShape(16.dp)
+            )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -29,8 +37,8 @@ fun MarketplaceItemCard(item: Item) {
                     .height(150.dp)
                     .width(150.dp)
                     .padding(4.dp)
-                    .clip(RoundedCornerShape(20.dp))
                     .align(Alignment.CenterHorizontally)
+                    .clip(RoundedCornerShape(20.dp)) // Rounded corners
             )
             Text(
                 text = item.name,

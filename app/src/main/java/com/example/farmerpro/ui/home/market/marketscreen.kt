@@ -2,25 +2,38 @@ package com.example.farmerpro.ui.home.market
 
 import Item
 import MarketplaceItemCard
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.farmerpro.R
-
+import com.example.farmerpro.ui.theme.Gray200
 @OptIn(ExperimentalFoundationApi::class)
-@Preview
 @Composable
-fun MarketScreen(){
+fun MarketScreen() {
     Column(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
@@ -29,13 +42,16 @@ fun MarketScreen(){
     ) {
         Text(
             text = "Marketplace",
-            modifier = Modifier.padding(bottom = 8.dp, top = 12.dp,
-                start = 8.dp, end=4.dp), style = TextStyle(
+            modifier = Modifier.padding(bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp),
+            style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
                 textAlign = TextAlign.Start
             )
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
+        SearchAppBar(searchQuery, setSearchQuery)
         Spacer(modifier = Modifier.height(8.dp))
 
         val items = listOf(
@@ -49,8 +65,16 @@ fun MarketScreen(){
             Item("Orange", "$0.79/each", "Citrus fruit with tangy flavor", R.drawable.orange)
         )
 
+        val filteredItems = if (searchQuery.isNotEmpty()) {
+            items.filter { item ->
+                item.name.contains(searchQuery, ignoreCase = true)
+            }
+        } else {
+            items
+        }
+
         LazyVerticalGrid(cells = GridCells.Fixed(2)) {
-            items.forEach { item ->
+            filteredItems.forEach { item ->
                 item {
                     MarketplaceItemCard(item = item)
                     Spacer(modifier = Modifier.height(8.dp))
@@ -59,3 +83,55 @@ fun MarketScreen(){
         }
     }
 }
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun SearchAppBar(searchQuery: String, onSearchQueryChange: (String) -> Unit) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Gray200, RoundedCornerShape(24.dp))
+            .border(
+                BorderStroke(0.dp, Color.Transparent),
+                RoundedCornerShape(24.dp)
+            ),
+        value = searchQuery,
+        onValueChange = onSearchQueryChange,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search Icon",
+            )
+        },
+        trailingIcon = {
+            if (searchQuery.isNotEmpty()) {
+                IconButton(onClick = { onSearchQueryChange("") }) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "Close Icon",
+                    )
+                }
+            }
+        },
+        placeholder = {
+            Text(
+                text = "Search...",
+                style = TextStyle(fontSize = 18.sp)
+            )
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            unfocusedBorderColor = Color.Transparent,
+            focusedBorderColor = Color.Transparent,
+            cursorColor = Color.Gray
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                keyboardController?.hide()
+            }
+        ),
+    )
+}
+
