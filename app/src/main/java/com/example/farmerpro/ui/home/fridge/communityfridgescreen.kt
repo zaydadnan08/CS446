@@ -1,7 +1,13 @@
 package com.example.farmerpro.ui.home.fridge
 
 import android.graphics.Color
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -34,6 +40,16 @@ fun CommunityFridgeScreen(){
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
+        fridge()
+        Spacer(modifier = Modifier.height(8.dp))
+        fridge()
+        Spacer(modifier = Modifier.height(8.dp))
+        fridge()
+        Spacer(modifier = Modifier.height(8.dp))
+        fridge()
+        Spacer(modifier = Modifier.height(8.dp))
+        fridge()
+
     }
 }
 
