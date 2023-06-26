@@ -25,7 +25,12 @@ import com.example.farmerpro.ui.theme.Gray400
 
 @Preview
 @Composable
-fun fridge(){
+fun fridge(
+        name: String = "",
+        address: String = "",
+        distance: String = "",
+        image: Int = 0
+        ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -38,7 +43,7 @@ fun fridge(){
         {
 
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = image),
                 contentDescription = "Image",
                 modifier = Modifier
                     .height(100.dp)
@@ -52,7 +57,7 @@ fun fridge(){
                     .padding(8.dp),
             ) {
                 Text(
-                    text = "Community Fridge 1",
+                    text = name,
                     modifier = Modifier.padding(), style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
@@ -61,7 +66,7 @@ fun fridge(){
                 )
 
                 Text(
-                    text = "172 Cousens Terrace",
+                    text = address,
                     modifier = Modifier.padding(), style = TextStyle(
                         fontWeight = FontWeight.Medium,
                         fontSize = 18.sp,
@@ -70,7 +75,7 @@ fun fridge(){
                 )
 
                 Text(
-                    text = "1.4 km away",
+                    text = distance,
                     modifier = Modifier.padding(), style = TextStyle(
                         fontWeight = FontWeight.Medium,
                         fontSize = 14.sp,
