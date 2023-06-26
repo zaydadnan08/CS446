@@ -3,7 +3,14 @@ package com.example.farmerpro.ui.home.market
 import Item
 import MarketplaceItemList
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -42,4 +49,32 @@ fun MarketScreen(){
 
         MarketplaceItemList(items = items)
     }
+
+
+}
+
+@Preview
+@Composable
+fun SearchAppBar() {
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = "",
+        onValueChange = {},
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search Icon",
+            )
+        },
+        trailingIcon = {
+            IconButton(onClick = {  }) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "Close Icon",
+                )
+            }
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+        )
+    )
 }
