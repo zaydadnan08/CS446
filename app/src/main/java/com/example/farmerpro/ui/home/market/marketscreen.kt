@@ -1,5 +1,7 @@
 package com.example.farmerpro.ui.home.market
 
+import Item
+import MarketplaceItemList
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -35,5 +37,15 @@ fun MarketScreen(){
                 textAlign = TextAlign.Start
             )
         )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val items = listOf(
+            Item("Item 1", "$10", "Description 1", 1),
+            Item("Item 2", "$15", "Description 2", 2),
+            Item("Item 3", "$20", "Description 3", 3),
+            Item("Item 4", "$25", "Description 4", 4)
+        )
+
+        MarketplaceItemList(items = items)
     }
 }
