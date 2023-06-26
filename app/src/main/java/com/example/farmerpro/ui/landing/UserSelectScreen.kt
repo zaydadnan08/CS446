@@ -1,6 +1,10 @@
 package com.example.farmerpro.ui.landing
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -36,29 +40,53 @@ fun UserSelectScreen(navController: NavController){
         Text(text = "who are you?", fontSize = 26.sp)
         Spacer(modifier = Modifier.height(64.dp))
         Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.Transparent)
+                .border(
+                    BorderStroke(2.dp, Color.Black),
+                    CircleShape
+                ),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 navController.navigate(Screens.UserSignup.name);
             },
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent)
+
         ) {
             Text(text = "customer", color = Color.Black)
         }
         Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.Transparent)
+                .border(
+                    BorderStroke(2.dp, Color.Black),
+                    CircleShape
+                ),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 navController.navigate(Screens.UserSignup.name);
             },
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent)
+
         ) {
             Text(text = "farmer", color = Color.Black)
         }
         Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.Transparent)
+                .border(
+                    BorderStroke(2.dp, Color.Black),
+                    CircleShape
+                ),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 navController.navigate(Screens.UserSignup.name);
             },
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent)
+
         ) {
             Text(text = "community fridge", color = Color.Black)
         }
