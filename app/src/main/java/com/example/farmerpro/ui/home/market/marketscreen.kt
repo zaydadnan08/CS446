@@ -7,8 +7,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -73,7 +73,9 @@ fun MarketScreen() {
             items
         }
 
-        LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+        LazyVerticalGrid(
+            columns= GridCells.Fixed(2),
+            modifier = Modifier.padding(1.dp)) {
             filteredItems.forEach { item ->
                 item {
                     MarketplaceItemCard(item = item)
