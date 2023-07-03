@@ -27,16 +27,15 @@ import com.example.farmerpro.ui.basic.FarmerTextInput
 import kotlinx.coroutines.launch
 
 @Composable
-fun UserSignupScreen(
+fun UserSigninScreen(
     navController: NavController,
-    viewModel: UserSignUpViewModel = hiltViewModel()
+    viewModel: UserSignInViewModel = hiltViewModel()
 ) {
-    var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val state = viewModel.signUpState.collectAsState(initial = null)
+    val state = viewModel.signInState.collectAsState(initial = null)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -53,14 +52,6 @@ fun UserSignupScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         FarmerTextInput(
-            value = fullName,
-            onValueChange = { fullName = it },
-            placeholder = "Full Name"
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        FarmerTextInput(
             value = email,
             onValueChange = { email = it },
             placeholder = "Email"
@@ -75,7 +66,7 @@ fun UserSignupScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             if (state.value?.isLoading == true) {
                 CircularProgressIndicator()
@@ -94,13 +85,13 @@ fun UserSignupScreen(
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 scope.launch {
-                    viewModel.signUpUser(email, password)
+                    viewModel.loginUser(email, password)
                 }
             },
         ) {
             Text(text = "Sign Up", color = Color.Black)
         }
-        
+
         LaunchedEffect(key1 = state.value?.isSuccess){
             scope.launch {
                 if (state.value?.isSuccess?.isNotEmpty() == true){
