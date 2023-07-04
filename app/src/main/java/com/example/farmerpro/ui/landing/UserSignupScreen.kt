@@ -106,7 +106,7 @@ fun UserSignupScreen(
                 if (state.value?.isSuccess?.isNotEmpty() == true){
                     val success = state.value?.isSuccess
                     Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
-//                    navController.navigate(Screens.Home.name);
+                    navController.navigate(Screens.Home.name);
                 }
             }
         }
