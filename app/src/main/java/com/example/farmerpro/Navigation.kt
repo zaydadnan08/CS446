@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.farmerpro.ui.home.HomeScreen
 import com.example.farmerpro.ui.landing.StartScreen
 import com.example.farmerpro.ui.landing.UserSelectScreen
+import com.example.farmerpro.ui.landing.UserSigninScreen
 import com.example.farmerpro.ui.landing.UserSignupScreen
 
 @Composable
@@ -23,6 +24,9 @@ fun Navigation(){
         composable(route = Screens.UserSignup.name) {
             UserSignupScreen(navController = navController)
         }
+        composable(route = Screens.UserSignin.name) {
+            UserSigninScreen(navController = navController)
+        }
         composable(route = Screens.Home.name) {
             HomeScreen()
         }
@@ -33,7 +37,8 @@ enum class Screens {
     Home,
     Start,
     UserSignup,
-    UserSelect,
+    UserSignin,
+    UserSelect,;
 }
 
 

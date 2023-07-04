@@ -89,7 +89,22 @@ fun UserSigninScreen(
                 }
             },
         ) {
-            Text(text = "Sign Up", color = Color.Black)
+            Text(text = "Sign In", color = Color.Black)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            modifier = Modifier
+                .background(Color.Transparent),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+            onClick = {
+                scope.launch {
+                    navController.navigate(Screens.UserSignup.name);
+                }
+            },
+        ) {
+            Text(text = "Don't have an account? Create one", color = Color.Black)
         }
 
         LaunchedEffect(key1 = state.value?.isSuccess){
