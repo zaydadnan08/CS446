@@ -1,4 +1,4 @@
-package com.example.farmerpro
+package com.example.farmerpro.types
 
 enum class UserType {
     FARMER, ADMIN, CUSTOMER
