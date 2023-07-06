@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -23,6 +22,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.R
 import com.example.farmerpro.Screens
+import com.example.farmerpro.types.UserType
+import com.example.farmerpro.types.User
 import com.example.farmerpro.ui.basic.FarmerTextInput
 import kotlinx.coroutines.launch
 
@@ -94,7 +95,7 @@ fun UserSignupScreen(
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 scope.launch {
-                    viewModel.signUpUser(email, password)
+                    viewModel.signUpUser(User(fullName, UserType.CUSTOMER), email, password)
                 }
             },
         ) {
