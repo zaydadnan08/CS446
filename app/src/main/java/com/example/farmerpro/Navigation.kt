@@ -13,9 +13,18 @@ import com.example.farmerpro.ui.landing.UserSigninScreen
 import com.example.farmerpro.ui.landing.UserSignupScreen
 
 @Composable
-fun Navigation(){
+fun Navigation(
+    isLoggedIn: Boolean
+){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.Start.name){
+    var start = ""
+    if (isLoggedIn) {
+        start = Screens.Home.name
+    } else {
+        start = Screens.Start.name
+    }
+
+    NavHost(navController = navController, startDestination = start){
         composable(route = Screens.Start.name) {
             StartScreen(navController = navController)
         }
