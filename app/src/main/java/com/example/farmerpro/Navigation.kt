@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.farmerpro.types.UserType
 import com.example.farmerpro.ui.home.HomeScreen
 import com.example.farmerpro.ui.landing.StartScreen
 import com.example.farmerpro.ui.landing.UserSelectScreen
@@ -21,8 +22,14 @@ fun Navigation(){
         composable(route = Screens.UserSelect.name) {
             UserSelectScreen(navController = navController)
         }
-        composable(route = Screens.UserSignup.name) {
-            UserSignupScreen(navController = navController)
+        composable(route = Screens.UserSignupCustomer.name) {
+            UserSignupScreen(navController = navController, userType = UserType.CUSTOMER)
+        }
+        composable(route = Screens.UserSignupFarmer.name) {
+            UserSignupScreen(navController = navController, userType = UserType.FARMER)
+        }
+        composable(route = Screens.UserSignupAdmin.name) {
+            UserSignupScreen(navController = navController, userType = UserType.ADMIN)
         }
         composable(route = Screens.UserSignin.name) {
             UserSigninScreen(navController = navController)
@@ -36,7 +43,9 @@ fun Navigation(){
 enum class Screens {
     Home,
     Start,
-    UserSignup,
+    UserSignupCustomer,
+    UserSignupFarmer,
+    UserSignupAdmin,
     UserSignin,
     UserSelect,;
 }

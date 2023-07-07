@@ -50,7 +50,7 @@ fun UserSelectScreen(navController: NavController){
                 ),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
-                navController.navigate(Screens.UserSignup.name);
+                navController.navigate(Screens.UserSignupCustomer.name);
             },
 
         ) {
@@ -67,7 +67,7 @@ fun UserSelectScreen(navController: NavController){
                 ),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
-                navController.navigate(Screens.UserSignup.name);
+                navController.navigate(Screens.UserSignupFarmer.name);
             },
 
         ) {
@@ -84,7 +84,7 @@ fun UserSelectScreen(navController: NavController){
                 ),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
-                navController.navigate(Screens.UserSignup.name);
+                navController.navigate(Screens.UserSignupAdmin.name);
             },
 
         ) {

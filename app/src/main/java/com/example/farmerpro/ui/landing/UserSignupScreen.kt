@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserSignupScreen(
     navController: NavController,
+    userType: UserType,
     viewModel: UserSignUpViewModel = hiltViewModel()
 ) {
     var fullName by remember { mutableStateOf("") }
@@ -95,7 +96,7 @@ fun UserSignupScreen(
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 scope.launch {
-                    viewModel.signUpUser(User(fullName, UserType.CUSTOMER), email, password)
+                    viewModel.signUpUser(User(fullName, userType), email, password)
                 }
             },
         ) {
