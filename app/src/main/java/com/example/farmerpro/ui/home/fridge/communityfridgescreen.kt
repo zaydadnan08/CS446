@@ -12,11 +12,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.farmerpro.R
+import com.example.farmerpro.Screens
+import com.example.farmerpro.ui.landing.UserSignInViewModel
 
 @Preview
 @Composable
-fun CommunityFridgeScreen(){
+fun CommunityFridgeScreen(
+    navController: NavController,
+    viewModel: CommunityFridgeViewModel = hiltViewModel()
+){
     Column(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
@@ -33,9 +40,14 @@ fun CommunityFridgeScreen(){
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(onClick = { /*TODO*/ },
-                shape = CircleShape,
-                border= BorderStroke(1.dp, androidx.compose.ui.graphics.Color.Blue)
+        OutlinedButton(
+            onClick =
+            {
+                viewModel.signOut()
+                navController.navigate(Screens.Start.name)
+            },
+            shape = CircleShape,
+            border= BorderStroke(1.dp, androidx.compose.ui.graphics.Color.Blue)
         ) {
             Text(
                     text = "Sort by: distance",

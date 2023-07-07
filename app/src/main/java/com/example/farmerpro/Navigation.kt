@@ -44,7 +44,7 @@ fun Navigation(
             UserSigninScreen(navController = navController)
         }
         composable(route = Screens.Home.name) {
-            HomeScreen()
+            HomeScreen(mainNavController = navController)
         }
     }
 }
