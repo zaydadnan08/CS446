@@ -100,7 +100,7 @@ fun UserSigninScreen(
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 scope.launch {
-                    navController.navigate(Screens.UserSignup.name);
+                    navController.navigate(Screens.UserSelect.name);
                 }
             },
         ) {
