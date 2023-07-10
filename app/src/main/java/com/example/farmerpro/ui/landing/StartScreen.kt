@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.farmerpro.Screens
 import com.example.farmerpro.R
+import com.example.farmerpro.ui.basic.BorderedButton
 
 @Composable
 fun StartScreen(navController: NavController){
@@ -39,23 +40,12 @@ fun StartScreen(navController: NavController){
         Text(text = "farmer pro", fontSize = 32.sp)
         Text(text = "farming at its best.", fontSize = 22.sp)
         Spacer(modifier = Modifier.height(128.dp))
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color.Transparent)
-                .border(
-                BorderStroke(2.dp, Color.Black),
-                CircleShape
-            ),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-
-                    onClick = {
+        BorderedButton(
+            value="get started",
+            onClick = {
                 navController.navigate(Screens.UserSelect.name);
-            },
-        ) {
-            Text(text = "get started", color = Color.Black)
-        }
+            }
+        )
     }
 }
 
