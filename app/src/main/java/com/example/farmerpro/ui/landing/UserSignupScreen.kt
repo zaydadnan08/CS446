@@ -6,7 +6,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -24,7 +26,8 @@ import com.example.farmerpro.R
 import com.example.farmerpro.Screens
 import com.example.farmerpro.types.UserType
 import com.example.farmerpro.types.User
-import com.example.farmerpro.ui.basic.FarmerTextInput
+import com.example.farmerpro.ui.basic.BorderedButton
+import com.example.farmerpro.ui.basic.TextInput
 import kotlinx.coroutines.launch
 
 @Composable
@@ -39,102 +42,88 @@ fun UserSignupScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signUpState.collectAsState(initial = null)
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.farmer),
-            modifier = Modifier.size(64.dp),
-            contentDescription = null,
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-
-        FarmerTextInput(
-            value = fullName,
-            onValueChange = { fullName = it },
-            placeholder = "Full Name"
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        FarmerTextInput(
-            value = email,
-            onValueChange = { email = it },
-            placeholder = "Email"
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        FarmerTextInput(
-            value = password,
-            onValueChange = { password = it },
-            placeholder = "Password"
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            if (state.value?.isLoading == true) {
-                CircularProgressIndicator()
-            }
-        }
-
-        Button(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color.Transparent)
-                .border(
-                    BorderStroke(2.dp, Color.Black),
-                    CircleShape
-                ),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-            onClick = {
+                .fillMaxSize()
+                .padding(10.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.farmer),
+                modifier = Modifier.size(64.dp),
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+
+            TextInput(
+                value = fullName,
+                onValueChange = { fullName = it },
+                placeholder = "Full Name"
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextInput(
+                value = email,
+                onValueChange = { email = it },
+                placeholder = "Email"
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextInput(
+                value = password,
+                onValueChange = { password = it },
+                placeholder = "Password"
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                if (state.value?.isLoading == true) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            BorderedButton(value = "Sign up", onClick = {
                 scope.launch {
                     viewModel.signUpUser(User(fullName, userType), email, password)
                 }
-            },
-        ) {
-            Text(text = "Sign Up", color = Color.Black)
-        }
+            })
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            modifier = Modifier
-                .background(Color.Transparent),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-            onClick = {
+            Button(
+                modifier = Modifier
+                    .background(Color.Transparent),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+                onClick = {
+                    scope.launch {
+                        navController.navigate(Screens.UserSignin.name);
+                    }
+                },
+            ) {
+                Text(text = "Already have an account? Sign in", color = Color.Black)
+            }
+
+            LaunchedEffect(key1 = state.value?.isSuccess) {
                 scope.launch {
-                    navController.navigate(Screens.UserSignin.name);
+                    if (state.value?.isSuccess?.isNotEmpty() == true) {
+                        val success = state.value?.isSuccess
+                        Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
+                        navController.navigate(Screens.Home.name);
+                    }
                 }
-            },
-        ) {
-            Text(text = "Already have an account? Sign in", color = Color.Black)
-        }
+            }
 
-        LaunchedEffect(key1 = state.value?.isSuccess){
-            scope.launch {
-                if (state.value?.isSuccess?.isNotEmpty() == true){
-                    val success = state.value?.isSuccess
-                    Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
-                    navController.navigate(Screens.Home.name);
+            LaunchedEffect(key1 = state.value?.isError) {
+                scope.launch {
+                    if (state.value?.isError?.isNotEmpty() == true) {
+                        val error = state.value?.isError
+                        Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
-
-        LaunchedEffect(key1 = state.value?.isError){
-            scope.launch {
-                if (state.value?.isError?.isNotEmpty() == true){
-                    val error = state.value?.isError
-                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
 }

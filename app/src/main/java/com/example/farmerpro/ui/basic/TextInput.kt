@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FarmerTextInput(
+fun TextInput(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -28,10 +28,10 @@ fun FarmerTextInput(
         placeholder = {
             Text(
                 text = placeholder,
-                style = TextStyle(fontSize = 18.sp)
+                style = TextStyle(fontSize = 14.sp)
             )
         },
-        textStyle = TextStyle(fontSize = 24.sp, lineHeight = 32.sp),
+        textStyle = TextStyle(fontSize = 18.sp, lineHeight = 32.sp),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = Color.Transparent,
             focusedBorderColor = Color.Transparent,

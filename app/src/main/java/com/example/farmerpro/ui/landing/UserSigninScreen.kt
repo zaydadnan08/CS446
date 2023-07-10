@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.R
 import com.example.farmerpro.Screens
-import com.example.farmerpro.ui.basic.FarmerTextInput
+import com.example.farmerpro.ui.basic.TextInput
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,7 +51,7 @@ fun UserSigninScreen(
         )
         Spacer(modifier = Modifier.height(32.dp))
 
-        FarmerTextInput(
+        TextInput(
             value = email,
             onValueChange = { email = it },
             placeholder = "Email"
@@ -59,7 +59,7 @@ fun UserSigninScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        FarmerTextInput(
+        TextInput(
             value = password,
             onValueChange = { password = it },
             placeholder = "Password"
