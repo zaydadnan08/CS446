@@ -2,8 +2,8 @@ package com.example.farmerpro.ui.landing
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.farmerpro.data.AuthRepository
-import com.example.farmerpro.data.Resource
+import com.example.farmerpro.domain.repository.AuthRepository
+import com.example.farmerpro.domain.model.Resource
 import com.example.farmerpro.types.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

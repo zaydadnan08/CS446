@@ -2,14 +2,8 @@ package com.example.farmerpro.ui.home.fridge
 
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.farmerpro.data.AuthRepository
-import com.example.farmerpro.data.Resource
-import com.example.farmerpro.ui.landing.SignInState
+import com.example.farmerpro.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
