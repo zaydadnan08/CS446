@@ -1,7 +1,7 @@
 package com.example.farmerpro
 
 import androidx.lifecycle.ViewModel
-import com.example.farmerpro.data.AuthRepository
+import com.example.farmerpro.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

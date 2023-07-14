@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class MainViewModel:ViewModel() {
+class farmViewModel:ViewModel() {
 
     var state by mutableStateOf(farmscreenstate())
         private set

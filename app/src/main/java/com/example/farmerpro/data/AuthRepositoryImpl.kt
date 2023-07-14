@@ -1,5 +1,7 @@
 package com.example.farmerpro.data
 
+import com.example.farmerpro.domain.model.Resource
+import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.types.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth

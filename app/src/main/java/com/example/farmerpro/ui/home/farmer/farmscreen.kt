@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.farmerpro.ui.SpeechRecognizerContract
+import com.example.farmerpro.ui.basic.BorderedButton
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -29,7 +30,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 @OptIn(ExperimentalPermissionsApi::class)
 
 @Composable
-fun FarmScreen(viewModel: MainViewModel = viewModel()){
+fun FarmScreen(viewModel: farmViewModel = viewModel()){
 
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.RECORD_AUDIO
@@ -68,6 +69,18 @@ fun FarmScreen(viewModel: MainViewModel = viewModel()){
         }) {
             Text(text = "Speak")
         }
+
+        BorderedButton(value = "add book", onClick = {
+
+        })
+
+        BorderedButton(value = "delete book", onClick = {
+
+        })
+
+        BorderedButton(value = "get book", onClick = {
+
+        })
 
     }
 
