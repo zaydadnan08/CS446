@@ -98,7 +98,7 @@ fun AddItemAlertDialog(
                 GreyTextInput(value = location, onValueChange =  { location = it } , placeholder = "Location")
 
                 Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(value = description, onValueChange =  { description = it } , placeholder = "Product Description", Modifier.height(30.dp))
+                GreyTextInput(value = description, onValueChange =  { description = it } , placeholder = "Product Description")
             }
         },
         confirmButton = {
