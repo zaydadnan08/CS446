@@ -1,4 +1,4 @@
-package com.example.farmerpro.ui.home.books.components
+package com.example.farmerpro.ui.home.markets.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize

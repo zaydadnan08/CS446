@@ -1,9 +1,9 @@
 package com.example.farmerpro.domain.use_case
 
-import com.example.farmerpro.domain.repository.BooksRepository
+import com.example.farmerpro.domain.repository.MarketRepository
 
 class AddBook(
-    private val repo: BooksRepository
+    private val repo: MarketRepository
 ) {
     suspend operator fun invoke(
         title: String,

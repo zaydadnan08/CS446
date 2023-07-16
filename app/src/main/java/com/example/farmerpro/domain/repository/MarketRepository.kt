@@ -9,7 +9,7 @@ typealias BooksResponse = Response<Books>
 typealias AddBookResponse = Response<Boolean>
 typealias DeleteBookResponse = Response<Boolean>
 
-interface BooksRepository {
+interface MarketRepository {
     fun getBooksFromFirestore(): Flow<BooksResponse>
 
     suspend fun addBookToFirestore(title: String, author: String): AddBookResponse

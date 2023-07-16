@@ -1,4 +1,4 @@
-package com.example.farmerpro.ui.home.books
+package com.example.farmerpro.ui.home.markets
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +16,7 @@ import com.example.farmerpro.domain.use_case.UseCases
 import javax.inject.Inject
 
 @HiltViewModel
-class BooksViewModel @Inject constructor(
+class MarketViewModel @Inject constructor(
     private val useCases: UseCases
 ): ViewModel() {
     var booksResponse by mutableStateOf<BooksResponse>(Loading)

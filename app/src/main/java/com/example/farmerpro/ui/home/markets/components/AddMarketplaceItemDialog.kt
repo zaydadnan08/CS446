@@ -1,4 +1,4 @@
-package com.example.farmerpro.ui.home.books.components
+package com.example.farmerpro.ui.home.markets.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +27,7 @@ fun AddBookAlertDialog(
         onDismissRequest = closeDialog,
         title = {
             Text(
-                text = "ADD_BOOK"
+                text = "Add product listing"
             )
         },
         text = {

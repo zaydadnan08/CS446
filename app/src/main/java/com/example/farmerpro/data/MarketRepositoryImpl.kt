@@ -8,15 +8,15 @@ import com.example.farmerpro.domain.model.Book
 import com.example.farmerpro.domain.model.Response.Failure
 import com.example.farmerpro.domain.model.Response.Success
 import com.example.farmerpro.domain.repository.AddBookResponse
-import com.example.farmerpro.domain.repository.BooksRepository
+import com.example.farmerpro.domain.repository.MarketRepository
 import com.example.farmerpro.domain.repository.DeleteBookResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BooksRepositoryImpl @Inject constructor(
+class MarketRepositoryImpl @Inject constructor(
     private val booksRef: CollectionReference
-): BooksRepository {
+): MarketRepository {
     override fun getBooksFromFirestore() = callbackFlow {
         val snapshotListener = booksRef.orderBy("title").addSnapshotListener { snapshot, e ->
             val booksResponse = if (snapshot != null) {

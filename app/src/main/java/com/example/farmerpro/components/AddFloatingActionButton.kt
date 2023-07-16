@@ -1,4 +1,4 @@
-package com.example.farmerpro.ui.home.books.components
+package com.example.farmerpro.components
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 
 @Composable
-fun AddBookFloatingActionButton(
+fun AddFloatingActionButton(
     openDialog: () -> Unit
 ) {
     FloatingActionButton(
@@ -17,7 +17,7 @@ fun AddBookFloatingActionButton(
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = "ADD_BOOK"
+            contentDescription = "Add item"
         )
     }
 }

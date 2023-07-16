@@ -2,8 +2,8 @@ package com.example.farmerpro.dependencyInjection
 
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.data.AuthRepositoryImpl
-import com.example.farmerpro.data.BooksRepositoryImpl
-import com.example.farmerpro.domain.repository.BooksRepository
+import com.example.farmerpro.data.MarketRepositoryImpl
+import com.example.farmerpro.domain.repository.MarketRepository
 import com.example.farmerpro.domain.use_case.AddBook
 import com.example.farmerpro.domain.use_case.DeleteBook
 import com.example.farmerpro.domain.use_case.GetBooks
@@ -32,11 +32,11 @@ object AppModule {
     @Provides
     fun provideBooksRepository(
         booksRef: CollectionReference
-    ): BooksRepository = BooksRepositoryImpl(booksRef)
+    ): MarketRepository = MarketRepositoryImpl(booksRef)
 
     @Provides
     fun provideUseCases(
-        repo: BooksRepository
+        repo: MarketRepository
     ) = UseCases(
         getBooks = GetBooks(repo),
         addBook = AddBook(repo),

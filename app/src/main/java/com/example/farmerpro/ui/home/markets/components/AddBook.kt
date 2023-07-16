@@ -1,14 +1,14 @@
-package com.example.farmerpro.ui.home.books.components
+package com.example.farmerpro.ui.home.markets.components
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.components.ProgressBar
 import com.example.farmerpro.domain.model.Response.*
-import com.example.farmerpro.ui.home.books.BooksViewModel
+import com.example.farmerpro.ui.home.markets.MarketViewModel
 
 @Composable
 fun AddBook(
-    viewModel: BooksViewModel = hiltViewModel()
+    viewModel: MarketViewModel = hiltViewModel()
 ) {
     when(val addBookResponse = viewModel.addBookResponse) {
         is Loading -> ProgressBar()

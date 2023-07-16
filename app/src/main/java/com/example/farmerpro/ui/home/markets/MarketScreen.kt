@@ -1,19 +1,19 @@
-package com.example.farmerpro.ui.home.books
+package com.example.farmerpro.ui.home.markets
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.components.TopBar
-import com.example.farmerpro.ui.home.books.components.AddBook
-import com.example.farmerpro.ui.home.books.components.AddBookAlertDialog
-import com.example.farmerpro.ui.home.books.components.AddBookFloatingActionButton
-import com.example.farmerpro.ui.home.books.components.Books
-import com.example.farmerpro.ui.home.books.components.BooksContent
-import com.example.farmerpro.ui.home.books.components.DeleteBook
+import com.example.farmerpro.ui.home.markets.components.AddBook
+import com.example.farmerpro.ui.home.markets.components.AddBookAlertDialog
+import com.example.farmerpro.components.AddFloatingActionButton
+import com.example.farmerpro.ui.home.markets.components.Books
+import com.example.farmerpro.ui.home.markets.components.BooksContent
+import com.example.farmerpro.ui.home.markets.components.DeleteBook
 
 @Composable
 fun BooksScreen(
-    viewModel: BooksViewModel = hiltViewModel()
+    viewModel: MarketViewModel = hiltViewModel()
 ) {
     var openDialog by remember { mutableStateOf(false) }
 
@@ -45,7 +45,7 @@ fun BooksScreen(
             )
         },
         floatingActionButton = {
-            AddBookFloatingActionButton(
+            AddFloatingActionButton(
                 openDialog = {
                     openDialog = true
                 }
