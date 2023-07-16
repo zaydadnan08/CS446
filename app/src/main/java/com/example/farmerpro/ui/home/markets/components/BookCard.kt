@@ -15,11 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.farmerpro.domain.model.Book
+import com.example.farmerpro.domain.model.MarketplaceItem
 
 @Composable
 fun BookCard(
-    book: Book,
+    book: MarketplaceItem,
     deleteBook: () -> Unit,
 ) {
     Card(

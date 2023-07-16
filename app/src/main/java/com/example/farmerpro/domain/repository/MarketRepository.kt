@@ -1,10 +1,10 @@
 package com.example.farmerpro.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import com.example.farmerpro.domain.model.Book
+import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.domain.model.Response
 
-typealias Books = List<Book>
+typealias Books = List<MarketplaceItem>
 typealias BooksResponse = Response<Books>
 typealias AddBookResponse = Response<Boolean>
 typealias DeleteBookResponse = Response<Boolean>
