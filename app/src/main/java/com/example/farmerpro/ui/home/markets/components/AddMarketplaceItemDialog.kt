@@ -15,12 +15,12 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.job
 
 @Composable
-fun AddBookAlertDialog(
+fun AddItemAlertDialog(
     closeDialog: () -> Unit,
-    addBook: (title: String, author: String) -> Unit
+    addItem: (product_name: String, seller: String) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var author by remember { mutableStateOf("") }
+    var product_name by remember { mutableStateOf("") }
+    var seller by remember { mutableStateOf("") }
     val focusRequester = FocusRequester()
 
     AlertDialog(
@@ -33,11 +33,11 @@ fun AddBookAlertDialog(
         text = {
             Column {
                 TextField(
-                    value = title,
-                    onValueChange = { title = it },
+                    value = product_name,
+                    onValueChange = { product_name = it },
                     placeholder = {
                         Text(
-                            text = "BOOK_TITLE"
+                            text = "PRODUCT_NAME"
                         )
                     },
                     modifier = Modifier.focusRequester(focusRequester)
@@ -51,11 +51,11 @@ fun AddBookAlertDialog(
                     modifier = Modifier.height(16.dp)
                 )
                 TextField(
-                    value = author,
-                    onValueChange = { author = it },
+                    value = seller,
+                    onValueChange = { seller = it },
                     placeholder = {
                         Text(
-                            text = "AUTHOR"
+                            text = "SELLER"
                         )
                     }
                 )
@@ -65,7 +65,7 @@ fun AddBookAlertDialog(
             TextButton(
                 onClick = {
                     closeDialog()
-                    addBook(title, author)
+                    addItem(product_name, seller)
                 }
             ) {
                 Text(

@@ -4,9 +4,9 @@ import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.data.AuthRepositoryImpl
 import com.example.farmerpro.data.MarketRepositoryImpl
 import com.example.farmerpro.domain.repository.MarketRepository
-import com.example.farmerpro.domain.marketplace_use_case.AddBook
-import com.example.farmerpro.domain.marketplace_use_case.DeleteBook
-import com.example.farmerpro.domain.marketplace_use_case.GetBooks
+import com.example.farmerpro.domain.marketplace_use_case.AddItem
+import com.example.farmerpro.domain.marketplace_use_case.DeleteItem
+import com.example.farmerpro.domain.marketplace_use_case.GetItems
 import com.example.farmerpro.domain.marketplace_use_case.UseCases
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -27,20 +27,20 @@ object AppModule {
     fun providesFirebaseAuth() = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideBooksRef() = Firebase.firestore.collection("books")
+    fun provideItemsRef() = Firebase.firestore.collection("items")
 
     @Provides
-    fun provideBooksRepository(
-        booksRef: CollectionReference
-    ): MarketRepository = MarketRepositoryImpl(booksRef)
+    fun provideItemsRepository(
+        itemsRef: CollectionReference
+    ): MarketRepository = MarketRepositoryImpl(itemsRef)
 
     @Provides
     fun provideUseCases(
         repo: MarketRepository
     ) = UseCases(
-        getBooks = GetBooks(repo),
-        addBook = AddBook(repo),
-        deleteBook = DeleteBook(repo)
+        getItems = GetItems(repo),
+        addItem = AddItem(repo),
+        deleteItem = DeleteItem(repo)
     )
     @Provides
     @Singleton

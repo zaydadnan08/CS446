@@ -2,8 +2,8 @@ package com.example.farmerpro.domain.marketplace_use_case
 
 import com.example.farmerpro.domain.repository.MarketRepository
 
-class GetBooks (
+class DeleteItem(
     private val repo: MarketRepository
 ) {
-    operator fun invoke() = repo.getBooksFromFirestore()
+    suspend operator fun invoke(itemId: String) = repo.deleteItemFromFirestore(itemId)
 }

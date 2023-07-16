@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.sp
 import com.example.farmerpro.domain.model.MarketplaceItem
 
 @Composable
-fun BookCard(
-    book: MarketplaceItem,
-    deleteBook: () -> Unit,
+fun ItemCard(
+    item: MarketplaceItem,
+    deleteItem: () -> Unit,
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
@@ -40,12 +40,12 @@ fun BookCard(
         ) {
             Column {
                 Text(
-                    text = book.title.orEmpty(),
+                    text = item.product_name.orEmpty(),
                     color = Color.DarkGray,
                     fontSize = 25.sp
                 )
                 Text(
-                    text = "by ${book.author.orEmpty()}",
+                    text = "by ${item.seller.orEmpty()}",
                     color = Color.DarkGray,
                     fontSize = 12.sp,
                     textDecoration = TextDecoration.Underline
@@ -55,11 +55,11 @@ fun BookCard(
                 modifier = Modifier.weight(1f)
             )
             IconButton(
-                onClick = deleteBook
+                onClick = deleteItem
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "DELETE_BOOK",
+                    contentDescription = "DELETE_ITEM",
                 )
             }
 

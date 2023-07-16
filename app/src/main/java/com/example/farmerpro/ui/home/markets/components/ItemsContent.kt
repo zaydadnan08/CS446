@@ -7,25 +7,25 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.farmerpro.domain.repository.Books
+import com.example.farmerpro.domain.repository.Items
 
 @Composable
-fun BooksContent(
+fun ItemsContent(
     padding: PaddingValues,
-    books: Books,
-    deleteBook: (bookId: String) -> Unit
+    items: Items,
+    deleteItem: (itemId: String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize().padding(padding)
     ) {
-        items(
-            items = books
-        ) { book ->
-            BookCard(
-                book = book,
-                deleteBook = {
-                    book.id?.let { bookId ->
-                        deleteBook(bookId)
+        this.items(
+            items = items
+        ) { item ->
+            ItemCard(
+                item = item,
+                deleteItem = {
+                    item.id?.let { itemId ->
+                        deleteItem(itemId)
                     }
                 }
             )
