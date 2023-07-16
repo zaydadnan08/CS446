@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.landing
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -26,10 +27,11 @@ import com.example.farmerpro.R
 import com.example.farmerpro.Screens
 import com.example.farmerpro.types.UserType
 import com.example.farmerpro.types.User
-import com.example.farmerpro.ui.basic.BorderedButton
-import com.example.farmerpro.ui.basic.TextInput
+import com.example.farmerpro.components.BorderedButton
+import com.example.farmerpro.components.TextInput
 import kotlinx.coroutines.launch
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun UserSignupScreen(
     navController: NavController,

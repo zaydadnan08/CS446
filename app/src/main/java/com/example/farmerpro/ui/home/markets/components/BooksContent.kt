@@ -11,12 +11,11 @@ import com.example.farmerpro.domain.repository.Books
 
 @Composable
 fun BooksContent(
-    padding: PaddingValues,
     books: Books,
     deleteBook: (bookId: String) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(padding)
+        modifier = Modifier.fillMaxSize()
     ) {
         items(
             items = books

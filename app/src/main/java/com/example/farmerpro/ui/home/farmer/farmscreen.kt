@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.farmerpro.ui.SpeechRecognizerContract
-import com.example.farmerpro.ui.basic.BorderedButton
+import com.example.farmerpro.components.BorderedButton
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
