@@ -7,46 +7,46 @@ import kotlinx.coroutines.tasks.await
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.domain.model.Response.Failure
 import com.example.farmerpro.domain.model.Response.Success
-import com.example.farmerpro.domain.repository.AddBookResponse
+import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.MarketRepository
-import com.example.farmerpro.domain.repository.DeleteBookResponse
+import com.example.farmerpro.domain.repository.DeleteItemResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MarketRepositoryImpl @Inject constructor(
-    private val booksRef: CollectionReference
+    private val itemsRef: CollectionReference
 ): MarketRepository {
-    override fun getBooksFromFirestore() = callbackFlow {
-        val snapshotListener = booksRef.orderBy("title").addSnapshotListener { snapshot, e ->
-            val booksResponse = if (snapshot != null) {
-                val books = snapshot.toObjects(MarketplaceItem::class.java)
-                Success(books)
+    override fun getItemsFromFirestore() = callbackFlow {
+        val snapshotListener = itemsRef.orderBy("product_name").addSnapshotListener { snapshot, e ->
+            val ItemsResponse = if (snapshot != null) {
+                val items = snapshot.toObjects(MarketplaceItem::class.java)
+                Success(items)
             } else {
                 Failure(e)
             }
-            trySend(booksResponse)
+            trySend(ItemsResponse)
         }
         awaitClose {
             snapshotListener.remove()
         }
     }
 
-    override suspend fun addBookToFirestore(title: String, author: String): AddBookResponse = try {
-        val id = booksRef.document().id
-        val book = MarketplaceItem(
+    override suspend fun addItemToFirestore(product_name: String, seller: String): AddItemResponse = try {
+        val id = itemsRef.document().id
+        val item = MarketplaceItem(
             id = id,
-            title = title,
-            author = author
+            product_name = product_name,
+            seller = seller
         )
-        booksRef.document(id).set(book).await()
+        itemsRef.document(id).set(item).await()
         Success(true)
     } catch (e: Exception) {
         Failure(e)
     }
 
-    override suspend fun deleteBookFromFirestore(bookId: String): DeleteBookResponse = try {
-        booksRef.document(bookId).delete().await()
+    override suspend fun deleteItemFromFirestore(itemId: String): DeleteItemResponse = try {
+        itemsRef.document(itemId).delete().await()
         Success(true)
     } catch (e: Exception) {
         Failure(e)

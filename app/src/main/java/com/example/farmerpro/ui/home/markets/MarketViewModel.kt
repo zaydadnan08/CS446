@@ -9,9 +9,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import com.example.farmerpro.domain.model.Response.Loading
 import com.example.farmerpro.domain.model.Response.Success
-import com.example.farmerpro.domain.repository.AddBookResponse
-import com.example.farmerpro.domain.repository.BooksResponse
-import com.example.farmerpro.domain.repository.DeleteBookResponse
+import com.example.farmerpro.domain.repository.AddItemResponse
+import com.example.farmerpro.domain.repository.ItemResponse
+import com.example.farmerpro.domain.repository.DeleteItemResponse
 import com.example.farmerpro.domain.marketplace_use_case.UseCases
 import javax.inject.Inject
 
@@ -19,30 +19,30 @@ import javax.inject.Inject
 class MarketViewModel @Inject constructor(
     private val useCases: UseCases
 ): ViewModel() {
-    var itemsResponse by mutableStateOf<BooksResponse>(Loading)
+    var itemsResponse by mutableStateOf<ItemResponse>(Loading)
         private set
-    var addItemResponse by mutableStateOf<AddBookResponse>(Success(false))
+    var addItemResponse by mutableStateOf<AddItemResponse>(Success(false))
         private set
-    var deleteItemResponse by mutableStateOf<DeleteBookResponse>(Success(false))
+    var deleteItemResponse by mutableStateOf<DeleteItemResponse>(Success(false))
         private set
 
     init {
-        getBooks()
+        getItems()
     }
 
-    private fun getBooks() = viewModelScope.launch {
-        useCases.getBooks().collect { response ->
+    private fun getItems() = viewModelScope.launch {
+        useCases.getItems().collect { response ->
             itemsResponse = response
         }
     }
 
-    fun addBook(title: String, author: String) = viewModelScope.launch {
+    fun addItem(product_name: String, seller: String) = viewModelScope.launch {
         addItemResponse = Loading
-        addItemResponse = useCases.addBook(title, author)
+        addItemResponse = useCases.addItem(product_name, seller)
     }
 
-    fun deleteBook(bookId: String) = viewModelScope.launch {
+    fun deleteItem(ItemId: String) = viewModelScope.launch {
         deleteItemResponse = Loading
-        deleteItemResponse = useCases.deleteBook(bookId)
+        deleteItemResponse = useCases.deleteItem(ItemId)
     }
 }

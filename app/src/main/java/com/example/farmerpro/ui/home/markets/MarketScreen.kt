@@ -14,16 +14,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.farmerpro.components.TopBar
-import com.example.farmerpro.ui.home.markets.components.AddBookAlertDialog
+import com.example.farmerpro.ui.home.markets.components.AddItemAlertDialog
 import com.example.farmerpro.components.AddFloatingActionButton
 import com.example.farmerpro.ui.home.markets.components.AddItem
-import com.example.farmerpro.ui.home.markets.components.Books
-import com.example.farmerpro.ui.home.markets.components.BooksContent
+import com.example.farmerpro.ui.home.markets.components.Items
+import com.example.farmerpro.ui.home.markets.components.ItemsContent
 import com.example.farmerpro.ui.home.markets.components.DeleteItem
 
 @Composable
-fun BooksScreen(
+fun ItemsScreen(
     viewModel: MarketViewModel = hiltViewModel()
 ) {
     var openDialog by remember { mutableStateOf(false) }
@@ -44,21 +43,21 @@ fun BooksScreen(
                         textAlign = TextAlign.Start
                     )
                 )
-                Books(
-                    booksContent = { books ->
-                        BooksContent(
-                            books = books,
-                            deleteBook = { bookId ->
-                                viewModel.deleteBook(bookId)
+                Items(
+                    itemsContent = { books ->
+                        ItemsContent(
+                            items = books,
+                            deleteItem = { bookId ->
+                                viewModel.deleteItem(bookId)
                             }
                         )
                         if (openDialog) {
-                            AddBookAlertDialog(
+                            AddItemAlertDialog(
                                 closeDialog = {
                                     openDialog = false
                                 },
-                                addBook = { title, author ->
-                                    viewModel.addBook(title, author)
+                                addItem = { title, author ->
+                                    viewModel.addItem(title, author)
                                 }
                             )
                         }

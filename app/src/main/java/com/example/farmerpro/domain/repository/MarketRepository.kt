@@ -4,15 +4,15 @@ import kotlinx.coroutines.flow.Flow
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.domain.model.Response
 
-typealias Books = List<MarketplaceItem>
-typealias BooksResponse = Response<Books>
-typealias AddBookResponse = Response<Boolean>
-typealias DeleteBookResponse = Response<Boolean>
+typealias Items = List<MarketplaceItem>
+typealias ItemResponse = Response<Items>
+typealias AddItemResponse = Response<Boolean>
+typealias DeleteItemResponse = Response<Boolean>
 
 interface MarketRepository {
-    fun getBooksFromFirestore(): Flow<BooksResponse>
+    fun getItemsFromFirestore(): Flow<ItemResponse>
 
-    suspend fun addBookToFirestore(title: String, author: String): AddBookResponse
+    suspend fun addItemToFirestore(product_name: String, seller: String): AddItemResponse
 
-    suspend fun deleteBookFromFirestore(bookId: String): DeleteBookResponse
+    suspend fun deleteItemFromFirestore(itemId: String): DeleteItemResponse
 }

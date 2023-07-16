@@ -34,9 +34,9 @@ import com.example.farmerpro.components.GreyTextInput
 import kotlinx.coroutines.job
 
 @Composable
-fun AddBookAlertDialog(
+fun AddItemAlertDialog(
     closeDialog: () -> Unit,
-    addBook: (title: String, author: String) -> Unit
+    addItem: (product_name: String, seller: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var price_per_lb by remember { mutableStateOf("") }
@@ -106,7 +106,7 @@ fun AddBookAlertDialog(
             TextButton(
                 onClick = {
                     closeDialog()
-                    addBook(name, price_per_lb)
+                    addItem(name, price_per_lb)
                 }
             ) {
                 Text(

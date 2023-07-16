@@ -70,15 +70,15 @@ fun FarmScreen(viewModel: farmViewModel = viewModel()){
             Text(text = "Speak")
         }
 
-        BorderedButton(value = "add book", onClick = {
+        BorderedButton(value = "add item", onClick = {
 
         })
 
-        BorderedButton(value = "delete book", onClick = {
+        BorderedButton(value = "delete item", onClick = {
 
         })
 
-        BorderedButton(value = "get book", onClick = {
+        BorderedButton(value = "get item", onClick = {
 
         })
 

@@ -4,17 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.components.ProgressBar
 import com.example.farmerpro.domain.model.Response.*
-import com.example.farmerpro.domain.repository.Books
+import com.example.farmerpro.domain.repository.Items
 import com.example.farmerpro.ui.home.markets.MarketViewModel
 
 @Composable
-fun Books(
+fun Items(
     viewModel: MarketViewModel = hiltViewModel(),
-    booksContent: @Composable (books: Books) -> Unit
+    itemsContent: @Composable (items: Items) -> Unit
 ) {
-    when(val booksResponse = viewModel.itemsResponse) {
+    when(val itemsResponse = viewModel.itemsResponse) {
         is Loading -> ProgressBar()
-        is Success -> booksContent(booksResponse.data)
-        is Failure -> print(booksResponse.e)
+        is Success -> itemsContent(itemsResponse.data)
+        is Failure -> print(itemsResponse.e)
     }
 }
