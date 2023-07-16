@@ -41,6 +41,7 @@ fun UserSignupScreen(
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var contactNumber by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signUpState.collectAsState(initial = null)
@@ -82,6 +83,16 @@ fun UserSignupScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            TextInput(
+                value = contactNumber,
+                onValueChange = { contactNumber = it },
+                placeholder = "Contact Number"
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 if (state.value?.isLoading == true) {
                     CircularProgressIndicator()
@@ -90,7 +101,7 @@ fun UserSignupScreen(
 
             BorderedButton(value = "Sign up", onClick = {
                 scope.launch {
-                    viewModel.signUpUser(User(fullName, userType), email, password)
+                    viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
                 }
             })
 

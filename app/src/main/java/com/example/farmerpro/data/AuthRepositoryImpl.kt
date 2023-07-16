@@ -38,7 +38,8 @@ class AuthRepositoryImpl @Inject constructor(
             val user = hashMapOf(
                 "name" to user.name,
                 "userType" to user.type.toString(),
-            )
+                "contact" to user.contactNumber,
+                )
 
             if (uid != null) {
                 db.collection("users")
