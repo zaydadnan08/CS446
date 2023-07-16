@@ -39,10 +39,9 @@ fun AddItemAlertDialog(
     addItem: (product_name: String, seller: String, price: String, location: String, contact_number: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
-    var seller by remember { mutableStateOf("") }
     var price_per_lb by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
-    var number by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
 
     val focusRequester = FocusRequester()
 
@@ -93,24 +92,20 @@ fun AddItemAlertDialog(
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(value = seller, onValueChange =  { seller = it } , placeholder = "seller")
-
-                Spacer(modifier = Modifier.height(8.dp))
                 GreyTextInput(value = price_per_lb, onValueChange =  { price_per_lb = it } , placeholder = "Price per lb")
 
                 Spacer(modifier = Modifier.height(8.dp))
                 GreyTextInput(value = location, onValueChange =  { location = it } , placeholder = "Location")
 
                 Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(value = number, onValueChange =  { number = it } , placeholder = "Contact Number")
-
+                GreyTextInput(value = description, onValueChange =  { description = it } , placeholder = "Product Description", Modifier.height(30.dp))
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
                     closeDialog()
-                    addItem(name, seller, price_per_lb, location, number)
+                    addItem(name, "",price_per_lb, location,"")
                 }
             ) {
                 Text(
