@@ -7,12 +7,12 @@ import com.example.farmerpro.domain.model.Response.*
 import com.example.farmerpro.ui.home.markets.MarketViewModel
 
 @Composable
-fun DeleteBook(
+fun DeleteItem(
     viewModel: MarketViewModel = hiltViewModel()
 ) {
-    when(val deleteBookResponse = viewModel.deleteBookResponse) {
+    when(val deleteItemResponse = viewModel.deleteItemResponse) {
         is Loading -> ProgressBar()
         is Success -> Unit
-        is Failure -> print(deleteBookResponse.e)
+        is Failure -> print(deleteItemResponse.e)
     }
 }

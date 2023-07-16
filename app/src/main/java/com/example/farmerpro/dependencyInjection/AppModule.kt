@@ -4,10 +4,10 @@ import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.data.AuthRepositoryImpl
 import com.example.farmerpro.data.MarketRepositoryImpl
 import com.example.farmerpro.domain.repository.MarketRepository
-import com.example.farmerpro.domain.use_case.AddBook
-import com.example.farmerpro.domain.use_case.DeleteBook
-import com.example.farmerpro.domain.use_case.GetBooks
-import com.example.farmerpro.domain.use_case.UseCases
+import com.example.farmerpro.domain.marketplace_use_case.AddBook
+import com.example.farmerpro.domain.marketplace_use_case.DeleteBook
+import com.example.farmerpro.domain.marketplace_use_case.GetBooks
+import com.example.farmerpro.domain.marketplace_use_case.UseCases
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore

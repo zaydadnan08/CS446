@@ -12,18 +12,18 @@ import com.example.farmerpro.domain.model.Response.Success
 import com.example.farmerpro.domain.repository.AddBookResponse
 import com.example.farmerpro.domain.repository.BooksResponse
 import com.example.farmerpro.domain.repository.DeleteBookResponse
-import com.example.farmerpro.domain.use_case.UseCases
+import com.example.farmerpro.domain.marketplace_use_case.UseCases
 import javax.inject.Inject
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
     private val useCases: UseCases
 ): ViewModel() {
-    var booksResponse by mutableStateOf<BooksResponse>(Loading)
+    var itemsResponse by mutableStateOf<BooksResponse>(Loading)
         private set
-    var addBookResponse by mutableStateOf<AddBookResponse>(Success(false))
+    var addItemResponse by mutableStateOf<AddBookResponse>(Success(false))
         private set
-    var deleteBookResponse by mutableStateOf<DeleteBookResponse>(Success(false))
+    var deleteItemResponse by mutableStateOf<DeleteBookResponse>(Success(false))
         private set
 
     init {
@@ -32,17 +32,17 @@ class MarketViewModel @Inject constructor(
 
     private fun getBooks() = viewModelScope.launch {
         useCases.getBooks().collect { response ->
-            booksResponse = response
+            itemsResponse = response
         }
     }
 
     fun addBook(title: String, author: String) = viewModelScope.launch {
-        addBookResponse = Loading
-        addBookResponse = useCases.addBook(title, author)
+        addItemResponse = Loading
+        addItemResponse = useCases.addBook(title, author)
     }
 
     fun deleteBook(bookId: String) = viewModelScope.launch {
-        deleteBookResponse = Loading
-        deleteBookResponse = useCases.deleteBook(bookId)
+        deleteItemResponse = Loading
+        deleteItemResponse = useCases.deleteBook(bookId)
     }
 }

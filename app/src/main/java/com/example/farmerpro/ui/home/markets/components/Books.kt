@@ -12,7 +12,7 @@ fun Books(
     viewModel: MarketViewModel = hiltViewModel(),
     booksContent: @Composable (books: Books) -> Unit
 ) {
-    when(val booksResponse = viewModel.booksResponse) {
+    when(val booksResponse = viewModel.itemsResponse) {
         is Loading -> ProgressBar()
         is Success -> booksContent(booksResponse.data)
         is Failure -> print(booksResponse.e)

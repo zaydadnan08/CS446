@@ -7,10 +7,10 @@ import com.example.farmerpro.domain.model.Response.*
 import com.example.farmerpro.ui.home.markets.MarketViewModel
 
 @Composable
-fun AddBook(
+fun AddItem(
     viewModel: MarketViewModel = hiltViewModel()
 ) {
-    when(val addBookResponse = viewModel.addBookResponse) {
+    when(val addBookResponse = viewModel.addItemResponse) {
         is Loading -> ProgressBar()
         is Success -> Unit
         is Failure -> print(addBookResponse.e)
