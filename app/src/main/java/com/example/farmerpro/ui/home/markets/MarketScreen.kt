@@ -44,11 +44,11 @@ fun ItemsScreen(
                     )
                 )
                 Items(
-                    itemsContent = { books ->
+                    itemsContent = { items ->
                         ItemsContent(
-                            items = books,
-                            deleteItem = { bookId ->
-                                viewModel.deleteItem(bookId)
+                            items = items,
+                            deleteItem = { itemId ->
+                                viewModel.deleteItem(itemId)
                             }
                         )
                         if (openDialog) {
@@ -56,8 +56,8 @@ fun ItemsScreen(
                                 closeDialog = {
                                     openDialog = false
                                 },
-                                addItem = { title, author ->
-                                    viewModel.addItem(title, author)
+                                addItem = { product_name, seller, price, location, contact_number ->
+                                    viewModel.addItem(product_name, seller, price, location, contact_number)
                                 }
                             )
                         }

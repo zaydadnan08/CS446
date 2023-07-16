@@ -12,7 +12,7 @@ typealias DeleteItemResponse = Response<Boolean>
 interface MarketRepository {
     fun getItemsFromFirestore(): Flow<ItemResponse>
 
-    suspend fun addItemToFirestore(product_name: String, seller: String): AddItemResponse
+    suspend fun addItemToFirestore(product_name: String, seller: String, price: String, location: String, contact_number: String): AddItemResponse
 
     suspend fun deleteItemFromFirestore(itemId: String): DeleteItemResponse
 }

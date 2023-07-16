@@ -36,9 +36,10 @@ import kotlinx.coroutines.job
 @Composable
 fun AddItemAlertDialog(
     closeDialog: () -> Unit,
-    addItem: (product_name: String, seller: String) -> Unit
+    addItem: (product_name: String, seller: String, price: String, location: String, contact_number: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
+    var seller by remember { mutableStateOf("") }
     var price_per_lb by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
     var number by remember { mutableStateOf("") }
@@ -92,13 +93,16 @@ fun AddItemAlertDialog(
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(value = seller, onValueChange =  { seller = it } , placeholder = "seller")
+
+                Spacer(modifier = Modifier.height(8.dp))
                 GreyTextInput(value = price_per_lb, onValueChange =  { price_per_lb = it } , placeholder = "Price per lb")
 
                 Spacer(modifier = Modifier.height(8.dp))
                 GreyTextInput(value = location, onValueChange =  { location = it } , placeholder = "Location")
 
                 Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(value = number, onValueChange =  { number = it } , placeholder = "Contact Numbber")
+                GreyTextInput(value = number, onValueChange =  { number = it } , placeholder = "Contact Number")
 
             }
         },
@@ -106,7 +110,7 @@ fun AddItemAlertDialog(
             TextButton(
                 onClick = {
                     closeDialog()
-                    addItem(name, price_per_lb)
+                    addItem(name, seller, price_per_lb, location, number)
                 }
             ) {
                 Text(
