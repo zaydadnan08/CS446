@@ -31,8 +31,7 @@ class MarketRepositoryImpl @Inject constructor(
             snapshotListener.remove()
         }
     }
-
-    override suspend fun addItemToFirestore(product_name: String, seller: String, price: String, location: String,contact_number: String): AddItemResponse = try {
+    override suspend fun addItemToFirestore(product_name: String, seller: String, price: String, description: String, location: String,contact_number: String): AddItemResponse = try {
         val id = itemsRef.document().id
         val item = MarketplaceItem(
             id = id,

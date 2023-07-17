@@ -15,7 +15,6 @@ import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
