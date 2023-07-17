@@ -9,7 +9,8 @@ class AddItem(
         product_name: String,
         seller: String,
         price: String,
+        description: String,
         location: String,
         contact_number: String
-    ) = repo.addItemToFirestore(product_name, seller, price, location, contact_number)
+    ) = repo.addItemToFirestore(product_name, seller, price,description,  location, contact_number)
 }
