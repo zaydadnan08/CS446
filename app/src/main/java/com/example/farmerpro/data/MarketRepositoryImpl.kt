@@ -32,12 +32,15 @@ class MarketRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addItemToFirestore(product_name: String, seller: String): AddItemResponse = try {
+    override suspend fun addItemToFirestore(product_name: String, seller: String, price: String, location: String,contact_number: String): AddItemResponse = try {
         val id = itemsRef.document().id
         val item = MarketplaceItem(
             id = id,
             product_name = product_name,
-            seller = seller
+            seller = seller,
+            price = price,
+            location = location,
+            contact_number = contact_number
         )
         itemsRef.document(id).set(item).await()
         Success(true)

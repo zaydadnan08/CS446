@@ -10,6 +10,5 @@ import javax.inject.Inject
 class CommunityFridgeViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
-
     fun signOut() = { repository.signOut() }
 }

@@ -38,7 +38,8 @@ class AuthRepositoryImpl @Inject constructor(
             val user = hashMapOf(
                 "name" to user.name,
                 "userType" to user.type.toString(),
-            )
+                "contact" to user.contactNumber,
+                )
 
             if (uid != null) {
                 db.collection("users")
@@ -51,5 +52,7 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }
     }
+
+
     override fun signOut() = firebaseAuth.signOut()
 }

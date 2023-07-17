@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.farmerpro.Screens
 import com.example.farmerpro.R
-import com.example.farmerpro.ui.basic.BorderedButton
+import com.example.farmerpro.components.BorderedButton
 
 @Composable
 fun StartScreen(navController: NavController){

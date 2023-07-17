@@ -1,4 +1,4 @@
-package com.example.farmerpro.ui.basic
+package com.example.farmerpro.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth

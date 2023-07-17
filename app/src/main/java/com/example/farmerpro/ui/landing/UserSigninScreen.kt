@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.R
 import com.example.farmerpro.Screens
-import com.example.farmerpro.ui.basic.TextInput
+import com.example.farmerpro.components.TextInput
 import kotlinx.coroutines.launch
 
 @Composable

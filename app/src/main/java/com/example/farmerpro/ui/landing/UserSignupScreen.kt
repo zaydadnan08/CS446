@@ -1,14 +1,10 @@
 package com.example.farmerpro.ui.landing
 
+import android.annotation.SuppressLint
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -26,10 +22,11 @@ import com.example.farmerpro.R
 import com.example.farmerpro.Screens
 import com.example.farmerpro.types.UserType
 import com.example.farmerpro.types.User
-import com.example.farmerpro.ui.basic.BorderedButton
-import com.example.farmerpro.ui.basic.TextInput
+import com.example.farmerpro.components.BorderedButton
+import com.example.farmerpro.components.TextInput
 import kotlinx.coroutines.launch
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun UserSignupScreen(
     navController: NavController,
@@ -39,6 +36,7 @@ fun UserSignupScreen(
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var contactNumber by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signUpState.collectAsState(initial = null)
@@ -80,6 +78,16 @@ fun UserSignupScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            TextInput(
+                value = contactNumber,
+                onValueChange = { contactNumber = it },
+                placeholder = "Contact Number"
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 if (state.value?.isLoading == true) {
                     CircularProgressIndicator()
@@ -88,7 +96,7 @@ fun UserSignupScreen(
 
             BorderedButton(value = "Sign up", onClick = {
                 scope.launch {
-                    viewModel.signUpUser(User(fullName, userType), email, password)
+                    viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
                 }
             })
 
