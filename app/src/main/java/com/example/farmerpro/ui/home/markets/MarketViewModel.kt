@@ -27,14 +27,13 @@ class MarketViewModel @Inject constructor(
     private val repository: AuthRepository
 ): ViewModel() {
     var itemsResponse by mutableStateOf<ItemResponse>(Loading)
+
+
     private val _user = MutableStateFlow<Response<User>>(Loading)
     val user: StateFlow<Response<User>> = _user
-
     var userId = repository.currentUser?.uid
-
-
     private val _currentUser = MutableStateFlow<User?>(null)
-    val currentUser: StateFlow<User?> = _currentUser
+    private val currentUser: StateFlow<User?> = _currentUser
 
     var userResponse by mutableStateOf<UserResponse>(Loading)
 
@@ -66,7 +65,6 @@ class MarketViewModel @Inject constructor(
             }
         }
     }
-
     private fun getItems() = viewModelScope.launch {
         useCases.getItems().collect { response ->
             itemsResponse = response
