@@ -33,12 +33,7 @@ object AppModule {
     fun providesFirebaseAuth() = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideItemsRef() = Firebase.firestore.collection("items")
-
-    @Provides
-    fun provideItemsRepository(
-        itemsRef: CollectionReference
-    ): MarketRepository = MarketRepositoryImpl(itemsRef)
+    fun provideItemsRepository(): MarketRepository = MarketRepositoryImpl(Firebase.firestore.collection("items"))
 
     @Provides
     fun provideUseCases(
@@ -49,23 +44,17 @@ object AppModule {
         deleteItem = DeleteItem(repo)
     )
 
+    @Provides
+    fun provideInventoryRepository(): FarmerRepository = FarmerRepositoryImpl(Firebase.firestore.collection("farmers"))
 
-//    @Provides
-//    fun provideInventoryRef() = Firebase.firestore.collection("farmers")
-//
-//    @Provides
-//    fun provideInventoryRepository(
-//        itemsRef: CollectionReference
-//    ): FarmerRepository = FarmerRepositoryImpl(itemsRef)
-//
-//    @Provides
-//    fun provideInventoryUseCases(
-//        repo: FarmerRepository
-//    ) = InventoryUseCases(
-//        getItems = GetInventoryByFarmer(repo),
-//        addItem = AddOrUpdateInventory(repo),
-//        deleteItem = DeleteFarmer(repo)
-//    )
+    @Provides
+    fun provideInventoryUseCases(
+        repo: FarmerRepository
+    ) = InventoryUseCases(
+        getItems = GetInventoryByFarmer(repo),
+        addItem = AddOrUpdateInventory(repo),
+        deleteItem = DeleteFarmer(repo)
+    )
     @Provides
     @Singleton
     fun providesRepositoryImpl(firebaseAuth: FirebaseAuth): AuthRepository {
