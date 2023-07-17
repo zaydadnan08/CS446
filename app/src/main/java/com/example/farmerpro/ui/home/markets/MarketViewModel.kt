@@ -36,7 +36,7 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun addItem(product_name: String, seller: String, price: String, location: String, contact_number: String) = viewModelScope.launch {
+    fun addItem(product_name: String, seller: String, price: String, description: String, location: String, contact_number: String) = viewModelScope.launch {
         addItemResponse = Loading
         addItemResponse = useCases.addItem(product_name, seller, price, location, contact_number)
     }

@@ -36,7 +36,7 @@ import kotlinx.coroutines.job
 @Composable
 fun AddItemAlertDialog(
     closeDialog: () -> Unit,
-    addItem: (product_name: String, seller: String, price: String, location: String, contact_number: String) -> Unit
+    addItem: (product_name: String, seller: String, price: String, description: String, location: String, contact_number: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var price_per_lb by remember { mutableStateOf("") }
@@ -105,7 +105,7 @@ fun AddItemAlertDialog(
             TextButton(
                 onClick = {
                     closeDialog()
-                    addItem(name, "",price_per_lb, location,"")
+                    addItem(name, "", price_per_lb, description, location,"")
                 }
             ) {
                 Text(
