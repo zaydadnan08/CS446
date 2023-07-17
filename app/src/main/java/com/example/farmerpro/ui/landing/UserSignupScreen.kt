@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.R
 import com.example.farmerpro.Screens
-import com.example.farmerpro.types.UserType
 import com.example.farmerpro.types.User
 import com.example.farmerpro.components.BorderedButton
 import com.example.farmerpro.components.TextInput
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserSignupScreen(
     navController: NavController,
-    userType: UserType,
+    userType: String,
     viewModel: UserSignUpViewModel = hiltViewModel()
 ) {
     var fullName by remember { mutableStateOf("") }

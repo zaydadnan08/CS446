@@ -72,8 +72,8 @@ fun ItemsScreen(
                                 closeDialog = {
                                     openDialog = false
                                 },
-                                addItem = { product_name, seller, price, description, location, contact_number ->
-                                    viewModel.addItem(product_name, seller, price, description, location, contact_number)
+                                addItem = { product_name, price, description, location ->
+                                    viewModel.addItem(product_name, price, description, location)
                                 }
                             )
                         }

@@ -1,11 +1,9 @@
 package com.example.farmerpro
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.farmerpro.types.UserType
 import com.example.farmerpro.ui.home.HomeScreen
 import com.example.farmerpro.ui.landing.StartScreen
 import com.example.farmerpro.ui.landing.UserSelectScreen
@@ -32,13 +30,13 @@ fun Navigation(
             UserSelectScreen(navController = navController)
         }
         composable(route = Screens.UserSignupCustomer.name) {
-            UserSignupScreen(navController = navController, userType = UserType.CUSTOMER)
+            UserSignupScreen(navController = navController, userType = "Customer")
         }
         composable(route = Screens.UserSignupFarmer.name) {
-            UserSignupScreen(navController = navController, userType = UserType.FARMER)
+            UserSignupScreen(navController = navController, "Farmer")
         }
         composable(route = Screens.UserSignupAdmin.name) {
-            UserSignupScreen(navController = navController, userType = UserType.ADMIN)
+            UserSignupScreen(navController = navController, userType = "Admin")
         }
         composable(route = Screens.UserSignin.name) {
             UserSigninScreen(navController = navController)
