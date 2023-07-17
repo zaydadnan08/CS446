@@ -109,7 +109,7 @@ fun AddItemAlertDialog(
                 }
             ) {
                 Text(
-                    text = "ADD"
+                    text = "Add"
                 )
             }
         },
@@ -118,7 +118,7 @@ fun AddItemAlertDialog(
                 onClick = closeDialog
             ) {
                 Text(
-                    text = "DISMISS"
+                    text = "Dismiss"
                 )
             }
         }
