@@ -8,7 +8,7 @@ class AddOrUpdateInventory(
     private val repo: FarmerRepository
 ) {
     suspend operator fun invoke(
-        inventory: InventoryItems,
+        inventoryItem: InventoryItem,
         farmerID: String
-    ) = repo.addItemToFirestore(inventory, farmerID)
+    ) = repo.addItemToFirestore(inventoryItem, farmerID)
 }
