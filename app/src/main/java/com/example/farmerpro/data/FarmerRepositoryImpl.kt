@@ -11,6 +11,7 @@ import com.example.farmerpro.domain.model.Response.Failure
 import com.example.farmerpro.domain.model.Response.Success
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.InventoryResponse
+import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -35,8 +36,8 @@ class FarmerRepositoryImpl @Inject constructor(
         }
 }
 
-    override suspend fun addItemToFirestore(inventory: InventoryItems, farmerID: String): Response<Boolean> = try {
-        inventoryRef.document(farmerID).set(inventory).await()
+    override suspend fun addItemToFirestore(item: InventoryItem, farmerID: String): Response<Boolean> = try {
+        inventoryRef.document(farmerID).update("inventory", FieldValue.arrayUnion(item)).await()
         Success(true)
     } catch (e: Exception) {
         Failure(e)
