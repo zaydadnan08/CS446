@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
-import com.example.farmerpro.domain.model.InventoryItem
-import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.domain.repository.InventoryResponse
@@ -39,5 +37,9 @@ class farmViewModel @Inject constructor(
         useCases.getItems(userId.toString()).collect { response ->
             inventoryResponse = response
         }
+    }
+
+    fun addItem(name: String, quantity: String) = viewModelScope.launch {
+
     }
 }

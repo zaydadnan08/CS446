@@ -23,24 +23,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.components.AddFloatingActionButton
-import com.example.farmerpro.components.ProgressBar
 import com.example.farmerpro.components.SearchAppBar
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
+import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
 import com.example.farmerpro.ui.home.farmer.components.ItemRow
-import com.example.farmerpro.ui.home.markets.MarketViewModel
-import com.example.farmerpro.ui.home.markets.components.AddItem
-import com.example.farmerpro.ui.home.markets.components.AddItemAlertDialog
-import com.example.farmerpro.ui.home.markets.components.DeleteItem
-import com.example.farmerpro.ui.home.markets.components.ItemCard
-import com.example.farmerpro.ui.home.markets.components.Items
-import com.example.farmerpro.ui.home.markets.components.ItemsContent
 
 @Composable
 fun FarmerScreen (
     viewModel: farmViewModel = hiltViewModel()
 ) {
+    var openDialog by remember { mutableStateOf(false) }
 
     var items: InventoryItems = when(val itemsResponse = viewModel.inventoryResponse) {
         is Response.Success -> itemsResponse.data
@@ -83,12 +77,22 @@ fun FarmerScreen (
                         }
                     }
                 }
-
+                if (openDialog) {
+                    AddInventoryAlertDialog(
+                        closeDialog = {
+                            openDialog = false
+                        },
+                        addItem = { name, quantity ->
+                            viewModel.addItem(name, quantity)
+                        }
+                    )
+                }
             }
         },
         floatingActionButton = {
             AddFloatingActionButton(
                 openDialog = {
+                    openDialog = true
                 }
             )
         }
