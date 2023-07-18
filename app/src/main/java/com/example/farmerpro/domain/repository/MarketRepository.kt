@@ -10,6 +10,7 @@ typealias Items = List<MarketplaceItem>
 typealias ItemResponse = Response<Items>
 typealias AddItemResponse = Response<Boolean>
 typealias DeleteItemResponse = Response<Boolean>
+typealias AddImageToStorageResponse = CameraResponse<Uri>
 
 interface MarketRepository {
     fun getItemsFromFirestore(): Flow<ItemResponse>
