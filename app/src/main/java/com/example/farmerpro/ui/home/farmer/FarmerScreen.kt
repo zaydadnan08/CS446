@@ -23,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.components.AddFloatingActionButton
+import com.example.farmerpro.components.ProgressBar
 import com.example.farmerpro.components.SearchAppBar
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
+import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.ui.home.farmer.components.ItemRow
 import com.example.farmerpro.ui.home.markets.MarketViewModel
 import com.example.farmerpro.ui.home.markets.components.AddItem
@@ -37,14 +39,15 @@ import com.example.farmerpro.ui.home.markets.components.ItemsContent
 
 @Composable
 fun FarmerScreen (
+    viewModel: farmViewModel = hiltViewModel()
 ) {
-    val items = InventoryItems(
-        arrayOf(
-            InventoryItem("Apples", 12.3),
-            InventoryItem("Pears", 11),
-            InventoryItem("Oranges", 1.2),
-            InventoryItem("Grapes", 4),
-            InventoryItem("Watermelon", 6.8),))
+
+    var items: InventoryItems = when(val itemsResponse = viewModel.inventoryResponse) {
+        is Response.Success -> itemsResponse.data
+        else -> {
+            InventoryItems(emptyList<InventoryItem>())
+        }
+    }
 
     Scaffold(
         content = { padding ->
@@ -71,7 +74,7 @@ fun FarmerScreen (
                 LazyVerticalGrid(
                     columns= GridCells.Fixed(1),
                     modifier = Modifier.padding(1.dp).fillMaxSize()) {
-                    items.inventoryItems.forEach { item ->
+                    items.inventory.forEach { item ->
                         item {
                             ItemRow(
                                 item = item,
