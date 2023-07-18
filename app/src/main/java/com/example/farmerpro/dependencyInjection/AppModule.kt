@@ -14,6 +14,7 @@ import com.example.farmerpro.domain.marketplace_use_case.GetItems
 import com.example.farmerpro.domain.marketplace_use_case.UseCases
 import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
+import com.example.farmerpro.domain.marketplace_use_case.AddImageToStorage
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.ProfileImageRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -35,15 +36,18 @@ object AppModule {
     fun providesFirebaseAuth() = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideItemsRepository(): MarketRepository = MarketRepositoryImpl(Firebase.firestore.collection("items"))
-
+    fun provideItemsRepository(): MarketRepository = MarketRepositoryImpl(
+        storage = Firebase.storage,
+        itemsRef = Firebase.firestore.collection("items")
+    )
     @Provides
     fun provideUseCases(
         repo: MarketRepository
     ) = UseCases(
         getItems = GetItems(repo),
         addItem = AddItem(repo),
-        deleteItem = DeleteItem(repo)
+        deleteItem = DeleteItem(repo),
+        addImageToStorage = AddImageToStorage(repo)
     )
 
     @Provides
@@ -55,7 +59,7 @@ object AppModule {
     ) = InventoryUseCases(
         getItems = GetInventoryByFarmer(repo),
         addItem = AddOrUpdateInventory(repo),
-        deleteItem = DeleteFarmer(repo)
+        deleteItem = DeleteFarmer(repo),
     )
 
     @Provides

@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -17,11 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.farmerpro.R
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.theme.Gray400
 
@@ -42,16 +48,32 @@ deleteItem: () -> Unit,
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
-            Image(
-                painter = painterResource(id = item.imageResId),
-                contentDescription = "Image",
-                modifier = Modifier
-                    .height(150.dp)
-                    .width(150.dp)
-                    .padding(4.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .clip(RoundedCornerShape(20.dp)) // Rounded corners
-            )
+            if(item.imageUrl.isNotEmpty()){
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.imageUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .height(160.dp)
+                        .width(160.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .clip(RoundedCornerShape(10.dp))
+              )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.default_fruits),
+                    contentDescription = "Image",
+                    modifier = Modifier
+                        .height(160.dp)
+                        .width(160.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .clip(RoundedCornerShape(10.dp))
+                )
+            }
+
             Text(
                 text = item.product_name.orEmpty(),
                 style = MaterialTheme.typography.h6,
