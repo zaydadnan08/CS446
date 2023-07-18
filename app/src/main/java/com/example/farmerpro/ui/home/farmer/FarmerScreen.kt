@@ -22,17 +22,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.farmerpro.components.AddFloatingActionButton
 import com.example.farmerpro.components.SearchAppBar
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
+import com.example.farmerpro.ui.home.bottomBar.FarmerSubScreens
 import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
 import com.example.farmerpro.ui.home.farmer.components.ItemRow
 
 @Composable
-fun FarmerScreen (
-    viewModel: farmViewModel = hiltViewModel()
+fun FarmerHomeScreen (
+    viewModel: farmViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     var openDialog by remember { mutableStateOf(false) }
 
@@ -73,7 +76,10 @@ fun FarmerScreen (
                             item {
                                 ItemRow(
                                     item = item,
-                                    viewModel = viewModel
+                                    viewModel = viewModel,
+                                    onClick = {
+                                        navController.navigate(FarmerSubScreens.InventoryItem.name);
+                                    }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
