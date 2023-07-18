@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
@@ -37,10 +38,12 @@ import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.example.farmerpro.ui.theme.Gray400
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ItemRow(
     item: InventoryItem,
-    viewModel: farmViewModel = hiltViewModel()
+    viewModel: farmViewModel = hiltViewModel(),
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -49,7 +52,8 @@ fun ItemRow(
             .border(
                 BorderStroke(0.5.dp, Gray400),
                 RoundedCornerShape(16.dp)
-            )
+            ),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
