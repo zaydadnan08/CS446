@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.markets.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,12 +32,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.farmerpro.components.GreyTextInput
+import com.example.farmerpro.domain.model.CameraResponse
+import com.example.farmerpro.ui.home.markets.MarketViewModel
 import kotlinx.coroutines.job
 
 @Composable
 fun AddItemAlertDialog(
     closeDialog: () -> Unit,
-    addItem: (product_name: String, price: String, description: String, location: String) -> Unit
+    addItem: (product_name: String, price: String, description: String, location: String) -> Unit,
+    openGallery: () -> Unit,
+    viewModel: MarketViewModel
 ) {
     var name by remember { mutableStateOf("") }
     var price_per_lb by remember { mutableStateOf("") }
@@ -61,8 +66,8 @@ fun AddItemAlertDialog(
 
                 IconButton(
                     onClick = {
-                              //add image here
-                    } ,
+                        openGallery()
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp)
@@ -80,6 +85,30 @@ fun AddItemAlertDialog(
                             modifier = Modifier
                                     .align(Alignment.Center)
                         )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                when(val addImageToStorageResponse = viewModel.addImageToStorageResponse) {
+                    is CameraResponse.Loading -> {
+                        Text(text = "Adding image ...",
+                             modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                    is CameraResponse.Success -> addImageToStorageResponse.data?.let { downloadUrl ->
+                        viewModel.setDownloadUrl(downloadUrl.toString())
+                        Text(text = "Image added sucessfully",
+                            color = Color(0xFF067f00),
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                    is CameraResponse.Failure -> {
+                        Text(text = "Error adding image",
+                            color = Color(0xFF067f00),
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                        print(addImageToStorageResponse.e)
                     }
                 }
 
@@ -102,11 +131,16 @@ fun AddItemAlertDialog(
             }
         },
         confirmButton = {
+            val addImageToStorageResponse = viewModel.addImageToStorageResponse
+            val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading)
             TextButton(
                 onClick = {
-                    closeDialog()
-                    addItem(name, price_per_lb, description, location)
-                }
+                    if (isEnabled) {
+                        closeDialog()
+                        addItem(name, price_per_lb, description, location)
+                    }
+                },
+                enabled = isEnabled
             ) {
                 Text(
                     text = "Add"

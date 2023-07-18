@@ -10,5 +10,5 @@ data class MarketplaceItem(
     var location: String? = null,
     var description: String? = null,
     var contact_number: String? = null,
-    var imageResId: Int = R.drawable.default_fruits
+    var imageUrl :String = ""
 )

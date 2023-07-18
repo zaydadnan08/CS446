@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.markets
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,6 +14,7 @@ import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.ItemResponse
 import com.example.farmerpro.domain.repository.DeleteItemResponse
 import com.example.farmerpro.domain.marketplace_use_case.UseCases
+import com.example.farmerpro.domain.model.CameraResponse
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.domain.repository.UserResponse
@@ -27,18 +29,16 @@ class MarketViewModel @Inject constructor(
     private val repository: AuthRepository
 ): ViewModel() {
     var itemsResponse by mutableStateOf<ItemResponse>(Loading)
+    var addImageToStorageResponse by mutableStateOf<CameraResponse<Uri>>(CameraResponse.Success(null))
+        private set
+
     private val _user = MutableStateFlow<Response<User>>(Loading)
     val user: StateFlow<Response<User>> = _user
-
     var userId = repository.currentUser?.uid
-
-
     private val _currentUser = MutableStateFlow<User?>(null)
-    val currentUser: StateFlow<User?> = _currentUser
+    private val currentUser: StateFlow<User?> = _currentUser
+    val downloadUrl = mutableStateOf("")
 
-    var userResponse by mutableStateOf<UserResponse>(Loading)
-
-        private set
     var addItemResponse by mutableStateOf<AddItemResponse>(Success(false))
         private set
     var deleteItemResponse by mutableStateOf<DeleteItemResponse>(Success(false))
@@ -66,7 +66,6 @@ class MarketViewModel @Inject constructor(
             }
         }
     }
-
     private fun getItems() = viewModelScope.launch {
         useCases.getItems().collect { response ->
             itemsResponse = response
@@ -76,10 +75,19 @@ class MarketViewModel @Inject constructor(
     fun addItem(product_name: String, price: String, description: String, location: String) = viewModelScope.launch {
         addItemResponse = Loading
         addItemResponse = useCases.addItem(product_name,
-            currentUser.value?.name ?: "", price, description, location, currentUser.value?.contactNumber ?: "")
+            currentUser.value?.name ?: "", price, description, location, currentUser.value?.contactNumber ?: "", downloadUrl.value)
         useCases.getItems().collect { response ->
             itemsResponse = response
         }
+    }
+
+    fun addImageToStorage(imageUri: Uri) = viewModelScope.launch {
+        addImageToStorageResponse = CameraResponse.Loading
+        addImageToStorageResponse = useCases.addImageToStorage(imageUri, (0..100).random().toString())
+    }
+
+    fun setDownloadUrl(url: String){
+        downloadUrl.value = url;
     }
 
     fun deleteItem(ItemId: String) = viewModelScope.launch {
