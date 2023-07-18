@@ -68,13 +68,15 @@ fun FarmerScreen (
                 LazyVerticalGrid(
                     columns= GridCells.Fixed(1),
                     modifier = Modifier.padding(1.dp).fillMaxSize()) {
-                    items.inventory.forEach { item ->
-                        item {
-                            ItemRow(
-                                item = item,
-                                viewModel = viewModel
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
+                    if (items != null) {
+                        items.inventory.forEach { item ->
+                            item {
+                                ItemRow(
+                                    item = item,
+                                    viewModel = viewModel
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
                         }
                     }
                 }

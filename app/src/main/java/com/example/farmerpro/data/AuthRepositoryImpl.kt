@@ -1,6 +1,7 @@
 package com.example.farmerpro.data
 
 import android.util.Log
+import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Resource
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.repository.AuthRepository
@@ -48,6 +49,11 @@ class AuthRepositoryImpl @Inject constructor(
                 db.collection("users")
                     .document(uid)
                     .set(user)
+                // Need to do this for only farmer user types
+                var inventory: InventoryItems = InventoryItems()
+                db.collection("farmers")
+                    .document(uid)
+                    .set(inventory)
             }
 
             emit(Resource.Success(result))
