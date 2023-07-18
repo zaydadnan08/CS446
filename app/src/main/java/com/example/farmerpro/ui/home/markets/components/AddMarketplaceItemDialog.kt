@@ -100,7 +100,7 @@ fun AddItemAlertDialog(
                 is CameraResponse.Success -> addImageToStorageResponse.data?.let { downloadUrl ->
                     viewModel.setDownloadUrl(downloadUrl.toString())
                     Text(
-                        text = "Image added sucessfully",
+                        text = "Image added successfully",
                         color = Color(0xFF067f00),
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
@@ -115,7 +115,6 @@ fun AddItemAlertDialog(
                     print(addImageToStorageResponse.e)
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
             GreyTextInput(
                 value = name,
@@ -128,7 +127,6 @@ fun AddItemAlertDialog(
                     focusRequester.requestFocus()
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
             GreyTextInput(
                 value = price_per_lb,

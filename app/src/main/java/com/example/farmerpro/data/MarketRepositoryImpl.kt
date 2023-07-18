@@ -40,6 +40,7 @@ class MarketRepositoryImpl @Inject constructor(
 
     override suspend fun addItemToFirestore(
         product_name: String,
+        uid: String,
         seller: String,
         price: String,
         description: String,
@@ -50,10 +51,12 @@ class MarketRepositoryImpl @Inject constructor(
         val id = itemsRef.document().id
         val item = MarketplaceItem(
             id = id,
+            uid = uid,
             product_name = product_name,
             seller = seller,
             price = price,
             location = location,
+            description= description,
             contact_number = contact_number,
             imageUrl = imageUrl
         )

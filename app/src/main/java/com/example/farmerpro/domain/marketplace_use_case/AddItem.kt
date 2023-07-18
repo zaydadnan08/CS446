@@ -7,6 +7,7 @@ class AddItem(
 ) {
     suspend operator fun invoke(
         product_name: String,
+        uid: String,
         seller: String,
         price: String,
         description: String,
@@ -14,6 +15,6 @@ class AddItem(
         contact_number: String,
         imageUrl: String = "",
     ) = repo.addItemToFirestore(
-        product_name, seller, price, description, location, contact_number, imageUrl
+        product_name, uid, seller, price, description, location, contact_number, imageUrl
     )
 }

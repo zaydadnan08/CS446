@@ -16,6 +16,7 @@ interface MarketRepository {
     fun getItemsFromFirestore(): Flow<ItemResponse>
     suspend fun addItemToFirestore(
         product_name: String,
+        uid: String,
         seller: String,
         price: String,
         description: String,

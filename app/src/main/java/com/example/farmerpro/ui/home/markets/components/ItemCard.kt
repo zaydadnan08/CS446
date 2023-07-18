@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -31,12 +32,14 @@ import com.example.farmerpro.R
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.theme.Gray400
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ItemCard(
     item: MarketplaceItem,
-    deleteItem: () -> Unit,
-) {
+    onCardClick: (MarketplaceItem) -> Unit = {},
+    ) {
     Card(
+        onClick={onCardClick(item)},
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
@@ -45,8 +48,7 @@ fun ItemCard(
                 BorderStroke(0.5.dp, Gray400), RoundedCornerShape(16.dp)
             )
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Spacer(modifier = Modifier.height(8.dp))
+        Column {
             if (item.imageUrl.isNotEmpty()) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current).data(item.imageUrl)
@@ -54,41 +56,44 @@ fun ItemCard(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .height(160.dp)
-                        .width(160.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
                         .align(Alignment.CenterHorizontally)
-                        .clip(RoundedCornerShape(10.dp))
                 )
             } else {
                 Image(
                     painter = painterResource(id = R.drawable.default_fruits),
                     contentDescription = "Image",
                     modifier = Modifier
-                        .height(160.dp)
-                        .width(160.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
                         .align(Alignment.CenterHorizontally)
-                        .clip(RoundedCornerShape(10.dp))
+                        .padding(8.dp)
                 )
             }
-
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = item.product_name,
                 style = MaterialTheme.typography.h6,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
             Text(
                 text = "$${item.price.orEmpty()}/lb",
                 style = MaterialTheme.typography.body1,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
             Text(
                 text = item.description.orEmpty(),
                 style = MaterialTheme.typography.body2,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

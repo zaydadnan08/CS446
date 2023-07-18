@@ -33,10 +33,10 @@ class MarketViewModel @Inject constructor(
 
     private val _user = MutableStateFlow<Response<User>>(Loading)
     val user: StateFlow<Response<User>> = _user
-    var userId = repository.currentUser?.uid
     private val _currentUser = MutableStateFlow<User?>(null)
     private val currentUser: StateFlow<User?> = _currentUser
     val downloadUrl = mutableStateOf("")
+    var userId = mutableStateOf(repository.currentUser?.uid)
 
     var addItemResponse by mutableStateOf<AddItemResponse>(Success(false))
         private set
@@ -46,10 +46,10 @@ class MarketViewModel @Inject constructor(
     init {
         getItems()
         viewModelScope.launch {
-            if (userId == null) {
-                userId = ""
+            if (userId.value == null) {
+                userId.value = ""
             }
-            _user.value = repository.getUserFromFirestore(userId!!)
+            _user.value = repository.getUserFromFirestore(userId.value!!)
             user.collect { response ->
                 when (response) {
                     is Response.Loading -> {
@@ -79,6 +79,7 @@ class MarketViewModel @Inject constructor(
             addItemResponse = Loading
             addItemResponse = useCases.addItem(
                 product_name,
+                userId.value ?: "",
                 currentUser.value?.name ?: "",
                 price,
                 description,
