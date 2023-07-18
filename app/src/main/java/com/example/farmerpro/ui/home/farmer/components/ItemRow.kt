@@ -22,6 +22,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,13 +31,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.MarketplaceItem
+import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.example.farmerpro.ui.theme.Gray400
 
 @Composable
 fun ItemRow(
     item: InventoryItem,
+    viewModel: farmViewModel = hiltViewModel()
 ) {
     Card(
         modifier = Modifier
@@ -61,10 +66,10 @@ fun ItemRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp) // Spacing between buttons and quantity
             ) {
-                IconButton(onClick = { /* Add button logic here */ }) {
+                IconButton(onClick = { viewModel.decrementInventoryCount(item.name) }) {
                     Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Add",
+                        Icons.Filled.KeyboardArrowDown,
+                        contentDescription = "Remove",
                         tint = LocalContentColor.current
                     )
                 }
@@ -74,13 +79,21 @@ fun ItemRow(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                IconButton(onClick = { /* Remove button logic here */ }) {
+                IconButton(onClick = { viewModel.incrementInventoryCount(item.name) }) {
                     Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Remove",
+                        Icons.Filled.KeyboardArrowUp,
+                        contentDescription = "Add",
                         tint = LocalContentColor.current
                     )
                 }
+                IconButton(onClick = { viewModel.deleteItem(item.name)}) {
+                    Icon(
+                        Icons.Filled.Delete,
+                        contentDescription = "Delete",
+                        tint = LocalContentColor.current
+                    )
+                }
+
             }
         }
     }

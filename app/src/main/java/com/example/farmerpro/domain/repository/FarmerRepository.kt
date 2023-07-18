@@ -12,5 +12,5 @@ interface FarmerRepository {
 
     suspend fun addItemToFirestore(inventoryItem: InventoryItem, farmerID: String): Response<Boolean>
 
-    suspend fun deleteItemFromFirestore(farmerID: String): Response<Boolean>
+    suspend fun updateInventoryItems(newInventoryItems: InventoryItems, farmerID: String): Response<Boolean>
 }

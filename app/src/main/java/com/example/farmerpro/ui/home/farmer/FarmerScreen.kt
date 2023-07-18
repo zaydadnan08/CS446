@@ -72,6 +72,7 @@ fun FarmerScreen (
                         item {
                             ItemRow(
                                 item = item,
+                                viewModel = viewModel
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                         }
