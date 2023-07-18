@@ -10,6 +10,7 @@ import com.example.farmerpro.ui.home.farmer.FarmerHomeScreen
 import com.example.farmerpro.ui.home.farmer.InventoryItemScreen
 import com.example.farmerpro.ui.home.markets.ItemsScreen
 import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
+import com.example.farmerpro.ui.home.markets.ItemsScreen
 
 @Composable
 fun navigation(navController: NavHostController, mainNavController: NavController){

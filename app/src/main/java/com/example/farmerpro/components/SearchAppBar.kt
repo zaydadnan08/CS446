@@ -36,8 +36,7 @@ fun SearchAppBar(searchQuery: String, onSearchQueryChange: (String) -> Unit) {
             .fillMaxWidth()
             .background(Gray200, RoundedCornerShape(24.dp))
             .border(
-                BorderStroke(0.dp, Color.Transparent),
-                RoundedCornerShape(24.dp)
+                BorderStroke(0.dp, Color.Transparent), RoundedCornerShape(24.dp)
             ),
         value = searchQuery,
         onValueChange = onSearchQueryChange,
@@ -59,8 +58,7 @@ fun SearchAppBar(searchQuery: String, onSearchQueryChange: (String) -> Unit) {
         },
         placeholder = {
             Text(
-                text = "Search...",
-                style = TextStyle(fontSize = 18.sp)
+                text = "Search...", style = TextStyle(fontSize = 18.sp)
             )
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -70,10 +68,8 @@ fun SearchAppBar(searchQuery: String, onSearchQueryChange: (String) -> Unit) {
         ),
         textStyle = TextStyle(fontSize = 18.sp),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                keyboardController?.hide()
-            }
-        ),
+        keyboardActions = KeyboardActions(onSearch = {
+            keyboardController?.hide()
+        }),
     )
 }

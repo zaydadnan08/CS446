@@ -16,7 +16,7 @@ import com.example.farmerpro.components.BorderedButton
 
 
 @Composable
-fun UserSelectScreen(navController: NavController){
+fun UserSelectScreen(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -32,23 +32,14 @@ fun UserSelectScreen(navController: NavController){
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = "who are you?", fontSize = 26.sp)
         Spacer(modifier = Modifier.height(64.dp))
-        BorderedButton(
-            value="customer",
-            onClick = {
-                navController.navigate(Screens.UserSignupCustomer.name);
-            }
-        )
-        BorderedButton(
-            value="farmer",
-            onClick = {
-                navController.navigate(Screens.UserSignupFarmer.name);
-            }
-        )
-        BorderedButton(
-            value="community fridge",
-            onClick = {
-                navController.navigate(Screens.UserSignupAdmin.name);
-            }
-        )
+        BorderedButton(value = "customer", onClick = {
+            navController.navigate(Screens.UserSignupCustomer.name);
+        })
+        BorderedButton(value = "farmer", onClick = {
+            navController.navigate(Screens.UserSignupFarmer.name);
+        })
+        BorderedButton(value = "community fridge", onClick = {
+            navController.navigate(Screens.UserSignupAdmin.name);
+        })
     }
 }

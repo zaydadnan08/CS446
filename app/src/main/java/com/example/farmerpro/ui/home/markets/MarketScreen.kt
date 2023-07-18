@@ -1,11 +1,15 @@
 package com.example.farmerpro.ui.home.markets
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -19,77 +23,103 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.ui.home.markets.components.AddItemAlertDialog
 import com.example.farmerpro.components.AddFloatingActionButton
 import com.example.farmerpro.components.SearchAppBar
+import com.example.farmerpro.core.Constants
+import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.home.markets.components.AddItem
 import com.example.farmerpro.ui.home.markets.components.Items
-import com.example.farmerpro.ui.home.markets.components.ItemsContent
 import com.example.farmerpro.ui.home.markets.components.DeleteItem
+import com.example.farmerpro.ui.home.markets.components.ItemCard
+import com.example.farmerpro.ui.home.markets.components.ItemDialog
 
 @Composable
 fun ItemsScreen(
     viewModel: MarketViewModel = hiltViewModel()
 ) {
     var openDialog by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf(MarketplaceItem()) }
 
-        Scaffold(
-        content = { padding ->
-            Column(
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 10.dp, end = 10.dp, top = 10.dp)
-            ) {
-                Text(
-                    text = "Marketplace",
-                    modifier = Modifier.padding(bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 28.sp,
-                        textAlign = TextAlign.Start
-                    )
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+            imageUri?.let {
+                viewModel.addImageToStorage(imageUri)
+            }
+        }
+    Scaffold(content = { padding ->
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 10.dp, end = 10.dp, top = 10.dp)
+        ) {
+            Text(
+                text = "Marketplace", modifier = Modifier.padding(
+                    bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
+                ), style = TextStyle(
+                    fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
-                SearchAppBar(searchQuery, setSearchQuery)
-                Spacer(modifier = Modifier.height(8.dp))
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
+            SearchAppBar(searchQuery, setSearchQuery)
+            Spacer(modifier = Modifier.height(8.dp))
 
-                Items(
-                    itemsContent = { items ->
-                        val filteredItems = if (searchQuery.isNotEmpty()) {
-                            items.filter { item ->
-                                item.product_name.contains(searchQuery, ignoreCase = true)
-                            }
-                        } else {
-                            items
-                        }
-                        ItemsContent(
-                            items = filteredItems,
-                            deleteItem = { itemId ->
-                                viewModel.deleteItem(itemId)
-                            }
-                        )
-                        if (openDialog) {
-                            AddItemAlertDialog(
-                                closeDialog = {
-                                    openDialog = false
-                                },
-                                addItem = { product_name, price, description, location ->
-                                    viewModel.addItem(product_name, price, description, location)
+            Items(itemsContent = { items ->
+                val filteredItems = if (searchQuery.isNotEmpty()) {
+                    items.filter { item ->
+                        item.product_name.contains(searchQuery, ignoreCase = true)
+                    }
+                } else {
+                    items
+                }
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2), modifier = Modifier
+                        .padding(1.dp)
+                        .fillMaxSize()
+                ) {
+                    filteredItems.forEach { item ->
+                        item {
+                            ItemCard(item = item,
+                                onCardClick = {
+                                    selectedItem = it
+                                    showDialog = true
                                 }
                             )
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
-                )
-
-            }
-        },
-        floatingActionButton = {
-            AddFloatingActionButton(
-                openDialog = {
-                    openDialog = true
                 }
-            )
+                if (openDialog) {
+                    AddItemAlertDialog(closeDialog = {
+                        openDialog = false
+                    }, addItem = { product_name, price, description, location ->
+                        viewModel.addItem(product_name, price, description, location)
+                    }, openGallery = {
+                        galleryLauncher.launch(Constants.ALL_IMAGES)
+                    }, viewModel = viewModel
+                    )
+                }
+                if (showDialog) {
+                    ItemDialog(
+                        closeDialog = { showDialog = false },
+                        item = selectedItem,
+                        owner = selectedItem.uid.equals(viewModel.userId.value),
+                        deleteItem = {
+                            selectedItem.id?.let { itemId ->
+                                viewModel.deleteItem(itemId)
+                            }
+                        },
+                    )
+                }
+
+            })
+
         }
-    )
+    }, floatingActionButton = {
+        AddFloatingActionButton(openDialog = {
+            openDialog = true
+        })
+    })
     AddItem()
     DeleteItem()
 }

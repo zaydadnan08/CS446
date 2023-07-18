@@ -25,63 +25,56 @@ fun HomeScreen(
     mainNavController: NavController
 ) {
     val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            Box(
-                modifier = Modifier
-                    .padding(start = 16.dp, end= 16.dp, bottom = 16.dp, top = 0.dp) // Adjust the padding as desired
-                    .border(
-                        BorderStroke(2.dp, Color.Black),
-                        CircleShape
-                    )
+    Scaffold(bottomBar = {
+        Box(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp, end = 16.dp, bottom = 16.dp, top = 0.dp
+                ) // Adjust the padding as desired
+                .border(
+                    BorderStroke(2.dp, Color.Black), CircleShape
+                )
+        ) {
+            Surface(
+                elevation = 0.dp, // Remove the drop shadow
+                color = Color.White
             ) {
-                Surface(
-                    elevation = 0.dp, // Remove the drop shadow
-                    color = Color.White
+                BottomNavigation(
+                    backgroundColor = Color.White,
+                    contentColor = Color.Black,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    BottomNavigation(
-                        backgroundColor = Color.White,
-                        contentColor = Color.Black,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentDestination = navBackStackEntry?.destination
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
 
-                        Screens.values().forEach { screen ->
-                            BottomNavigationItem(
-                                selected = currentDestination?.hierarchy?.any {
-                                    it.route == screen.name
-                                }.isTrue(),
-                                label = { Text(text = screen.name) },
-                                onClick = {
-                                    navController.navigate(screen.name) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                                icon = {
-                                    val id = when (screen) {
-                                        Screens.Market -> R.drawable.home
-                                        Screens.Fridge -> R.drawable.notification
-                                        Screens.Farmer -> R.drawable.edit
-                                    }
-                                    Icon(
-                                        painter = painterResource(id = id),
-                                        modifier = Modifier.size(24.dp),
-                                        contentDescription = null
-                                    )
+                    Screens.values().forEach { screen ->
+                        BottomNavigationItem(selected = currentDestination?.hierarchy?.any {
+                            it.route == screen.name
+                        }.isTrue(), label = { Text(text = screen.name) }, onClick = {
+                            navController.navigate(screen.name) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
                                 }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }, icon = {
+                            val id = when (screen) {
+                                Screens.Market -> R.drawable.home
+                                Screens.Fridge -> R.drawable.notification
+                                Screens.Farmer -> R.drawable.edit
+                            }
+                            Icon(
+                                painter = painterResource(id = id),
+                                modifier = Modifier.size(24.dp),
+                                contentDescription = null
                             )
-                        }
+                        })
                     }
                 }
             }
         }
-    ) { innerPadding ->
+    }) { innerPadding ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()

@@ -26,8 +26,7 @@ fun TextInput(
         onValueChange = onValueChange,
         placeholder = {
             Text(
-                text = placeholder,
-                style = TextStyle(fontSize = 14.sp)
+                text = placeholder, style = TextStyle(fontSize = 14.sp)
             )
         },
         textStyle = TextStyle(fontSize = 18.sp, lineHeight = 32.sp),
@@ -38,8 +37,7 @@ fun TextInput(
         ),
         modifier = Modifier
             .border(
-                BorderStroke(2.dp, Color.Black),
-                CircleShape
+                BorderStroke(2.dp, Color.Black), CircleShape
             )
             .fillMaxWidth()
             .padding(horizontal = 8.dp),

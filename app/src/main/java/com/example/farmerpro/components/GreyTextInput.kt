@@ -1,23 +1,17 @@
 package com.example.farmerpro.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -26,18 +20,22 @@ fun GreyTextInput(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
+        maxLines = if (placeholder == "Product Description") Int.MAX_VALUE else 1,
+        singleLine = placeholder != "Product Description",
+        keyboardOptions = keyboardOptions,
         placeholder = {
             Text(
                 text = placeholder,
                 style = TextStyle(fontSize = 16.sp)
             )
         },
-        textStyle = TextStyle(fontSize = 16.sp, lineHeight = 32.sp),
+        textStyle = TextStyle(fontSize = 16.sp, lineHeight = 24.sp),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = Color(0xFFE5E5E5),
             focusedBorderColor = Color.Transparent,
@@ -46,5 +44,6 @@ fun GreyTextInput(
         shape = RoundedCornerShape(12.dp),
         modifier = modifier
             .background(Color(0xFFE5E5E5), RoundedCornerShape(12.dp))
+            .heightIn(min = if (placeholder == "Product Description") 72.dp else 32.dp)
     )
 }
