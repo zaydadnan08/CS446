@@ -5,7 +5,6 @@ data class InventoryItem(
     var quantity: Double = 0.0,
     var unit: String = "lbs",
     var notes: String? = null,
-
 )
 
 data class InventoryItems(

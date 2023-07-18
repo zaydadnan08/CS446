@@ -7,6 +7,6 @@ class AddImageToStorage(
     private val repo: MarketRepository
 ) {
     suspend operator fun invoke(
-        imageUri: Uri,
-        fileName: String    ) = repo.addImageToFirebaseStorage(imageUri, fileName)
+        imageUri: Uri, fileName: String
+    ) = repo.addImageToFirebaseStorage(imageUri, fileName)
 }

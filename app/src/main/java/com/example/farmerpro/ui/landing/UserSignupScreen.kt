@@ -28,9 +28,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun UserSignupScreen(
-    navController: NavController,
-    userType: String,
-    viewModel: UserSignUpViewModel = hiltViewModel()
+    navController: NavController, userType: String, viewModel: UserSignUpViewModel = hiltViewModel()
 ) {
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -39,98 +37,91 @@ fun UserSignupScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signUpState.collectAsState(initial = null)
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.farmer),
+            modifier = Modifier.size(64.dp),
+            contentDescription = null,
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+
+        TextInput(
+            value = fullName, onValueChange = { fullName = it }, placeholder = "Full Name"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextInput(
+            value = email, onValueChange = { email = it }, placeholder = "Email"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextInput(
+            value = password, onValueChange = { password = it }, placeholder = "Password"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextInput(
+            value = contactNumber,
+            onValueChange = { contactNumber = it },
+            placeholder = "Contact Number"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            if (state.value?.isLoading == true) {
+                CircularProgressIndicator()
+            }
+        }
+
+        BorderedButton(value = "Sign up", onClick = {
+            scope.launch {
+                viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
+            }
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            modifier = Modifier.background(Color.Transparent),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+            onClick = {
+                scope.launch {
+                    navController.navigate(Screens.UserSignin.name);
+                }
+            },
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.farmer),
-                modifier = Modifier.size(64.dp),
-                contentDescription = null,
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            Text(text = "Already have an account? Sign in", color = Color.Black)
+        }
 
-            TextInput(
-                value = fullName,
-                onValueChange = { fullName = it },
-                placeholder = "Full Name"
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextInput(
-                value = email,
-                onValueChange = { email = it },
-                placeholder = "Email"
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextInput(
-                value = password,
-                onValueChange = { password = it },
-                placeholder = "Password"
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextInput(
-                value = contactNumber,
-                onValueChange = { contactNumber = it },
-                placeholder = "Contact Number"
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                if (state.value?.isLoading == true) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            BorderedButton(value = "Sign up", onClick = {
-                scope.launch {
-                    viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
-                }
-            })
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                modifier = Modifier
-                    .background(Color.Transparent),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-                onClick = {
-                    scope.launch {
-                        navController.navigate(Screens.UserSignin.name);
-                    }
-                },
-            ) {
-                Text(text = "Already have an account? Sign in", color = Color.Black)
-            }
-
-            LaunchedEffect(key1 = state.value?.isSuccess) {
-                scope.launch {
-                    if (state.value?.isSuccess?.isNotEmpty() == true) {
-                        val success = state.value?.isSuccess
-                        Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
-                        navController.navigate(Screens.Home.name);
-                    }
-                }
-            }
-
-            LaunchedEffect(key1 = state.value?.isError) {
-                scope.launch {
-                    if (state.value?.isError?.isNotEmpty() == true) {
-                        val error = state.value?.isError
-                        Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
-                    }
+        LaunchedEffect(key1 = state.value?.isSuccess) {
+            scope.launch {
+                if (state.value?.isSuccess?.isNotEmpty() == true) {
+                    val success = state.value?.isSuccess
+                    Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
+                    navController.navigate(Screens.Home.name);
                 }
             }
         }
+
+        LaunchedEffect(key1 = state.value?.isError) {
+            scope.launch {
+                if (state.value?.isError?.isNotEmpty() == true) {
+                    val error = state.value?.isError
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 }

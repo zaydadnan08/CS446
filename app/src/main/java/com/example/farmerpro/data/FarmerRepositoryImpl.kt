@@ -20,30 +20,34 @@ import javax.inject.Singleton
 @Singleton
 class FarmerRepositoryImpl @Inject constructor(
     private val inventoryRef: CollectionReference
-): FarmerRepository {
+) : FarmerRepository {
     override fun getItemsFromFirestore(farmerID: String): Flow<InventoryResponse> = callbackFlow {
         val snapshotListener = inventoryRef.document(farmerID).addSnapshotListener { snapshot, e ->
-            val ItemsResponse = if (snapshot != null) {
+            val itemsResponse = if (snapshot != null) {
                 val items = snapshot.toObject(InventoryItems::class.java)
                 Success(items)
             } else {
                 Failure(e)
             }
-            trySend(ItemsResponse as InventoryResponse)
+            trySend(itemsResponse as InventoryResponse)
         }
         awaitClose {
             snapshotListener.remove()
         }
-}
+    }
 
-    override suspend fun addItemToFirestore(item: InventoryItem, farmerID: String): Response<Boolean> = try {
+    override suspend fun addItemToFirestore(
+        item: InventoryItem, farmerID: String
+    ): Response<Boolean> = try {
         inventoryRef.document(farmerID).update("inventory", FieldValue.arrayUnion(item)).await()
         Success(true)
     } catch (e: Exception) {
         Failure(e)
     }
 
-    override suspend fun updateInventoryItems(newInventoryItems: InventoryItems, farmerID: String): Response<Boolean> = try {
+    override suspend fun updateInventoryItems(
+        newInventoryItems: InventoryItems, farmerID: String
+    ): Response<Boolean> = try {
         inventoryRef.document(farmerID).set(newInventoryItems).await()
         Success(true)
     } catch (e: Exception) {

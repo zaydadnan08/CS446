@@ -35,9 +35,9 @@ object AppModule {
 
     @Provides
     fun provideItemsRepository(): MarketRepository = MarketRepositoryImpl(
-        storage = Firebase.storage,
-        itemsRef = Firebase.firestore.collection("items")
+        storage = Firebase.storage, itemsRef = Firebase.firestore.collection("items")
     )
+
     @Provides
     fun provideUseCases(
         repo: MarketRepository
@@ -49,7 +49,8 @@ object AppModule {
     )
 
     @Provides
-    fun provideInventoryRepository(): FarmerRepository = FarmerRepositoryImpl(Firebase.firestore.collection("farmers"))
+    fun provideInventoryRepository(): FarmerRepository =
+        FarmerRepositoryImpl(Firebase.firestore.collection("farmers"))
 
     @Provides
     fun provideInventoryUseCases(

@@ -12,12 +12,10 @@ fun AddFloatingActionButton(
     openDialog: () -> Unit
 ) {
     FloatingActionButton(
-        onClick = openDialog,
-        backgroundColor = MaterialTheme.colors.primary
+        onClick = openDialog, backgroundColor = MaterialTheme.colors.primary
     ) {
         Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Add item"
+            imageVector = Icons.Default.Add, contentDescription = "Add item"
         )
     }
 }
