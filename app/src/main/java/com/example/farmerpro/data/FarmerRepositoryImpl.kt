@@ -43,8 +43,8 @@ class FarmerRepositoryImpl @Inject constructor(
         Failure(e)
     }
 
-    override suspend fun deleteItemFromFirestore(farmerID: String): Response<Boolean> = try {
-        inventoryRef.document(farmerID).delete().await()
+    override suspend fun updateInventoryItems(newInventoryItems: InventoryItems, farmerID: String): Response<Boolean> = try {
+        inventoryRef.document(farmerID).set(newInventoryItems).await()
         Success(true)
     } catch (e: Exception) {
         Failure(e)
