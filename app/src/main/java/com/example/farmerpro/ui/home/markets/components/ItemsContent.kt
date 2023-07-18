@@ -24,11 +24,7 @@ fun ItemsContent(
     ) {
         items.forEach { item ->
             item {
-                ItemCard(item = item, deleteItem = {
-                    item.id?.let { itemId ->
-                        deleteItem(itemId)
-                    }
-                })
+                ItemCard(item = item)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
