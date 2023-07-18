@@ -107,15 +107,6 @@ fun ItemsScreen(
     )
     AddItem()
     DeleteItem()
-
-    fun showSnackBar() = coroutineScope.launch {
-         scaffoldState.snackbarHostState.showSnackbar(
-            message = Constants.IMAGE_SUCCESSFULLY_ADDED_MESSAGE,
-            actionLabel = Constants.DISPLAY_IT_MESSAGE
-        )
-    }
-
-
 }
 
 
