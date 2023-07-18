@@ -23,7 +23,7 @@ import com.example.farmerpro.R
 import com.example.farmerpro.components.BorderedButton
 
 @Composable
-fun StartScreen(navController: NavController){
+fun StartScreen(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -40,12 +40,9 @@ fun StartScreen(navController: NavController){
         Text(text = "farmer pro", fontSize = 32.sp)
         Text(text = "farming at its best.", fontSize = 22.sp)
         Spacer(modifier = Modifier.height(128.dp))
-        BorderedButton(
-            value="get started",
-            onClick = {
-                navController.navigate(Screens.UserSelect.name);
-            }
-        )
+        BorderedButton(value = "get started", onClick = {
+            navController.navigate(Screens.UserSelect.name);
+        })
     }
 }
 

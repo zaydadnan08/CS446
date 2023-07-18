@@ -16,14 +16,16 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BorderedButton(
-    value: String,
-    onClick: () -> Unit){
+    value: String, onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(23.dp),
         border = BorderStroke(2.dp, Color.Black),
-        colors = ButtonDefaults.buttonColors( backgroundColor = Color.White),
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Text(
             text = value,

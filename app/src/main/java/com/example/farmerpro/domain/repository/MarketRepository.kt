@@ -14,9 +14,20 @@ typealias AddImageToStorageResponse = CameraResponse<Uri>
 
 interface MarketRepository {
     fun getItemsFromFirestore(): Flow<ItemResponse>
-    suspend fun addItemToFirestore(product_name: String, seller: String, price: String, description: String, location: String, contact_number: String, imageUrl: String): AddItemResponse
+    suspend fun addItemToFirestore(
+        product_name: String,
+        seller: String,
+        price: String,
+        description: String,
+        location: String,
+        contact_number: String,
+        imageUrl: String
+    ): AddItemResponse
+
     suspend fun deleteItemFromFirestore(itemId: String): DeleteItemResponse
-    suspend fun addImageToFirebaseStorage(imageUri: Uri, fileName: String): AddImageToStorageResponse
+    suspend fun addImageToFirebaseStorage(
+        imageUri: Uri, fileName: String
+    ): AddImageToStorageResponse
 
 
 }

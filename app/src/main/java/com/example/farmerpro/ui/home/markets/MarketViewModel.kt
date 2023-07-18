@@ -25,9 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-    private val useCases: UseCases,
-    private val repository: AuthRepository
-): ViewModel() {
+    private val useCases: UseCases, private val repository: AuthRepository
+) : ViewModel() {
     var itemsResponse by mutableStateOf<ItemResponse>(Loading)
     var addImageToStorageResponse by mutableStateOf<CameraResponse<Uri>>(CameraResponse.Success(null))
         private set
@@ -47,7 +46,7 @@ class MarketViewModel @Inject constructor(
     init {
         getItems()
         viewModelScope.launch {
-            if(userId == null){
+            if (userId == null) {
                 userId = ""
             }
             _user.value = repository.getUserFromFirestore(userId!!)
@@ -56,9 +55,11 @@ class MarketViewModel @Inject constructor(
                     is Response.Loading -> {
                         // Show loading indicator
                     }
+
                     is Response.Success -> {
                         _currentUser.value = response.data
                     }
+
                     is Response.Failure -> {
                         // Show error message
                     }
@@ -66,27 +67,37 @@ class MarketViewModel @Inject constructor(
             }
         }
     }
+
     private fun getItems() = viewModelScope.launch {
         useCases.getItems().collect { response ->
             itemsResponse = response
         }
     }
 
-    fun addItem(product_name: String, price: String, description: String, location: String) = viewModelScope.launch {
-        addItemResponse = Loading
-        addItemResponse = useCases.addItem(product_name,
-            currentUser.value?.name ?: "", price, description, location, currentUser.value?.contactNumber ?: "", downloadUrl.value)
-        useCases.getItems().collect { response ->
-            itemsResponse = response
+    fun addItem(product_name: String, price: String, description: String, location: String) =
+        viewModelScope.launch {
+            addItemResponse = Loading
+            addItemResponse = useCases.addItem(
+                product_name,
+                currentUser.value?.name ?: "",
+                price,
+                description,
+                location,
+                currentUser.value?.contactNumber ?: "",
+                downloadUrl.value
+            )
+            useCases.getItems().collect { response ->
+                itemsResponse = response
+            }
         }
-    }
 
     fun addImageToStorage(imageUri: Uri) = viewModelScope.launch {
         addImageToStorageResponse = CameraResponse.Loading
-        addImageToStorageResponse = useCases.addImageToStorage(imageUri, (0..100).random().toString())
+        addImageToStorageResponse =
+            useCases.addImageToStorage(imageUri, (0..100).random().toString())
     }
 
-    fun setDownloadUrl(url: String){
+    fun setDownloadUrl(url: String) {
         downloadUrl.value = url;
     }
 

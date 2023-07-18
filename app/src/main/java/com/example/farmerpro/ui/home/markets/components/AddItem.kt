@@ -10,7 +10,7 @@ import com.example.farmerpro.ui.home.markets.MarketViewModel
 fun AddItem(
     viewModel: MarketViewModel = hiltViewModel()
 ) {
-    when(val addItemResponse = viewModel.addItemResponse) {
+    when (val addItemResponse = viewModel.addItemResponse) {
         is Loading -> ProgressBar()
         is Success -> Unit
         is Failure -> print(addItemResponse.e)

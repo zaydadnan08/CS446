@@ -10,5 +10,5 @@ data class MarketplaceItem(
     var location: String? = null,
     var description: String? = null,
     var contact_number: String? = null,
-    var imageUrl :String = ""
+    var imageUrl: String = ""
 )

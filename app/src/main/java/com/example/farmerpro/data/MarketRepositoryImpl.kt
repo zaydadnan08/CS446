@@ -22,7 +22,7 @@ import javax.inject.Singleton
 class MarketRepositoryImpl @Inject constructor(
     private val storage: FirebaseStorage,
     private val itemsRef: CollectionReference,
-    ): MarketRepository {
+) : MarketRepository {
     override fun getItemsFromFirestore() = callbackFlow {
         val snapshotListener = itemsRef.orderBy("product_name").addSnapshotListener { snapshot, e ->
             val itemsResponse = if (snapshot != null) {
@@ -37,7 +37,15 @@ class MarketRepositoryImpl @Inject constructor(
             snapshotListener.remove()
         }
     }
-    override suspend fun addItemToFirestore(product_name: String, seller: String, price: String, description: String, location: String,contact_number: String, imageUrl: String
+
+    override suspend fun addItemToFirestore(
+        product_name: String,
+        seller: String,
+        price: String,
+        description: String,
+        location: String,
+        contact_number: String,
+        imageUrl: String
     ): AddItemResponse = try {
         val id = itemsRef.document().id
         val item = MarketplaceItem(
@@ -55,11 +63,13 @@ class MarketRepositoryImpl @Inject constructor(
         Failure(e)
     }
 
-    override suspend fun addImageToFirebaseStorage(imageUri: Uri, fileName: String): AddImageToStorageResponse {
+    override suspend fun addImageToFirebaseStorage(
+        imageUri: Uri, fileName: String
+    ): AddImageToStorageResponse {
         return try {
-            val downloadUrl = storage.reference.child(Constants.IMAGES).child("$fileName.jpg")
-                .putFile(imageUri).await()
-                .storage.downloadUrl.await()
+            val downloadUrl =
+                storage.reference.child(Constants.IMAGES).child("$fileName.jpg").putFile(imageUri)
+                    .await().storage.downloadUrl.await()
             CameraResponse.Success(downloadUrl)
         } catch (e: Exception) {
             CameraResponse.Failure(e)

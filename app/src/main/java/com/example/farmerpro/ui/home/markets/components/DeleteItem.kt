@@ -10,7 +10,7 @@ import com.example.farmerpro.ui.home.markets.MarketViewModel
 fun DeleteItem(
     viewModel: MarketViewModel = hiltViewModel()
 ) {
-    when(val deleteItemResponse = viewModel.deleteItemResponse) {
+    when (val deleteItemResponse = viewModel.deleteItemResponse) {
         is Loading -> ProgressBar()
         is Success -> Unit
         is Failure -> print(deleteItemResponse.e)

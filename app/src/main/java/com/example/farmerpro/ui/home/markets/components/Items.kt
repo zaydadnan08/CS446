@@ -9,10 +9,9 @@ import com.example.farmerpro.ui.home.markets.MarketViewModel
 
 @Composable
 fun Items(
-    viewModel: MarketViewModel = hiltViewModel(),
-    itemsContent: @Composable (items: Items) -> Unit
+    viewModel: MarketViewModel = hiltViewModel(), itemsContent: @Composable (items: Items) -> Unit
 ) {
-    when(val itemsResponse = viewModel.itemsResponse) {
+    when (val itemsResponse = viewModel.itemsResponse) {
         is Loading -> ProgressBar()
         is Success -> itemsContent(itemsResponse.data)
         is Failure -> print(itemsResponse.e)

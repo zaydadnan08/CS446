@@ -33,8 +33,8 @@ import com.example.farmerpro.ui.theme.Gray400
 
 @Composable
 fun ItemCard(
-item: MarketplaceItem,
-deleteItem: () -> Unit,
+    item: MarketplaceItem,
+    deleteItem: () -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -42,18 +42,15 @@ deleteItem: () -> Unit,
             .padding(8.dp)
             .clip(RoundedCornerShape(16.dp))
             .border(
-                BorderStroke(0.5.dp, Gray400),
-                RoundedCornerShape(16.dp)
+                BorderStroke(0.5.dp, Gray400), RoundedCornerShape(16.dp)
             )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
-            if(item.imageUrl.isNotEmpty()){
+            if (item.imageUrl.isNotEmpty()) {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(item.imageUrl)
-                        .crossfade(true)
-                        .build(),
+                    model = ImageRequest.Builder(LocalContext.current).data(item.imageUrl)
+                        .crossfade(true).build(),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -61,7 +58,7 @@ deleteItem: () -> Unit,
                         .width(160.dp)
                         .align(Alignment.CenterHorizontally)
                         .clip(RoundedCornerShape(10.dp))
-              )
+                )
             } else {
                 Image(
                     painter = painterResource(id = R.drawable.default_fruits),
@@ -75,31 +72,23 @@ deleteItem: () -> Unit,
             }
 
             Text(
-                text = item.product_name.orEmpty(),
+                text = item.product_name,
                 style = MaterialTheme.typography.h6,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = "$${item.price.orEmpty()} /lb",
+                text = "$${item.price.orEmpty()}/lb",
                 style = MaterialTheme.typography.body1,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Box(modifier = Modifier.height(36.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = item.description.orEmpty(),
-                        style = MaterialTheme.typography.body2,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
+            Text(
+                text = item.description.orEmpty(),
+                style = MaterialTheme.typography.body2,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

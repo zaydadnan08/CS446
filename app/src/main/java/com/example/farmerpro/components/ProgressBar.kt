@@ -11,9 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun ProgressBar() {
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+    ) {
         CircularProgressIndicator()
     }
 }

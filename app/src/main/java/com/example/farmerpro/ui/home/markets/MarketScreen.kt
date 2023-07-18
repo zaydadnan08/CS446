@@ -36,75 +36,60 @@ fun ItemsScreen(
     var openDialog by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
-    val galleryLauncher =  rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
-        imageUri?.let {
-            viewModel.addImageToStorage(imageUri)
-        }
-    }
-        Scaffold(
-        content = { padding ->
-            Column(
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 10.dp, end = 10.dp, top = 10.dp)
-            ) {
-                Text(
-                    text = "Marketplace",
-                    modifier = Modifier.padding(bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 28.sp,
-                        textAlign = TextAlign.Start
-                    )
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
-                SearchAppBar(searchQuery, setSearchQuery)
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Items(
-                    itemsContent = { items ->
-                        val filteredItems = if (searchQuery.isNotEmpty()) {
-                            items.filter { item ->
-                                item.product_name.contains(searchQuery, ignoreCase = true)
-                            }
-                        } else {
-                            items
-                        }
-                        ItemsContent(
-                            items = filteredItems,
-                            deleteItem = { itemId ->
-                                viewModel.deleteItem(itemId)
-                            }
-                        )
-                        if (openDialog) {
-                            AddItemAlertDialog(
-                                closeDialog = {
-                                    openDialog = false
-                                },
-                                addItem = { product_name, price, description, location ->
-                                    viewModel.addItem(product_name, price, description, location)
-                                },
-                                openGallery = {
-                                    galleryLauncher.launch(Constants.ALL_IMAGES)
-                                },
-                                viewModel = viewModel
-                            )
-                        }
-                    }
-                )
-
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+            imageUri?.let {
+                viewModel.addImageToStorage(imageUri)
             }
-        },
-        floatingActionButton = {
-            AddFloatingActionButton(
-                openDialog = {
-                    openDialog = true
-                }
-            )
         }
-    )
+    Scaffold(content = { padding ->
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 10.dp, end = 10.dp, top = 10.dp)
+        ) {
+            Text(
+                text = "Marketplace", modifier = Modifier.padding(
+                    bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
+                ), style = TextStyle(
+                    fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
+                )
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
+            SearchAppBar(searchQuery, setSearchQuery)
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Items(itemsContent = { items ->
+                val filteredItems = if (searchQuery.isNotEmpty()) {
+                    items.filter { item ->
+                        item.product_name.contains(searchQuery, ignoreCase = true)
+                    }
+                } else {
+                    items
+                }
+                ItemsContent(items = filteredItems, deleteItem = { itemId ->
+                    viewModel.deleteItem(itemId)
+                })
+                if (openDialog) {
+                    AddItemAlertDialog(closeDialog = {
+                        openDialog = false
+                    }, addItem = { product_name, price, description, location ->
+                        viewModel.addItem(product_name, price, description, location)
+                    }, openGallery = {
+                        galleryLauncher.launch(Constants.ALL_IMAGES)
+                    }, viewModel = viewModel
+                    )
+                }
+            })
+
+        }
+    }, floatingActionButton = {
+        AddFloatingActionButton(openDialog = {
+            openDialog = true
+        })
+    })
     AddItem()
     DeleteItem()
 }

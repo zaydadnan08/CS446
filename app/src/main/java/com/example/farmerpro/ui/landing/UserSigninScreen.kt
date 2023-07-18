@@ -28,8 +28,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UserSigninScreen(
-    navController: NavController,
-    viewModel: UserSignInViewModel = hiltViewModel()
+    navController: NavController, viewModel: UserSignInViewModel = hiltViewModel()
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -52,17 +51,13 @@ fun UserSigninScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         TextInput(
-            value = email,
-            onValueChange = { email = it },
-            placeholder = "Email"
+            value = email, onValueChange = { email = it }, placeholder = "Email"
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextInput(
-            value = password,
-            onValueChange = { password = it },
-            placeholder = "Password"
+            value = password, onValueChange = { password = it }, placeholder = "Password"
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -79,8 +74,7 @@ fun UserSigninScreen(
                 .padding(16.dp)
                 .background(Color.Transparent)
                 .border(
-                    BorderStroke(2.dp, Color.Black),
-                    CircleShape
+                    BorderStroke(2.dp, Color.Black), CircleShape
                 ),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
@@ -95,8 +89,7 @@ fun UserSigninScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            modifier = Modifier
-                .background(Color.Transparent),
+            modifier = Modifier.background(Color.Transparent),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 scope.launch {
@@ -107,9 +100,9 @@ fun UserSigninScreen(
             Text(text = "Don't have an account? Create one", color = Color.Black)
         }
 
-        LaunchedEffect(key1 = state.value?.isSuccess){
+        LaunchedEffect(key1 = state.value?.isSuccess) {
             scope.launch {
-                if (state.value?.isSuccess?.isNotEmpty() == true){
+                if (state.value?.isSuccess?.isNotEmpty() == true) {
                     val success = state.value?.isSuccess
                     Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
                     navController.navigate(Screens.Home.name);
@@ -117,9 +110,9 @@ fun UserSigninScreen(
             }
         }
 
-        LaunchedEffect(key1 = state.value?.isError){
+        LaunchedEffect(key1 = state.value?.isError) {
             scope.launch {
-                if (state.value?.isError?.isNotEmpty() == true){
+                if (state.value?.isError?.isNotEmpty() == true) {
                     val error = state.value?.isError
                     Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }

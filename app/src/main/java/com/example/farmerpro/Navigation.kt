@@ -13,7 +13,7 @@ import com.example.farmerpro.ui.landing.UserSignupScreen
 @Composable
 fun Navigation(
     isLoggedIn: Boolean
-){
+) {
     val navController = rememberNavController()
     var start = ""
     if (isLoggedIn) {
@@ -22,7 +22,7 @@ fun Navigation(
         start = Screens.Start.name
     }
 
-    NavHost(navController = navController, startDestination = start){
+    NavHost(navController = navController, startDestination = start) {
         composable(route = Screens.Start.name) {
             StartScreen(navController = navController)
         }
@@ -48,13 +48,7 @@ fun Navigation(
 }
 
 enum class Screens {
-    Home,
-    Start,
-    UserSignupCustomer,
-    UserSignupFarmer,
-    UserSignupAdmin,
-    UserSignin,
-    UserSelect,;
+    Home, Start, UserSignupCustomer, UserSignupFarmer, UserSignupAdmin, UserSignin, UserSelect, ;
 }
 
 

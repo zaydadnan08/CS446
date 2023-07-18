@@ -31,7 +31,9 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun registerUser(user: User, email: String, password: String): Flow<Resource<AuthResult>> {
+    override fun registerUser(
+        user: User, email: String, password: String
+    ): Flow<Resource<AuthResult>> {
         return flow {
             emit(Resource.Loading())
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
@@ -43,17 +45,13 @@ class AuthRepositoryImpl @Inject constructor(
                 "name" to user.name,
                 "userType" to user.type.toString(),
                 "contact" to user.contactNumber,
-                )
+            )
 
             if (uid != null) {
-                db.collection("users")
-                    .document(uid)
-                    .set(user)
+                db.collection("users").document(uid).set(user)
                 // Need to do this for only farmer user types
                 var inventory: InventoryItems = InventoryItems()
-                db.collection("farmers")
-                    .document(uid)
-                    .set(inventory)
+                db.collection("farmers").document(uid).set(inventory)
             }
 
             emit(Resource.Success(result))
