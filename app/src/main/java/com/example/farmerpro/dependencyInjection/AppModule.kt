@@ -3,6 +3,7 @@ package com.example.farmerpro.dependencyInjection
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.data.AuthRepositoryImpl
 import com.example.farmerpro.data.FarmerRepositoryImpl
+import com.example.farmerpro.data.FridgeRepositoryImpl
 import com.example.farmerpro.data.MarketRepositoryImpl
 import com.example.farmerpro.domain.inventory_use_case.AddOrUpdateInventory
 import com.example.farmerpro.domain.repository.MarketRepository
@@ -15,6 +16,7 @@ import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.marketplace_use_case.AddImageToStorage
 import com.example.farmerpro.domain.inventory_use_case.UpdateInventory
 import com.example.farmerpro.domain.repository.FarmerRepository
+import com.example.farmerpro.domain.repository.FridgeRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -36,6 +38,11 @@ object AppModule {
     @Provides
     fun provideItemsRepository(): MarketRepository = MarketRepositoryImpl(
         storage = Firebase.storage, itemsRef = Firebase.firestore.collection("items")
+    )
+
+    @Provides
+    fun provideFridgeRepository(): FridgeRepository = FridgeRepositoryImpl(
+        storage = Firebase.storage, itemsRef = Firebase.firestore.collection("fridge")
     )
 
     @Provides
