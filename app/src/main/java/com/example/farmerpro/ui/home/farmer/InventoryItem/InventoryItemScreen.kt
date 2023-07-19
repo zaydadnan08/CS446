@@ -35,10 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.farmerpro.components.Dropdown
+import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
+import com.example.farmerpro.ui.home.farmer.components.TrackSaleDialog
 
 @Composable
 fun InventoryItemScreen(navController: NavController, name: String?, quantity: Double?, unit: String?, notes: String?) {
     var selectedUnit by remember { mutableStateOf(unit) }
+    var openDialog by remember { mutableStateOf(false) }
 
     Column(
     ) {
@@ -135,7 +138,9 @@ fun InventoryItemScreen(navController: NavController, name: String?, quantity: D
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 24.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Button(onClick = {}) {
+                Button(onClick = {
+                    openDialog = true
+                }) {
                     Text(
                         text = "Track a Sale",
                         style = TextStyle(
@@ -164,5 +169,12 @@ fun InventoryItemScreen(navController: NavController, name: String?, quantity: D
                 }
             }
         }
+    }
+    if (openDialog) {
+        TrackSaleDialog(
+            closeDialog = {
+                openDialog = false
+            }
+        )
     }
 }
