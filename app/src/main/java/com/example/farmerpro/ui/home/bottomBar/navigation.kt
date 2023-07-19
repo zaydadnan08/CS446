@@ -7,10 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.farmerpro.ui.home.farmer.FarmerHomeScreen
-import com.example.farmerpro.ui.home.farmer.InventoryItemScreen
+import com.example.farmerpro.ui.home.farmer.InventoryItem.InventoryItemScreen
 import com.example.farmerpro.ui.home.markets.ItemsScreen
 import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
-import com.example.farmerpro.ui.home.markets.ItemsScreen
 
 @Composable
 fun navigation(navController: NavHostController, mainNavController: NavController){
@@ -24,8 +23,16 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
                 composable(route = FarmerSubScreens.FarmerHome.name) {
                     FarmerHomeScreen(navController = farmerNavController)
                 }
-                composable(route = FarmerSubScreens.InventoryItem.name) {
-                    InventoryItemScreen()
+                composable(
+                    route = "${FarmerSubScreens.InventoryItem.name}/{name}/{quantity}/{unit}/{notes}",
+                ) { backStackEntry ->
+                    InventoryItemScreen(
+                        farmerNavController,
+                        backStackEntry.arguments?.getString("name"),
+                        backStackEntry.arguments?.getString("quantity")?.toDoubleOrNull(),
+                        backStackEntry.arguments?.getString("unit"),
+                        backStackEntry.arguments?.getString("notes"),
+                    )
                 }
             }
         }

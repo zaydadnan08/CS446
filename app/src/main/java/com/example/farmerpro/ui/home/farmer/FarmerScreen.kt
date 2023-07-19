@@ -78,7 +78,7 @@ fun FarmerHomeScreen (
                                     item = item,
                                     viewModel = viewModel,
                                     onClick = {
-                                        navController.navigate(FarmerSubScreens.InventoryItem.name);
+                                        navController.navigate("${FarmerSubScreens.InventoryItem.name}/${item.name}/${item.quantity}/${item.unit}/${item.notes}");
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
