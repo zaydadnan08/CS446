@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.ui.home.markets.components.AddItemAlertDialog
 import com.example.farmerpro.components.AddFloatingActionButton
 import com.example.farmerpro.components.SearchAppBar
+import com.example.farmerpro.components.ToggleWithText
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.home.markets.components.AddItem
@@ -38,6 +39,7 @@ fun ItemsScreen(
     var openDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf(MarketplaceItem()) }
+    var isChecked by remember { mutableStateOf(false) }
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
@@ -64,14 +66,26 @@ fun ItemsScreen(
             SearchAppBar(searchQuery, setSearchQuery)
             Spacer(modifier = Modifier.height(8.dp))
 
+            ToggleWithText(isChecked = isChecked, onCheckedChange = { isChecked = it })
+
             Items(itemsContent = { items ->
-                val filteredItems = if (searchQuery.isNotEmpty()) {
+                var filteredItems = if (searchQuery.isNotEmpty()) {
                     items.filter { item ->
                         item.product_name.contains(searchQuery, ignoreCase = true)
                     }
                 } else {
                     items
                 }
+                filteredItems  = if (isChecked) {
+                filteredItems.filter { item ->
+                    item.uid == viewModel.userId.value
+                }
+            } else {
+                filteredItems
+            }
+
+
+
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2), modifier = Modifier
                         .padding(1.dp)
@@ -103,7 +117,7 @@ fun ItemsScreen(
                     ItemDialog(
                         closeDialog = { showDialog = false },
                         item = selectedItem,
-                        owner = selectedItem.uid.equals(viewModel.userId.value),
+                        owner = selectedItem.uid == viewModel.userId.value,
                         deleteItem = {
                             selectedItem.id?.let { itemId ->
                                 viewModel.deleteItem(itemId)
