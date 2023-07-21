@@ -76,15 +76,13 @@ fun ItemsScreen(
                 } else {
                     items
                 }
-                filteredItems  = if (isChecked) {
-                filteredItems.filter { item ->
-                    item.uid == viewModel.userId.value
+                filteredItems = if (isChecked) {
+                    filteredItems.filter { item ->
+                        item.uid == viewModel.userId.value
+                    }
+                } else {
+                    filteredItems
                 }
-            } else {
-                filteredItems
-            }
-
-
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2), modifier = Modifier
@@ -93,12 +91,10 @@ fun ItemsScreen(
                 ) {
                     filteredItems.forEach { item ->
                         item {
-                            ItemCard(item = item,
-                                onCardClick = {
-                                    selectedItem = it
-                                    showDialog = true
-                                }
-                            )
+                            ItemCard(item = item, onCardClick = {
+                                selectedItem = it
+                                showDialog = true
+                            })
                             Spacer(modifier = Modifier.height(8.dp))
                         }
                     }

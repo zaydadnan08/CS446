@@ -11,7 +11,6 @@ typealias DeleteRequestResponse = Response<Boolean>
 
 interface RequestRepository {
     fun getRequestsFromFirestore(): Flow<RequestResponse>
-
     suspend fun addRequestToFirestore(
         product_name: String,
         description: String,
@@ -24,3 +23,4 @@ interface RequestRepository {
 
     suspend fun deleteRequest(itemId: String): DeleteRequestResponse
 }
+

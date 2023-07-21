@@ -13,11 +13,10 @@ import com.example.farmerpro.domain.model.Response.Success
 import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.ItemResponse
 import com.example.farmerpro.domain.repository.DeleteItemResponse
-import com.example.farmerpro.domain.marketplace_use_case.UseCases
+import com.example.farmerpro.domain.marketplace_use_case.MarketUseCases
 import com.example.farmerpro.domain.model.CameraResponse
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.repository.AuthRepository
-import com.example.farmerpro.domain.repository.UserResponse
 import com.example.farmerpro.types.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-    private val useCases: UseCases, private val repository: AuthRepository
+    private val marketUseCases: MarketUseCases, private val repository: AuthRepository
 ) : ViewModel() {
     var itemsResponse by mutableStateOf<ItemResponse>(Loading)
     var addImageToStorageResponse by mutableStateOf<CameraResponse<Uri>>(CameraResponse.Success(null))
@@ -55,11 +54,9 @@ class MarketViewModel @Inject constructor(
                     is Response.Loading -> {
                         // Show loading indicator
                     }
-
                     is Response.Success -> {
                         _currentUser.value = response.data
                     }
-
                     is Response.Failure -> {
                         // Show error message
                     }
@@ -69,7 +66,7 @@ class MarketViewModel @Inject constructor(
     }
 
     private fun getItems() = viewModelScope.launch {
-        useCases.getItems().collect { response ->
+        marketUseCases.getItems().collect { response ->
             itemsResponse = response
         }
     }
@@ -77,7 +74,7 @@ class MarketViewModel @Inject constructor(
     fun addItem(product_name: String, price: String, description: String, location: String) =
         viewModelScope.launch {
             addItemResponse = Loading
-            addItemResponse = useCases.addItem(
+            addItemResponse = marketUseCases.addItem(
                 product_name,
                 userId.value ?: "",
                 currentUser.value?.name ?: "",
@@ -87,7 +84,7 @@ class MarketViewModel @Inject constructor(
                 currentUser.value?.contactNumber ?: "",
                 downloadUrl.value
             )
-            useCases.getItems().collect { response ->
+            marketUseCases.getItems().collect { response ->
                 itemsResponse = response
             }
         }
@@ -95,7 +92,7 @@ class MarketViewModel @Inject constructor(
     fun addImageToStorage(imageUri: Uri) = viewModelScope.launch {
         addImageToStorageResponse = CameraResponse.Loading
         addImageToStorageResponse =
-            useCases.addImageToStorage(imageUri, (0..100).random().toString())
+            marketUseCases.addImageToStorage(imageUri, (0..100).random().toString())
     }
 
     fun setDownloadUrl(url: String) {
@@ -104,6 +101,6 @@ class MarketViewModel @Inject constructor(
 
     fun deleteItem(ItemId: String) = viewModelScope.launch {
         deleteItemResponse = Loading
-        deleteItemResponse = useCases.deleteItem(ItemId)
+        deleteItemResponse = marketUseCases.deleteItem(ItemId)
     }
 }

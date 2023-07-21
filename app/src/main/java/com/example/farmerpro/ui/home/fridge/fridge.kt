@@ -36,7 +36,6 @@ fun fridge(
                 )
         )
         {
-
             Image(
                 painter = painterResource(id = image),
                 contentDescription = "Image",
@@ -46,7 +45,6 @@ fun fridge(
                     .padding(8.dp)
                     .clip(RoundedCornerShape(16.dp))
             )
-
             Column(
                 modifier = Modifier
                     .padding(8.dp),
@@ -59,7 +57,6 @@ fun fridge(
                         textAlign = TextAlign.Start
                     )
                 )
-
                 Text(
                     text = address,
                     modifier = Modifier.padding(), style = TextStyle(
@@ -68,7 +65,6 @@ fun fridge(
                         textAlign = TextAlign.Start
                     )
                 )
-
                 Text(
                     text = distance,
                     modifier = Modifier.padding(), style = TextStyle(

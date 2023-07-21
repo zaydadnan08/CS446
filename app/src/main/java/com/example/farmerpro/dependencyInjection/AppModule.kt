@@ -5,18 +5,24 @@ import com.example.farmerpro.data.AuthRepositoryImpl
 import com.example.farmerpro.data.FarmerRepositoryImpl
 import com.example.farmerpro.data.FridgeRepositoryImpl
 import com.example.farmerpro.data.MarketRepositoryImpl
+import com.example.farmerpro.data.RequestRepositoryImpl
 import com.example.farmerpro.domain.inventory_use_case.AddOrUpdateInventory
 import com.example.farmerpro.domain.repository.MarketRepository
+import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
+import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
+import com.example.farmerpro.domain.inventory_use_case.UpdateInventory
+import com.example.farmerpro.domain.marketplace_use_case.AddImageToStorage
 import com.example.farmerpro.domain.marketplace_use_case.AddItem
 import com.example.farmerpro.domain.marketplace_use_case.DeleteItem
 import com.example.farmerpro.domain.marketplace_use_case.GetItems
-import com.example.farmerpro.domain.marketplace_use_case.UseCases
-import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
-import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
-import com.example.farmerpro.domain.marketplace_use_case.AddImageToStorage
-import com.example.farmerpro.domain.inventory_use_case.UpdateInventory
+import com.example.farmerpro.domain.marketplace_use_case.MarketUseCases
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.FridgeRepository
+import com.example.farmerpro.domain.repository.RequestRepository
+import com.example.farmerpro.domain.request_use_case.AddRequest
+import com.example.farmerpro.domain.request_use_case.DeleteRequest
+import com.example.farmerpro.domain.request_use_case.GetRequests
+import com.example.farmerpro.domain.request_use_case.RequestUseCases
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -46,18 +52,12 @@ object AppModule {
     )
 
     @Provides
-    fun provideUseCases(
-        repo: MarketRepository
-    ) = UseCases(
-        getItems = GetItems(repo),
-        addItem = AddItem(repo),
-        deleteItem = DeleteItem(repo),
-        addImageToStorage = AddImageToStorage(repo)
-    )
-
-    @Provides
     fun provideInventoryRepository(): FarmerRepository =
         FarmerRepositoryImpl(Firebase.firestore.collection("farmers"))
+
+    @Provides
+    fun provideRequestRepository(): RequestRepository =
+        RequestRepositoryImpl(Firebase.firestore.collection("requests"))
 
     @Provides
     fun provideInventoryUseCases(
@@ -66,6 +66,25 @@ object AppModule {
         getItems = GetInventoryByFarmer(repo),
         addItem = AddOrUpdateInventory(repo),
         updateInventory = UpdateInventory(repo)
+    )
+
+    @Provides
+    fun provideRequestUseCases(
+        repo: RequestRepository
+    ) = RequestUseCases (
+        getRequests = GetRequests(repo),
+        addRequest = AddRequest(repo),
+        deleteRequest = DeleteRequest(repo),
+    )
+
+    @Provides
+    fun provideUseCases(
+        repo: MarketRepository
+    ) = MarketUseCases (
+        getItems = GetItems(repo),
+        addItem = AddItem(repo),
+        deleteItem = DeleteItem(repo),
+        addImageToStorage = AddImageToStorage(repo)
     )
 
     @Provides
