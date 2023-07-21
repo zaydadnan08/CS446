@@ -13,7 +13,7 @@ import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
 
 @Composable
 fun navigation(navController: NavHostController, mainNavController: NavController){
-    NavHost(navController = navController, startDestination = Screens.Market.name){
+    NavHost(navController = navController, startDestination = Screens.Fridge.name){
         composable(route = Screens.Market.name) {
             ItemsScreen()
         }
@@ -37,7 +37,7 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
             }
         }
         composable(route = Screens.Fridge.name) {
-            CommunityFridgeScreen(navController = mainNavController)
+            CommunityFridgeScreen(navController = navController)
         }
     }
 }

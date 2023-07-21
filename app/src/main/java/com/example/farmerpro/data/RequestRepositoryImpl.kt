@@ -18,10 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class RequestRepositoryImpl @Inject constructor(
-    private val storage: FirebaseStorage,
     private val requestRef: CollectionReference,
 ) : RequestRepository {
-
     override fun getRequestsFromFirestore(): Flow<RequestResponse> = callbackFlow {
         val snapshotListener = requestRef.orderBy("product_name").addSnapshotListener { snapshot, e ->
             val requestResponse = if (snapshot != null) {
