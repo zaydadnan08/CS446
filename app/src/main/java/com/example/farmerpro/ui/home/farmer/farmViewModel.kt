@@ -9,6 +9,7 @@ import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
+import com.example.farmerpro.domain.model.SaleRecord
 import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.domain.repository.DeleteItemResponse
@@ -72,8 +73,7 @@ class farmViewModel @Inject constructor(
             deleteItemResponse = useCases.updateInventory(newInventoryItems, userId)
         }
     }
-
-    fun incrementInventoryCount(name: String) = viewModelScope.launch {
+    fun updateInventoryItemCount(name: String, quantity: Double) = viewModelScope.launch {
         var items: InventoryItems = when(val itemsResponse = inventoryResponse) {
             is Response.Success -> itemsResponse.data
             else -> {
@@ -81,8 +81,8 @@ class farmViewModel @Inject constructor(
             }
         }
         var itemList = items.inventory.map {
-            if (it.name === name) {
-                InventoryItem(it.name, it.quantity + 1.0)
+            if (it.name.equals(name)) {
+                InventoryItem(it.name, quantity)
             } else {
                 it
             }
@@ -94,24 +94,12 @@ class farmViewModel @Inject constructor(
         }
     }
 
-    fun decrementInventoryCount(name: String) = viewModelScope.launch {
-        var items: InventoryItems = when(val itemsResponse = inventoryResponse) {
-            is Response.Success -> itemsResponse.data
-            else -> {
-                InventoryItems(emptyList<InventoryItem>())
-            }
-        }
-        var itemList = items.inventory.map {
-            if (it.name === name) {
-                InventoryItem(it.name, it.quantity - 1.0)
-            } else {
-                it
-            }
-        }
-        var newInventoryItems = InventoryItems(itemList)
+      fun trackSaleRecord(name: String, quantity: Double, price: Double) {
+        var saleRecord = SaleRecord(name, quantity, price)
         var userId = repository.currentUser?.uid
         if (userId != null) {
-            useCases.updateInventory(newInventoryItems, userId)
+            useCases.trackSale(saleRecord, userId)
         }
+
     }
 }

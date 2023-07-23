@@ -1,73 +1,46 @@
-package com.example.farmerpro.ui.home.markets.components
+package com.example.farmerpro.ui.home.fridge
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Colors
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableText
-import com.example.farmerpro.components.GreyTextInput
-import com.example.farmerpro.components.PhoneNumberText
-import com.example.farmerpro.domain.model.CameraResponse
+import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.domain.model.MarketplaceItem
-import com.example.farmerpro.ui.home.markets.MarketViewModel
-import kotlinx.coroutines.job
 
 @Composable
-fun ItemDialog(
+fun RequestDialog(
     closeDialog: () -> Unit,
-    item: MarketplaceItem,
+    request: FridgeRequest,
     owner: Boolean,
-    deleteItem: () -> Unit,
-    ) {
+    deleteRequest: () -> Unit,
+) {
     Dialog(onDismissRequest = closeDialog) {
         Surface(shape = RoundedCornerShape(20.dp), elevation = 24.dp) {
             Column(
@@ -75,46 +48,25 @@ fun ItemDialog(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                if (item.imageUrl.isNotEmpty()) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current).data(item.imageUrl)
-                            .crossfade(true).build(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .align(CenterHorizontally)
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = request.product_name,
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Start,
+                        color = Color.Black
                     )
-                } else {
-                    Image(
-                        painter = painterResource(id = R.drawable.default_fruits),
-                        contentDescription = "Image",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .align(CenterHorizontally)
-                            .padding(8.dp)
-                    )
-                }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = item.product_name,
-                        modifier = Modifier.padding(horizontal = 12.dp),
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp,
-                            textAlign = TextAlign.Start,
-                            color = Color.Black
-                        )
-                    )
+                )
 
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Sold by: ",
+                        text = "Amount Requested (lbs): ",
                         maxLines = 1,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
@@ -124,7 +76,7 @@ fun ItemDialog(
                         )
                     )
                     Text(
-                        text = item.seller,
+                        text = request.amount,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
@@ -142,7 +94,7 @@ fun ItemDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Price: ",
+                        text = "Fridge Name: ",
                         maxLines = 1,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
@@ -152,14 +104,20 @@ fun ItemDialog(
                         )
                     )
                     Text(
-                        text = "$${item.price.orEmpty()} CAD/lb",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Medium),
+                        text = request.fridge_name,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Start,
+                            color = Color.Black
+                        ),
                         maxLines = 1,
+                        color = Color(0xFF8d8d8d),
                     )
                 }
-                if(item.description != null && item.description!!.isNotEmpty()) {
+                if(request.description != null && request.description!!.isNotEmpty()) {
                     ExpandableText(
-                        text = item.description.orEmpty(),
+                        text = request.description.orEmpty(),
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -178,7 +136,7 @@ fun ItemDialog(
                         )
                     )
                     Text(
-                        text = "${item.location.orEmpty()}",
+                        text = "${request.location.orEmpty()}",
                         style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
                         maxLines = 1,
                     )
@@ -199,15 +157,19 @@ fun ItemDialog(
                             color = Color.Black
                         )
                     )
-                    PhoneNumberText(item.contact_number)
+                    Text(
+                        text = "${request.contact_number.orEmpty()}",
+                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
+                        maxLines = 1,
+                    )
                 }
 
                 if(owner) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
-                                deleteItem()
-                                closeDialog()
+                            deleteRequest()
+                            closeDialog()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -228,7 +190,7 @@ fun ItemDialog(
                         )
                     }
                 }
-                    Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
             }
         }
     }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.farmerpro.ui.home.farmer.FarmerHomeScreen
 import com.example.farmerpro.ui.home.farmer.InventoryItem.InventoryItemScreen
+import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.example.farmerpro.ui.home.markets.ItemsScreen
 import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
 
@@ -27,11 +28,11 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
                     route = "${FarmerSubScreens.InventoryItem.name}/{name}/{quantity}/{unit}/{notes}",
                 ) { backStackEntry ->
                     InventoryItemScreen(
-                        farmerNavController,
-                        backStackEntry.arguments?.getString("name"),
-                        backStackEntry.arguments?.getString("quantity")?.toDoubleOrNull(),
-                        backStackEntry.arguments?.getString("unit"),
-                        backStackEntry.arguments?.getString("notes"),
+                        navController = farmerNavController,
+                        name = backStackEntry.arguments?.getString("name"),
+                        quantity = backStackEntry.arguments?.getString("quantity")?.toDoubleOrNull(),
+                        unit = backStackEntry.arguments?.getString("unit"),
+                        notes = backStackEntry.arguments?.getString("notes"),
                     )
                 }
             }

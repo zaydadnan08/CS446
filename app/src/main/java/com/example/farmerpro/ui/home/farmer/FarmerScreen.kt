@@ -67,10 +67,14 @@ fun FarmerHomeScreen (
                 val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
                 SearchAppBar(searchQuery, setSearchQuery)
                 Spacer(modifier = Modifier.height(8.dp))
-
+                if (items.inventory.isEmpty()) {
+                    Text(text = "No inventory. Please add inventory by clicking on the plus icon")
+                }
                 LazyVerticalGrid(
                     columns= GridCells.Fixed(1),
-                    modifier = Modifier.padding(1.dp).fillMaxSize()) {
+                    modifier = Modifier
+                        .padding(1.dp)
+                        .fillMaxSize()) {
                     if (items != null) {
                         items.inventory.forEach { item ->
                             item {

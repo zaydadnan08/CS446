@@ -6,10 +6,10 @@ data class MarketplaceItem(
     var id: String? = null,
     var uid: String = "",
     var product_name: String = "",
-    var seller: String? = null,
+    var seller: String = "",
     var price: String? = null,
     var location: String? = null,
     var description: String? = null,
-    var contact_number: String? = null,
+    var contact_number: String = "5555555555",
     var imageUrl: String = ""
 )

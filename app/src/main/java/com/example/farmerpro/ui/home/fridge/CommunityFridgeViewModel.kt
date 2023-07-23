@@ -50,7 +50,7 @@ class CommunityFridgeViewModel @Inject constructor(
     var userId = mutableStateOf(repository.currentUser?.uid)
 
     init {
-        getItems()
+        getRequests()
         viewModelScope.launch {
             if (userId.value == null) {
                 userId.value = ""
@@ -74,7 +74,7 @@ class CommunityFridgeViewModel @Inject constructor(
         }
     }
 
-    private fun getItems() = viewModelScope.launch {
+    private fun getRequests() = viewModelScope.launch {
         requestUseCases.getRequests().collect { response ->
             requestResponse = response
         }

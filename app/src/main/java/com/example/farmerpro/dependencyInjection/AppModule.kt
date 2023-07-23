@@ -10,6 +10,7 @@ import com.example.farmerpro.domain.inventory_use_case.AddOrUpdateInventory
 import com.example.farmerpro.domain.repository.MarketRepository
 import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
+import com.example.farmerpro.domain.inventory_use_case.TrackSale
 import com.example.farmerpro.domain.inventory_use_case.UpdateInventory
 import com.example.farmerpro.domain.marketplace_use_case.AddImageToStorage
 import com.example.farmerpro.domain.marketplace_use_case.AddItem
@@ -65,7 +66,8 @@ object AppModule {
     ) = InventoryUseCases(
         getItems = GetInventoryByFarmer(repo),
         addItem = AddOrUpdateInventory(repo),
-        updateInventory = UpdateInventory(repo)
+        updateInventory = UpdateInventory(repo),
+        trackSale = TrackSale(repo)
     )
 
     @Provides
