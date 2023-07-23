@@ -220,7 +220,7 @@ fun ItemDialog(
                             text = "Delete Posting",
                             style = TextStyle(
                                 color = Color.White,
-                                fontSize = 16.sp,
+                                fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                             ),
                             textAlign = TextAlign.Center,

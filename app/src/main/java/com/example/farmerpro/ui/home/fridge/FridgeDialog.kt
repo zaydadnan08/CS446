@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.fridge
 
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,15 +32,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableText
+import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.domain.model.MarketplaceItem
+import com.example.farmerpro.domain.repository.Fridges
 
 @Composable
-fun RequestDialog(
+fun FridgeDialog(
     closeDialog: () -> Unit,
-    request: FridgeRequest,
+    fridge: FridgeItem,
     owner: Boolean,
-    deleteRequest: () -> Unit,
+    deleteFridge: () -> Unit,
 ) {
     Dialog(onDismissRequest = closeDialog) {
         Surface(shape = RoundedCornerShape(20.dp), elevation = 24.dp) {
@@ -51,7 +54,7 @@ fun RequestDialog(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = request.product_name,
+                    text = fridge.fridge_name,
                     modifier = Modifier.padding(horizontal = 12.dp),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
@@ -60,61 +63,6 @@ fun RequestDialog(
                         color = Color.Black
                     )
                 )
-
-                Row(
-                    modifier = Modifier.padding(horizontal = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Amount Requested (lbs): ",
-                        maxLines = 1,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Start,
-                            color = Color.Black
-                        )
-                    )
-                    Text(
-                        text = request.amount,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Start,
-                            color = Color.Black
-                        ),
-                        maxLines = 1,
-                        color = Color(0xFF8d8d8d),
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier.padding(horizontal = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Fridge Name: ",
-                        maxLines = 1,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Start,
-                            color = Color.Black
-                        )
-                    )
-                    Text(
-                        text = request.fridge_name,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Start,
-                            color = Color.Black
-                        ),
-                        maxLines = 1,
-                        color = Color(0xFF8d8d8d),
-                    )
-                }
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -132,7 +80,7 @@ fun RequestDialog(
                         )
                     )
                     Text(
-                        text = "${request.location.orEmpty()}",
+                        text = "${fridge.location.orEmpty()}",
                         style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
                         maxLines = 1,
                     )
@@ -154,22 +102,18 @@ fun RequestDialog(
                         )
                     )
                     Text(
-                        text = "${request.contact_number.orEmpty()}",
+                        text = "${fridge.contact_number.orEmpty()}",
                         style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
                         maxLines = 1,
                     )
                 }
-                if(request.description != null && request.description!!.isNotEmpty()) {
-                    ExpandableText(
-                        text = request.description.orEmpty(),
-                    )
-                }
+
 
                 if(owner) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
-                            deleteRequest()
+                            deleteFridge()
                             closeDialog()
                         },
                         modifier = Modifier

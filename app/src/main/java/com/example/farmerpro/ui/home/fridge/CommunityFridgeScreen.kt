@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import com.example.farmerpro.Screens
 import com.example.farmerpro.components.CircleButtonWithPlus
 import com.example.farmerpro.core.Constants
+import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.ui.home.markets.components.ItemCard
 import com.example.farmerpro.ui.home.markets.components.ItemDialog
@@ -47,7 +48,9 @@ fun CommunityFridgeScreen(
         }
     var openDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var showDialog2 by remember { mutableStateOf(false) }
     var selectedRequest by remember { mutableStateOf(FridgeRequest())}
+    var selectedFridge by remember { mutableStateOf(FridgeItem())}
 
     Column(
         verticalArrangement = Arrangement.Top, modifier = Modifier
@@ -95,7 +98,7 @@ fun CommunityFridgeScreen(
         }
 
         FridgeRequests(requestContent = { requests ->
-            val filteredRequests = if (true) {
+            val filteredRequests = if (false) {
                 requests.filter { request ->
                     request.uid == viewModel.userId.value
                 }
@@ -111,7 +114,7 @@ fun CommunityFridgeScreen(
                 requests.forEach { request ->
                     item {
                         RequestCard(request = request, onCardClick = {
-                            selectedRequest = it
+                            selectedRequest = request
                             showDialog = true
                         })
                         Spacer(modifier = Modifier.height(8.dp))
@@ -179,13 +182,13 @@ fun CommunityFridgeScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Fridges(requestContent = { requests ->
-            val filteredRequests = if (true) {
-                requests.filter { request ->
-                    request.uid == viewModel.userId.value
+        Fridges(requestContent = { fridges ->
+            val filteredFridges = if (true) {
+                fridges.filter { fridge ->
+                    fridge.uid == viewModel.userId.value
                 }
             } else {
-                requests
+                fridges
             }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1), modifier = Modifier
@@ -193,17 +196,29 @@ fun CommunityFridgeScreen(
                     .fillMaxWidth()
                     .height(200.dp)
             ) {
-                filteredRequests.forEach { request ->
+                filteredFridges.forEach { fridge ->
                     item {
-                        FridgeCard(fridgeItem = request, onCardClick = {
-                            // selectedItem = it
-                            //  showDialog = true
+                        FridgeCard(fridgeItem = fridge, onCardClick = {
+                             selectedFridge = fridge
+                             showDialog2 = true
                         })
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
             }
         })
+        if (showDialog2) {
+            FridgeDialog(
+                closeDialog = { showDialog2 = false },
+                fridge = selectedFridge,
+                owner = selectedFridge.uid == viewModel.userId.value,
+                deleteFridge = {
+                    selectedFridge.id?.let { itemId ->
+                        viewModel.deleteFridge(itemId)
+                    }
+                },
+            )
+        }
     }
 }
 

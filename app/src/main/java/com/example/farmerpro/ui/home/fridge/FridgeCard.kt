@@ -5,6 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,11 +27,22 @@ import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.ui.theme.Gray400
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FridgeCard(
     fridgeItem: FridgeItem,
-    onCardClick: (FridgeRequest) -> Unit = {},
+    onCardClick: (FridgeItem) -> Unit = {},
         ){
+    Card(
+        onClick={onCardClick(fridgeItem)},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .border(
+                BorderStroke(0.5.dp, Gray400), RoundedCornerShape(16.dp)
+            )
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,6 +100,7 @@ fun FridgeCard(
                 }
             }
         }
+    }
 }
 
 

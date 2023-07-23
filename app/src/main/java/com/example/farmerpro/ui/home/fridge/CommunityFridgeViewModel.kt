@@ -13,6 +13,7 @@ import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.repository.AddFridgeResponse
 import com.example.farmerpro.domain.repository.AddRequestResponse
 import com.example.farmerpro.domain.repository.AuthRepository
+import com.example.farmerpro.domain.repository.DeleteFridgeResponse
 import com.example.farmerpro.domain.repository.DeleteRequestResponse
 import com.example.farmerpro.domain.repository.FridgeResponse
 import com.example.farmerpro.domain.repository.RequestResponse
@@ -36,6 +37,8 @@ class CommunityFridgeViewModel @Inject constructor(
 
     var fridgeResponse by mutableStateOf<FridgeResponse>(Response.Loading)
     var addFridgeResponse by mutableStateOf<AddFridgeResponse>(Response.Success(false))
+        private set
+    var deleteFridgeResponse by mutableStateOf<DeleteFridgeResponse>(Response.Success(false))
         private set
     var deleteRequestResponse by mutableStateOf<DeleteRequestResponse>(Response.Success(false))
         private set
@@ -138,6 +141,11 @@ class CommunityFridgeViewModel @Inject constructor(
                 fridgeResponse = response
             }
         }
+
+    fun deleteFridge(ItemId: String) = viewModelScope.launch {
+        deleteFridgeResponse = Response.Loading
+        deleteFridgeResponse = fridgeUseCases.deleteFridge(ItemId)
+    }
 
     private fun getFridges() = viewModelScope.launch {
         fridgeUseCases.getFridges().collect() { response ->
