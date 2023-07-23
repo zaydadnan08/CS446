@@ -1,20 +1,24 @@
 package com.example.farmerpro.ui.landing
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,6 +27,7 @@ import com.example.farmerpro.Screens
 import com.example.farmerpro.types.User
 import com.example.farmerpro.components.BorderedButton
 import com.example.farmerpro.components.TextInput
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation")
@@ -71,10 +76,14 @@ fun UserSignupScreen(
 
         TextInput(
             value = contactNumber,
-            onValueChange = { contactNumber = it },
-            placeholder = "Contact Number"
+            onValueChange = {
+                if (it.matches("[0-9]+".toRegex()) && it.length <= 10) {
+                    contactNumber = it
+                }
+            },
+            placeholder = "Contact Number",
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -82,15 +91,16 @@ fun UserSignupScreen(
                 CircularProgressIndicator()
             }
         }
-
         BorderedButton(value = "Sign up", onClick = {
-            scope.launch {
-                viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
+            if(contactNumber.length !== 10){
+                FancyToast.makeText(context,"Please add valid phone number",FancyToast.LENGTH_SHORT,FancyToast.WARNING,false).show()
+            } else {
+                scope.launch {
+                    viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
+                }
             }
         })
-
         Spacer(modifier = Modifier.height(16.dp))
-
         Button(
             modifier = Modifier.background(Color.Transparent),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
