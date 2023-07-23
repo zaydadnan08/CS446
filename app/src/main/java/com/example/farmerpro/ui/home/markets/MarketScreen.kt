@@ -121,9 +121,7 @@ fun ItemsScreen(
                         },
                     )
                 }
-
             })
-
         }
     }, floatingActionButton = {
         AddFloatingActionButton(openDialog = {

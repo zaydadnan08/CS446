@@ -90,7 +90,7 @@ fun CommunityFridgeScreen(
                     .fillMaxWidth()
                     .height(200.dp)
             ) {
-                filteredRequests.forEach { request ->
+                requests.forEach { request ->
                     item {
                         RequestCard(request = request, onCardClick = {
                            // selectedItem = it
