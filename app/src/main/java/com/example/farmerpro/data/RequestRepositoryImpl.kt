@@ -46,6 +46,7 @@ class RequestRepositoryImpl @Inject constructor(
     ): AddRequestResponse  = try {
         val id = requestRef.document().id
         val item = FridgeRequest(
+            id = id,
             product_name =  product_name,
             description = description,
             amount = amount,
