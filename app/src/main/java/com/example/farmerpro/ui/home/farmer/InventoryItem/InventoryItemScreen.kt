@@ -41,7 +41,7 @@ import com.example.farmerpro.ui.home.farmer.components.TrackSaleDialog
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 
 @Composable
-fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navController: NavController, name: String?, quantity: Double?, unit: String?, notes: String?) {
+fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navController: NavController, name: String, quantity: Double, unit: String, notes: String) {
     var selectedUnit by remember { mutableStateOf(unit) }
     var selectedQuantity by remember { mutableStateOf(quantity) }
     var openDialog by remember { mutableStateOf(false) }
@@ -62,13 +62,11 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (notes != null) {
-            Text(
-                text = notes,
-                modifier = Modifier.padding(horizontal = 12.dp),
-                style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Medium),
-            )
-        }
+        Text(
+            text = notes,
+            modifier = Modifier.padding(horizontal = 12.dp),
+            style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Medium),
+        )
 
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 36.dp).fillMaxWidth(),
@@ -92,9 +90,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     IconButton(onClick = {
-                        if (name != null) {
-                            selectedQuantity = selectedQuantity?.minus(1.0)
-                        }
+                        selectedQuantity = selectedQuantity.minus(1.0)
                     }) {
                         Icon(
                             Icons.Filled.KeyboardArrowDown,
@@ -108,9 +104,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    IconButton(onClick = { if (name != null) {
-                        selectedQuantity = selectedQuantity?.plus(1.0)
-                    } }) {
+                    IconButton(onClick = { selectedQuantity = selectedQuantity.plus(1.0) }) {
                         Icon(
                             Icons.Filled.KeyboardArrowUp,
                             contentDescription = "Add",
@@ -134,7 +128,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                 Dropdown(
                     options = listOf("lbs", "kg", "cnt"),
                     onOptionSelected = { selectedUnit = it },
-                    selectedOption = selectedUnit!!
+                    selectedOption = selectedUnit
                 )
             }
         }
@@ -164,9 +158,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
 
                 Button(
                     onClick = {
-                        if (name != null && selectedQuantity != null) {
-                            viewModel.updateInventoryItemCount(name, selectedQuantity!!)
-                        }
+                        viewModel.updateInventoryItemCount(name, selectedQuantity)
                         navController.popBackStack()
                     }
                 ) {
@@ -183,15 +175,13 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
         }
     }
     if (openDialog) {
-        if (name != null && quantity != null) {
-            TrackSaleDialog(
-                navController = navController,
-                closeDialog = {
-                    openDialog = false
-                },
-                name = name,
-                origQuantity = quantity
-            )
-        }
+        TrackSaleDialog(
+            navController = navController,
+            closeDialog = {
+                openDialog = false
+            },
+            name = name,
+            origQuantity = quantity
+        )
     }
 }

@@ -75,19 +75,17 @@ fun FarmerHomeScreen (
                     modifier = Modifier
                         .padding(1.dp)
                         .fillMaxSize()) {
-                    if (items != null) {
                         items.inventory.forEach { item ->
                             item {
                                 ItemRow(
                                     item = item,
                                     viewModel = viewModel,
                                     onClick = {
-                                        navController.navigate("${FarmerSubScreens.InventoryItem.name}/${item.name}/${item.quantity}/${item.unit}/${item.notes}");
+                                        navController.navigate("${FarmerSubScreens.InventoryItem.name}?name=${item.name}&quantity=${item.quantity}&unit=${item.unit}&notes=${item.notes}");
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
-                        }
                     }
                 }
                 if (openDialog) {
