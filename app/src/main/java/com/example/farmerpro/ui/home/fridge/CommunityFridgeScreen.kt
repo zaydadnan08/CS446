@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.Screens
 import com.example.farmerpro.components.CircleButtonWithPlus
+import com.example.farmerpro.components.Title
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.ui.home.markets.components.ItemCard
@@ -58,30 +59,11 @@ fun CommunityFridgeScreen(
             .padding(10.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Community Fridge", modifier = Modifier.padding(
-                bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
-            ), style = TextStyle(
-                fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
-            )
-        )
+        Title(text = "Community Fridge", onClick = {
+            viewModel.signOut()
+            navController.navigate(Screens.Start.name)
+        })
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(
-            onClick = {
-                Log.d("tag", "zayd sign out called")
-                viewModel.signOut(context = context)
-                navController.navigate(Screens.Start.name)
-            },
-            shape = CircleShape,
-            border = BorderStroke(1.dp, androidx.compose.ui.graphics.Color.Blue)
-        ) {
-            Text(
-                text = "Sort by: distance", modifier = Modifier.padding(), style = TextStyle(
-                    fontWeight = FontWeight.Medium, fontSize = 14.sp, textAlign = TextAlign.Start
-                )
-            )
-        }
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier

@@ -14,9 +14,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var loggedIn: Boolean = false
-            if (viewModel.getCurrentUser != null) {
-                loggedIn = true
+            var loggedIn: Boolean = viewModel.isUserLoggedIn()
+            if (loggedIn) {
                 Toast.makeText(LocalContext.current, viewModel.email, Toast.LENGTH_LONG).show()
             }
             Navigation(loggedIn)

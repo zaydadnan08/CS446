@@ -3,12 +3,15 @@ package com.example.farmerpro.ui.home.fridge
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.farmerpro.Screens
 import com.example.farmerpro.domain.fridge_use_case.FridgeUseCases
 import com.example.farmerpro.domain.model.CameraResponse
 import com.example.farmerpro.domain.model.Response
@@ -111,7 +114,9 @@ class CommunityFridgeViewModel @Inject constructor(
         deleteRequestResponse = requestUseCases.deleteRequest(ItemId)
     }
 
-    fun signOut(context: Context): () -> Unit = { repository.signOut(context = context) }
+    fun signOut(){
+        repository.signOut()
+    }
 
     fun addImageToStorage(imageUri: Uri) = viewModelScope.launch {
         addImageToStorageResponse = CameraResponse.Loading

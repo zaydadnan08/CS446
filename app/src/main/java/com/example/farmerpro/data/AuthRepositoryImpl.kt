@@ -85,33 +85,8 @@ class AuthRepositoryImpl @Inject constructor(
             Response.Failure(e)
         }
     }
-
-    override fun signOut(context: Context) = {
-        clearCache(context)
+    override fun signOut() {
         firebaseAuth.signOut()
     }
-
-    private fun clearCache(context: Context) {
-        try {
-            val cacheDir: File = context.cacheDir
-            deleteDir(cacheDir)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    fun deleteDir(dir: File?): Boolean {
-        if (dir != null && dir.isDirectory) {
-            val children: Array<String> = dir.list()!!
-            for (i in children.indices) {
-                val success: Boolean = deleteDir(File(dir, children[i]))
-                if (!success) {
-                    return false
-                }
-            }
-            return dir.delete()
-        } else return dir != null && dir.isFile && dir.delete()
-    }
-
 
 }

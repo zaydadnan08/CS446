@@ -16,13 +16,13 @@ import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
 fun navigation(navController: NavHostController, mainNavController: NavController){
     NavHost(navController = navController, startDestination = Screens.Fridge.name){
         composable(route = Screens.Market.name) {
-            ItemsScreen()
+            ItemsScreen(navController = mainNavController)
         }
         composable(route = Screens.Farmer.name) {
             val farmerNavController = rememberNavController()
             NavHost(navController = farmerNavController, startDestination = FarmerSubScreens.FarmerHome.name) {
                 composable(route = FarmerSubScreens.FarmerHome.name) {
-                    FarmerHomeScreen(navController = farmerNavController)
+                    FarmerHomeScreen(navController = farmerNavController, mainNavController = mainNavController)
                 }
                 composable(
                     route = "${FarmerSubScreens.InventoryItem.name}/{name}/{quantity}/{unit}/{notes}",
