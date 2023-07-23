@@ -1,6 +1,8 @@
 package com.example.farmerpro.data
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Resource
 import com.example.farmerpro.domain.model.Response
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -82,6 +85,8 @@ class AuthRepositoryImpl @Inject constructor(
             Response.Failure(e)
         }
     }
+    override fun signOut() {
+        firebaseAuth.signOut()
+    }
 
-    override fun signOut() = firebaseAuth.signOut()
 }

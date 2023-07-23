@@ -18,6 +18,7 @@ import androidx.compose.material.Button
 
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 
 
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,7 +32,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 
 @Composable
 fun FarmScreen(viewModel: farmViewModel = viewModel()){
-
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.RECORD_AUDIO
     )

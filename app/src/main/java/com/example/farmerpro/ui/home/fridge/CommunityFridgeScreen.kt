@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.fridge
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.Screens
 import com.example.farmerpro.components.CircleButtonWithPlus
+import com.example.farmerpro.components.Title
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.ui.home.markets.components.ItemCard
@@ -38,6 +41,7 @@ fun CommunityFridgeScreen(
 ) {
     var openRequestDialog by remember { mutableStateOf(false) }
     var openFridgeDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
@@ -55,29 +59,11 @@ fun CommunityFridgeScreen(
             .padding(10.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Community Fridge", modifier = Modifier.padding(
-                bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
-            ), style = TextStyle(
-                fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
-            )
-        )
+        Title(text = "Community Fridge", onClick = {
+            viewModel.signOut()
+            navController.navigate(Screens.Start.name)
+        })
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(
-            onClick = {
-                viewModel.signOut()
-                navController.navigate(Screens.Start.name)
-            },
-            shape = CircleShape,
-            border = BorderStroke(1.dp, androidx.compose.ui.graphics.Color.Blue)
-        ) {
-            Text(
-                text = "Sort by: distance", modifier = Modifier.padding(), style = TextStyle(
-                    fontWeight = FontWeight.Medium, fontSize = 14.sp, textAlign = TextAlign.Start
-                )
-            )
-        }
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
