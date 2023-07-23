@@ -180,7 +180,7 @@ fun CommunityFridgeScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Fridges(requestContent = { requests ->
-            val filteredRequests = if (true) {
+            val filteredRequests = if (false) {
                 requests.filter { request ->
                     request.uid == viewModel.userId.value
                 }
