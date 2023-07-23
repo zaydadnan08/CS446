@@ -70,7 +70,7 @@ fun ItemRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp) // Spacing between buttons and quantity
             ) {
-                IconButton(onClick = { viewModel.decrementInventoryCount(item.name) }) {
+                IconButton(onClick = { viewModel.updateInventoryItemCount(item.name, item.quantity - 1.0) }) {
                     Icon(
                         Icons.Filled.KeyboardArrowDown,
                         contentDescription = "Remove",
@@ -83,7 +83,7 @@ fun ItemRow(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                IconButton(onClick = { viewModel.incrementInventoryCount(item.name) }) {
+                IconButton(onClick = { viewModel.updateInventoryItemCount(item.name, item.quantity + 1.0) }) {
                     Icon(
                         Icons.Filled.KeyboardArrowUp,
                         contentDescription = "Add",

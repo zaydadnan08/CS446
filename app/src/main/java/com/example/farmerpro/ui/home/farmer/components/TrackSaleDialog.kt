@@ -12,17 +12,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.farmerpro.components.GreyTextInput
+import com.example.farmerpro.ui.home.farmer.farmViewModel
 import kotlinx.coroutines.job
 
 @Composable
 fun TrackSaleDialog(
-    closeDialog: () -> Unit
+    navController: NavController,
+    closeDialog: () -> Unit,
+    name: String,
+    origQuantity: Double,
+    viewModel: farmViewModel = hiltViewModel()
 ) {
     var quantity by remember { mutableStateOf("") }
 
@@ -58,6 +66,8 @@ fun TrackSaleDialog(
         confirmButton = {
             TextButton(
                 onClick = {
+                    viewModel.updateInventoryItemCount(name, origQuantity.minus(quantity.toDouble()))
+                    navController.popBackStack()
                     closeDialog()
                 }
             ) {
