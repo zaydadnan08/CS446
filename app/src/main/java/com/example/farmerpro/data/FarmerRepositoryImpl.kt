@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import com.example.farmerpro.domain.model.Response.Failure
 import com.example.farmerpro.domain.model.Response.Success
+import com.example.farmerpro.domain.model.SaleRecord
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.InventoryResponse
 import com.google.firebase.firestore.FieldValue
@@ -45,10 +46,19 @@ class FarmerRepositoryImpl @Inject constructor(
         Failure(e)
     }
 
+    override fun addSaleRecord(
+        saleRecord: SaleRecord, farmerID: String
+    ): Response<Boolean> = try {
+        inventoryRef.document(farmerID).update("sales", FieldValue.arrayUnion(saleRecord))
+        Success(true)
+    } catch (e: Exception) {
+        Failure(e)
+    }
+
     override suspend fun updateInventoryItems(
         newInventoryItems: InventoryItems, farmerID: String
     ): Response<Boolean> = try {
-        inventoryRef.document(farmerID).set(newInventoryItems).await()
+        inventoryRef.document(farmerID).update("inventory", newInventoryItems.inventory).await()
         Success(true)
     } catch (e: Exception) {
         Failure(e)

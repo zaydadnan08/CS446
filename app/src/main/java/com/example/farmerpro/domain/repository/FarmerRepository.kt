@@ -3,6 +3,7 @@ package com.example.farmerpro.domain.repository
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
+import com.example.farmerpro.domain.model.SaleRecord
 import kotlinx.coroutines.flow.Flow
 
 typealias InventoryResponse = Response<InventoryItems>
@@ -12,6 +13,10 @@ interface FarmerRepository {
 
     suspend fun addItemToFirestore(
         inventoryItem: InventoryItem, farmerID: String
+    ): Response<Boolean>
+
+    fun addSaleRecord(
+        saleRecord: SaleRecord, farmerID: String
     ): Response<Boolean>
 
     suspend fun updateInventoryItems(
