@@ -33,14 +33,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.components.Dropdown
 import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
 import com.example.farmerpro.ui.home.farmer.components.TrackSaleDialog
+import com.example.farmerpro.ui.home.farmer.farmViewModel
 
 @Composable
-fun InventoryItemScreen(navController: NavController, name: String?, quantity: Double?, unit: String?, notes: String?) {
+fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navController: NavController, name: String?, quantity: Double?, unit: String?, notes: String?) {
     var selectedUnit by remember { mutableStateOf(unit) }
+    var selectedQuantity by remember { mutableStateOf(quantity) }
     var openDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -88,7 +91,11 @@ fun InventoryItemScreen(navController: NavController, name: String?, quantity: D
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {
+                        if (name != null) {
+                            selectedQuantity = selectedQuantity?.minus(1.0)
+                        }
+                    }) {
                         Icon(
                             Icons.Filled.KeyboardArrowDown,
                             contentDescription = "Remove",
@@ -96,12 +103,14 @@ fun InventoryItemScreen(navController: NavController, name: String?, quantity: D
                         )
                     }
                     Text(
-                        text = quantity.toString(),
+                        text = selectedQuantity.toString(),
                         style = MaterialTheme.typography.h6,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { if (name != null) {
+                        selectedQuantity = selectedQuantity?.plus(1.0)
+                    } }) {
                         Icon(
                             Icons.Filled.KeyboardArrowUp,
                             contentDescription = "Add",
@@ -155,6 +164,9 @@ fun InventoryItemScreen(navController: NavController, name: String?, quantity: D
 
                 Button(
                     onClick = {
+                        if (name != null && selectedQuantity != null) {
+                            viewModel.updateInventoryItemCount(name, selectedQuantity!!)
+                        }
                         navController.popBackStack()
                     }
                 ) {
@@ -171,10 +183,15 @@ fun InventoryItemScreen(navController: NavController, name: String?, quantity: D
         }
     }
     if (openDialog) {
-        TrackSaleDialog(
-            closeDialog = {
-                openDialog = false
-            }
-        )
+        if (name != null && quantity != null) {
+            TrackSaleDialog(
+                navController = navController,
+                closeDialog = {
+                    openDialog = false
+                },
+                name = name,
+                origQuantity = quantity
+            )
+        }
     }
 }
