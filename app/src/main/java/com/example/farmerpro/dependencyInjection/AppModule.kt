@@ -6,6 +6,10 @@ import com.example.farmerpro.data.FarmerRepositoryImpl
 import com.example.farmerpro.data.FridgeRepositoryImpl
 import com.example.farmerpro.data.MarketRepositoryImpl
 import com.example.farmerpro.data.RequestRepositoryImpl
+import com.example.farmerpro.domain.fridge_use_case.AddFridge
+import com.example.farmerpro.domain.fridge_use_case.DeleteFridge
+import com.example.farmerpro.domain.fridge_use_case.FridgeUseCases
+import com.example.farmerpro.domain.fridge_use_case.GetFridges
 import com.example.farmerpro.domain.inventory_use_case.AddOrUpdateInventory
 import com.example.farmerpro.domain.repository.MarketRepository
 import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
@@ -77,6 +81,16 @@ object AppModule {
         getRequests = GetRequests(repo),
         addRequest = AddRequest(repo),
         deleteRequest = DeleteRequest(repo),
+    )
+
+    @Provides
+    fun provideFridgeUseCases(
+        repo: FridgeRepository
+    ) = FridgeUseCases (
+        getFridges = GetFridges(repo),
+        addFridge = AddFridge(repo),
+        deleteFridge = DeleteFridge(repo),
+        addImageToStorage = com.example.farmerpro.domain.fridge_use_case.AddImageToStorage(repo)
     )
 
     @Provides
