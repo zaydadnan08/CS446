@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -20,6 +21,7 @@ fun TextInput(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions()
 ) {
     TextField(
         value = value,
@@ -35,6 +37,7 @@ fun TextInput(
             focusedBorderColor = Color.Transparent,
             cursorColor = Color.Gray
         ),
+        keyboardOptions = keyboardOptions,
         modifier = Modifier
             .border(
                 BorderStroke(2.dp, Color.Black), CircleShape

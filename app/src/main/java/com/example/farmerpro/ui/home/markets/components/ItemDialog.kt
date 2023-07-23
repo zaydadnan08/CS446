@@ -55,6 +55,7 @@ import coil.request.ImageRequest
 import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableText
 import com.example.farmerpro.components.GreyTextInput
+import com.example.farmerpro.components.PhoneNumberText
 import com.example.farmerpro.domain.model.CameraResponse
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.home.markets.MarketViewModel
@@ -174,11 +175,7 @@ fun ItemDialog(
                             color = Color.Black
                         )
                     )
-                    Text(
-                        text = "${item.contact_number.orEmpty()}",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
-                        maxLines = 1,
-                    )
+                    PhoneNumberText(item.contact_number)
                 }
 
                 if(owner) {
