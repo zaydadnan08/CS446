@@ -87,7 +87,6 @@ class farmViewModel @Inject constructor(
             }
         }
         var newInventoryItems = InventoryItems(itemList)
-        println(newInventoryItems)
         var userId = repository.currentUser?.uid
         if (userId != null) {
             useCases.updateInventory(newInventoryItems, userId)
