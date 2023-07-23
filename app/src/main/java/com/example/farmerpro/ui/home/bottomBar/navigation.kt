@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.farmerpro.ui.home.farmer.FarmerHomeScreen
 import com.example.farmerpro.ui.home.farmer.InventoryItem.InventoryItemScreen
 import com.example.farmerpro.ui.home.farmer.farmViewModel
@@ -25,14 +26,19 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
                     FarmerHomeScreen(navController = farmerNavController)
                 }
                 composable(
-                    route = "${FarmerSubScreens.InventoryItem.name}/{name}/{quantity}/{unit}/{notes}",
+                    route = "${FarmerSubScreens.InventoryItem.name}?name={name}&quantity={quantity}&unit={unit}&notes={notes}",
+                    arguments = listOf(
+                        navArgument("name") { defaultValue = "" },
+                        navArgument("quantity") { defaultValue = "0" },
+                        navArgument("unit") { defaultValue = "lbs" },
+                        navArgument("notes") { defaultValue = "" })
                 ) { backStackEntry ->
                     InventoryItemScreen(
                         navController = farmerNavController,
-                        name = backStackEntry.arguments?.getString("name"),
-                        quantity = backStackEntry.arguments?.getString("quantity")?.toDoubleOrNull(),
-                        unit = backStackEntry.arguments?.getString("unit"),
-                        notes = backStackEntry.arguments?.getString("notes"),
+                        name = backStackEntry.arguments?.getString("name").toString(),
+                        quantity = backStackEntry.arguments?.getString("quantity").toString().toDouble(),
+                        unit = backStackEntry.arguments?.getString("unit").toString(),
+                        notes = backStackEntry.arguments?.getString("notes").toString(),
                     )
                 }
             }
