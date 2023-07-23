@@ -157,11 +157,7 @@ fun ItemDialog(
                         maxLines = 1,
                     )
                 }
-                if(item.description != null && item.description!!.isNotEmpty()) {
-                    ExpandableText(
-                        text = item.description.orEmpty(),
-                    )
-                }
+
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
@@ -201,7 +197,11 @@ fun ItemDialog(
                     )
                     PhoneNumberText(item.contact_number)
                 }
-
+                if(item.description != null && item.description!!.isNotEmpty()) {
+                    ExpandableText(
+                        text = item.description.orEmpty(),
+                    )
+                }
                 if(owner) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
