@@ -38,7 +38,7 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
             }
         }
         composable(route = Screens.Fridge.name) {
-            CommunityFridgeScreen(navController = navController)
+            CommunityFridgeScreen(navController = mainNavController)
         }
     }
 }

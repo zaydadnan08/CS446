@@ -1,6 +1,8 @@
 package com.example.farmerpro.data
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Resource
 import com.example.farmerpro.domain.model.Response
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -83,5 +86,32 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun signOut() = firebaseAuth.signOut()
+    override fun signOut(context: Context) = {
+        clearCache(context)
+        firebaseAuth.signOut()
+    }
+
+    private fun clearCache(context: Context) {
+        try {
+            val cacheDir: File = context.cacheDir
+            deleteDir(cacheDir)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir.isDirectory) {
+            val children: Array<String> = dir.list()!!
+            for (i in children.indices) {
+                val success: Boolean = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+            return dir.delete()
+        } else return dir != null && dir.isFile && dir.delete()
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.fridge
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +40,7 @@ fun CommunityFridgeScreen(
 ) {
     var openRequestDialog by remember { mutableStateOf(false) }
     var openFridgeDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
@@ -65,7 +68,8 @@ fun CommunityFridgeScreen(
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedButton(
             onClick = {
-                viewModel.signOut()
+                Log.d("tag", "zayd sign out called")
+                viewModel.signOut(context = context)
                 navController.navigate(Screens.Start.name)
             },
             shape = CircleShape,

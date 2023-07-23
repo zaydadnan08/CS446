@@ -1,10 +1,12 @@
 package com.example.farmerpro.ui.home.fridge
 
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.farmerpro.domain.fridge_use_case.FridgeUseCases
@@ -108,7 +110,7 @@ class CommunityFridgeViewModel @Inject constructor(
         deleteRequestResponse = requestUseCases.deleteRequest(ItemId)
     }
 
-    fun signOut(): () -> Unit = { repository.signOut() }
+    fun signOut(context: Context): () -> Unit = { repository.signOut(context = context) }
 
     fun addImageToStorage(imageUri: Uri) = viewModelScope.launch {
         addImageToStorageResponse = CameraResponse.Loading

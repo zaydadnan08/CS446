@@ -1,5 +1,6 @@
 package com.example.farmerpro.domain.repository
 
+import android.content.Context
 import com.example.farmerpro.domain.model.Resource
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.types.User
@@ -14,5 +15,5 @@ interface AuthRepository {
     fun loginUser(email: String, password: String): Flow<Resource<AuthResult>>
     fun registerUser(user: User, email: String, password: String): Flow<Resource<AuthResult>>
     suspend fun getUserFromFirestore(uid: String): Response<User>
-    fun signOut()
+    fun signOut(context: Context): () -> Unit
 }
