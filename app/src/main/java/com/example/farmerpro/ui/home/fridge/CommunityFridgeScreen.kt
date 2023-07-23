@@ -1,10 +1,14 @@
 package com.example.farmerpro.ui.home.fridge
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,22 +24,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.farmerpro.R
 import com.example.farmerpro.Screens
 import com.example.farmerpro.components.CircleButtonWithPlus
-import com.example.farmerpro.ui.home.markets.components.ItemCard
-import com.example.farmerpro.ui.home.markets.components.Items
+import com.example.farmerpro.core.Constants
 
 @Composable
 fun CommunityFridgeScreen(
     navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel()
 ) {
-    var openDialog by remember { mutableStateOf(false) }
+    var openRequestDialog by remember { mutableStateOf(false) }
+    var openFridgeDialog by remember { mutableStateOf(false) }
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+            imageUri?.let {
+                viewModel.addImageToStorage(imageUri)
+            }
+        }
 
     Column(
         verticalArrangement = Arrangement.Top, modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Text(
             text = "Community Fridge", modifier = Modifier.padding(
@@ -72,7 +83,7 @@ fun CommunityFridgeScreen(
                 )
             )
             CircleButtonWithPlus(
-                onClick = { openDialog = true },
+                onClick = { openRequestDialog = true },
             )
         }
 
@@ -104,14 +115,28 @@ fun CommunityFridgeScreen(
 
 
 
-        if (openDialog) {
+        if (openRequestDialog) {
             AddRequestDialog(
                 closeDialog = {
-                    openDialog = false
+                    openRequestDialog = false
                 },
                 addRequest = { name, description, amount, location, fridgeName ->
                     viewModel.addRequest(name, description, amount, location, fridgeName)
                 },
+            )
+        }
+        if (openFridgeDialog) {
+            AddFridgeDialog(
+                closeDialog = {
+                    openFridgeDialog = false
+                },
+                addItem = { name, location ->
+                    viewModel.addFridge(name, location)
+                },
+                openGallery = {
+                galleryLauncher.launch(Constants.ALL_IMAGES)
+                },
+                viewModel = viewModel
             )
         }
 
@@ -126,44 +151,38 @@ fun CommunityFridgeScreen(
                     fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                 )
             )
-            CircleButtonWithPlus()
+            CircleButtonWithPlus(
+                onClick = { openFridgeDialog = true },
+            )
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-        fridge(
-            name = "Community Fridge KW",
-            address = "200 University Ave",
-            distance = "0.1 km away",
-            image = R.drawable.cf1
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        fridge(
-            name = "For-All Community",
-            address = "75 King St S Unit 56",
-            distance = "2.1 km away",
-            image = R.drawable.cf2
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        fridge(
-            name = "Up Town Fridge",
-            address = "200 King Street W",
-            distance = "1.4 km away",
-            image = R.drawable.cf3
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        fridge(
-            name = "Plant-based CF",
-            address = "100 Water St N",
-            distance = "8.7 km away",
-            image = R.drawable.cf4
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        fridge(
-            name = "Guelph Fridge",
-            address = "68 Wyndham St N",
-            distance = "12.4 km away",
-            image = R.drawable.cf5
-        )
+
+        Fridges(requestContent = { requests ->
+            val filteredRequests = if (true) {
+                requests.filter { request ->
+                    request.uid == viewModel.userId.value
+                }
+            } else {
+                requests
+            }
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(1), modifier = Modifier
+                    .padding(1.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) {
+                filteredRequests.forEach { request ->
+                    item {
+                        FridgeCard(fridgeItem = request, onCardClick = {
+                            // selectedItem = it
+                            //  showDialog = true
+                        })
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+            }
+        })
     }
 }
 
