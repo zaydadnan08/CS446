@@ -25,7 +25,6 @@ import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.ui.theme.Gray400
 
-@Preview
 @Composable
 fun FridgeCard(
     fridgeItem: FridgeItem,
@@ -43,7 +42,7 @@ fun FridgeCard(
         {
             if (fridgeItem.imageUrl.isNotEmpty()) {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current).data(item.imageUrl)
+                    model = ImageRequest.Builder(LocalContext.current).data(fridgeItem.imageUrl)
                         .crossfade(true).build(),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
@@ -51,7 +50,7 @@ fun FridgeCard(
                         .height(100.dp)
                         .width(100.dp)
                         .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(8.dp))
                 )
             } else {
                 Image(

@@ -53,6 +53,7 @@ class CommunityFridgeViewModel @Inject constructor(
 
     init {
         getRequests()
+        getFridges()
         viewModelScope.launch {
             if (userId.value == null) {
                 userId.value = ""
@@ -128,20 +129,20 @@ class CommunityFridgeViewModel @Inject constructor(
     ) =
         viewModelScope.launch {
             addFridgeResponse = Response.Loading
-            addFridgeResponse = fridgeUseCases.addItem(
+            addFridgeResponse = fridgeUseCases.addFridge(
                 name,
                 userId.value ?: "",
                 location,
                 currentUser.value?.contactNumber ?: "",
                 downloadUrl.value
             )
-            fridgeUseCases.getItems().collect { response ->
+            fridgeUseCases.getFridges().collect { response ->
                 fridgeResponse = response
             }
         }
 
     private fun getFridges() = viewModelScope.launch {
-        fridgeUseCases.getItems().collect() { response ->
+        fridgeUseCases.getFridges().collect() { response ->
             fridgeResponse = response
         }
         requestUseCases.getRequests().collect { response ->

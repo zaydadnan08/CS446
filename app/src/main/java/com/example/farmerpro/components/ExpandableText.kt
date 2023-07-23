@@ -36,7 +36,7 @@ fun ExpandableText(
             Text(
                 text = "Description: ",
                 fontWeight = FontWeight.Bold,
-                style = typography.body2.copy(fontSize = 16.sp),
+                style = typography.body2.copy(fontSize = 18.sp),
                 maxLines = if (expanded) Int.MAX_VALUE else maxLines,
                 color = Color.Black,
                 overflow = TextOverflow.Ellipsis

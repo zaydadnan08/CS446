@@ -115,11 +115,7 @@ fun RequestDialog(
                         color = Color(0xFF8d8d8d),
                     )
                 }
-                if(request.description != null && request.description!!.isNotEmpty()) {
-                    ExpandableText(
-                        text = request.description.orEmpty(),
-                    )
-                }
+
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
@@ -161,6 +157,11 @@ fun RequestDialog(
                         text = "${request.contact_number.orEmpty()}",
                         style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
                         maxLines = 1,
+                    )
+                }
+                if(request.description != null && request.description!!.isNotEmpty()) {
+                    ExpandableText(
+                        text = request.description.orEmpty(),
                     )
                 }
 
