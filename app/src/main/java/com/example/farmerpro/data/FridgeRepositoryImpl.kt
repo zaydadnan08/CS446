@@ -40,7 +40,6 @@ class FridgeRepositoryImpl @Inject constructor(
             snapshotListener.remove()
         }
     }
-
     override suspend fun addFridgeToFirestore(
         fridge_name: String,
         uid: String,
@@ -62,7 +61,6 @@ class FridgeRepositoryImpl @Inject constructor(
     } catch (e: Exception) {
         Response.Failure(e)
     }
-
     override suspend fun addImageToFirebaseStorage(
         imageUri: Uri, fileName: String
     ): AddImageToStorageResponse {
@@ -75,16 +73,11 @@ class FridgeRepositoryImpl @Inject constructor(
             CameraResponse.Failure(e)
         }
     }
-
     override suspend fun deleteFridgeFromFirestore(itemId: String): DeleteFridgeResponse = try {
         itemsRef.document(itemId).delete().await()
         Response.Success(true)
     } catch (e: Exception) {
         Response.Failure(e)
     }
-
-
-
-
 }
 

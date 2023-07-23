@@ -108,8 +108,34 @@ fun ItemDialog(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Sold by: ",
+                        maxLines = 1,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Start,
+                            color = Color.Black
+                        )
+                    )
+                    Text(
+                        text = item.seller,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Start,
+                            color = Color.Black
+                        ),
+                        maxLines = 1,
+                        color = Color(0xFF8d8d8d),
+                    )
+                }
 
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -135,9 +161,7 @@ fun ItemDialog(
                         text = item.description.orEmpty(),
                     )
                 }
-
                 Spacer(modifier = Modifier.height(8.dp))
-
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically

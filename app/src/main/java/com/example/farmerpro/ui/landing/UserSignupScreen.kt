@@ -77,8 +77,6 @@ fun UserSignupScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-
-
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             if (state.value?.isLoading == true) {
                 CircularProgressIndicator()
