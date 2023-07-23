@@ -9,6 +9,7 @@ import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
+import com.example.farmerpro.domain.model.SaleRecord
 import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.domain.repository.DeleteItemResponse
@@ -91,5 +92,14 @@ class farmViewModel @Inject constructor(
         if (userId != null) {
             useCases.updateInventory(newInventoryItems, userId)
         }
+    }
+
+      fun trackSaleRecord(name: String, quantity: Double, price: Double) {
+        var saleRecord = SaleRecord(name, quantity, price)
+        var userId = repository.currentUser?.uid
+        if (userId != null) {
+            useCases.trackSale(saleRecord, userId)
+        }
+
     }
 }
