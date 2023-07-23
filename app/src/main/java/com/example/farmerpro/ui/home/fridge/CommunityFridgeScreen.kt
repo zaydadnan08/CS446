@@ -23,7 +23,9 @@ import androidx.navigation.NavController
 import com.example.farmerpro.R
 import com.example.farmerpro.Screens
 import com.example.farmerpro.components.CircleButtonWithPlus
+import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.ui.home.markets.components.ItemCard
+import com.example.farmerpro.ui.home.markets.components.ItemDialog
 import com.example.farmerpro.ui.home.markets.components.Items
 
 @Composable
@@ -31,6 +33,8 @@ fun CommunityFridgeScreen(
     navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel()
 ) {
     var openDialog by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedRequest by remember { mutableStateOf(FridgeRequest())}
 
     Column(
         verticalArrangement = Arrangement.Top, modifier = Modifier
@@ -93,13 +97,14 @@ fun CommunityFridgeScreen(
                 requests.forEach { request ->
                     item {
                         RequestCard(request = request, onCardClick = {
-                           // selectedItem = it
-                          //  showDialog = true
+                            selectedRequest = it
+                            showDialog = true
                         })
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
             }
+
         })
 
 
@@ -111,6 +116,19 @@ fun CommunityFridgeScreen(
                 },
                 addRequest = { name, description, amount, location, fridgeName ->
                     viewModel.addRequest(name, description, amount, location, fridgeName)
+                },
+            )
+        }
+
+        if (showDialog) {
+            RequestDialog(
+                closeDialog = { showDialog = false },
+                request = selectedRequest,
+                owner = selectedRequest.uid == viewModel.userId.value,
+                deleteRequest = {
+                    selectedRequest.id?.let { itemId ->
+                        viewModel.deleteRequest(itemId)
+                    }
                 },
             )
         }

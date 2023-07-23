@@ -2,6 +2,7 @@ package com.example.farmerpro.domain.model
 
 
 data class FridgeRequest(
+    var id: String? = null,
     var product_name: String = "",
     var description: String = "",
     var amount: String = "",
