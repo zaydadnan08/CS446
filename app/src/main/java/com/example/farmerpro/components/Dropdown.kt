@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -35,9 +37,11 @@ fun Dropdown(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier.clickable(onClick = { expanded = true }).border(0.5.dp, Gray400),
+            modifier = Modifier.clickable(onClick = { expanded = true }).border(0.5.dp, Gray400)
+                .padding(6.dp),
         ) {
-            Text(style = MaterialTheme.typography.h6,
+            Text(
+                style = MaterialTheme.typography.h6,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 text = selectedOption,
@@ -57,10 +61,12 @@ fun Dropdown(
                     onOptionSelected(option)
                     expanded = false
                 }) {
-                    Text(style = MaterialTheme.typography.h6,
+                    Text(
+                        style = MaterialTheme.typography.h6,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        text = option)
+                        text = option
+                    )
                 }
             }
         }

@@ -18,6 +18,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
@@ -161,6 +162,19 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 24.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                IconButton(onClick = {
+                    viewModel.deleteItem(name)
+                    navController.popBackStack()
+                }) {
+                    Icon(
+                        Icons.Filled.Delete,
+                        contentDescription = "Delete",
+                        tint = Color.Red
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(24.dp))
+
                 Button(onClick = {
                     openDialog = true
                 }) {
@@ -174,7 +188,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                     )
                 }
 
-                Spacer(modifier = Modifier.width(16.dp)) // Add some space between the buttons
+                Spacer(modifier = Modifier.width(24.dp))
 
                 Button(
                     onClick = {
@@ -201,7 +215,8 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                 openDialog = false
             },
             name = name,
-            origQuantity = quantity
+            origQuantity = quantity,
+            unit = unit
         )
     }
 }

@@ -1,13 +1,18 @@
 package com.example.farmerpro.ui.home.farmer.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -30,6 +35,7 @@ fun TrackSaleDialog(
     closeDialog: () -> Unit,
     name: String,
     origQuantity: Double,
+    unit: String,
     viewModel: farmViewModel = hiltViewModel()
 ) {
     var quantity by remember { mutableStateOf("") }
@@ -52,7 +58,11 @@ fun TrackSaleDialog(
                     )
                 )
 
-                GreyTextInput(value = quantity, onValueChange = { quantity = it } , placeholder = "Quantity Sold", Modifier.focusRequester(focusRequester))
+                GreyTextInput(
+                    value = quantity,
+                    onValueChange = { quantity = it },
+                    placeholder = "Quantity Sold ($unit)",
+                    Modifier.focusRequester(focusRequester))
                 LaunchedEffect(Unit) {
                     coroutineContext.job.invokeOnCompletion {
                         focusRequester.requestFocus()
@@ -60,7 +70,7 @@ fun TrackSaleDialog(
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(value = price, onValueChange =  { price = it } , placeholder = "Price")
+                GreyTextInput(value = price, onValueChange =  { price = it } , placeholder = "Total Price")
             }
         },
         confirmButton = {

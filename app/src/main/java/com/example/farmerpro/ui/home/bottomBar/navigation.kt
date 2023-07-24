@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.farmerpro.ui.home.farmer.Analytics.AnalyticsScreen
 import com.example.farmerpro.ui.home.farmer.FarmerHomeScreen
 import com.example.farmerpro.ui.home.farmer.InventoryItem.InventoryItemScreen
 import com.example.farmerpro.ui.home.farmer.farmViewModel
@@ -41,6 +42,9 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
                         notes = backStackEntry.arguments?.getString("notes").toString(),
                     )
                 }
+                composable(route = FarmerSubScreens.Analytics.name) {
+                    AnalyticsScreen(navController = farmerNavController)
+                }
             }
         }
         composable(route = Screens.Fridge.name) {
@@ -58,4 +62,5 @@ enum class Screens {
 enum class FarmerSubScreens {
     FarmerHome,
     InventoryItem,
+    Analytics
 }
