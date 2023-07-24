@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Title(text: String, onClick: () -> Unit = {}){
     Row(
-        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
