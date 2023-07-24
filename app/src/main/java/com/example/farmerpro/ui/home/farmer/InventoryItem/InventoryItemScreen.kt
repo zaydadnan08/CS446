@@ -17,6 +17,7 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
@@ -47,25 +48,43 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
     var openDialog by remember { mutableStateOf(false) }
 
     Column(
+        modifier = Modifier.padding(horizontal = 32.dp),
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = name.toString(),
-            modifier = Modifier.padding(horizontal = 12.dp),
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                textAlign = TextAlign.Start,
-                color = Color.Black
+        Spacer(modifier = Modifier.height(32.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = name,
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Start,
+                    color = Color.Black
+                )
             )
-        )
+            IconButton(
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = "Close",
+                    tint = LocalContentColor.current
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = notes,
-            modifier = Modifier.padding(horizontal = 12.dp),
             style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Medium),
+            color = Color.Gray
         )
 
         Row(
@@ -113,6 +132,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                     }
                 }
             }
+            Spacer(modifier = Modifier.width(32.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -158,7 +178,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
 
                 Button(
                     onClick = {
-                        viewModel.updateInventoryItemCount(name, selectedQuantity)
+                        viewModel.updateInventoryItem(name, selectedQuantity, selectedUnit)
                         navController.popBackStack()
                     }
                 ) {

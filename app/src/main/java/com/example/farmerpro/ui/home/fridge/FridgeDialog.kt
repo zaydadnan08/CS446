@@ -1,6 +1,7 @@
 package com.example.farmerpro.ui.home.fridge
 
 
+import android.location.Location
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableText
+import com.example.farmerpro.components.LocationText
 import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.domain.model.MarketplaceItem
@@ -79,11 +81,7 @@ fun FridgeDialog(
                             color = Color.Black
                         )
                     )
-                    Text(
-                        text = "${fridge.location.orEmpty()}",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
-                        maxLines = 1,
-                    )
+                    LocationText(location = fridge.location.orEmpty())
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

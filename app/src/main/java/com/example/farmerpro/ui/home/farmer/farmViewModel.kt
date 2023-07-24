@@ -49,8 +49,8 @@ class farmViewModel @Inject constructor(
         }
     }
 
-    fun addItem(name: String, quantity: String) = viewModelScope.launch {
-        var inventoryItem = InventoryItem(name, quantity.toDouble())
+    fun addItem(name: String, quantity: String, unit: String, notes: String) = viewModelScope.launch {
+        var inventoryItem = InventoryItem(name, quantity.toDouble(), unit, notes)
         var userId = repository.currentUser?.uid
         addItemResponse = Response.Loading
         if (userId != null) {
@@ -76,7 +76,7 @@ class farmViewModel @Inject constructor(
             deleteItemResponse = useCases.updateInventory(newInventoryItems, userId)
         }
     }
-    fun updateInventoryItemCount(name: String, quantity: Double) = viewModelScope.launch {
+    fun updateInventoryItem(name: String, quantity: Double? = null, unit: String? = null, notes: String? = null) = viewModelScope.launch {
         var items: InventoryItems = when(val itemsResponse = inventoryResponse) {
             is Response.Success -> itemsResponse.data
             else -> {
@@ -85,7 +85,7 @@ class farmViewModel @Inject constructor(
         }
         var itemList = items.inventory.map {
             if (it.name.equals(name)) {
-                InventoryItem(it.name, quantity)
+                InventoryItem(it.name, quantity ?: it.quantity, unit ?: it.unit, notes ?: it.notes )
             } else {
                 it
             }
