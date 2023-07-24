@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableText
+import com.example.farmerpro.components.LocationText
+import com.example.farmerpro.components.PhoneNumberText
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.domain.model.MarketplaceItem
 
@@ -131,11 +133,7 @@ fun RequestDialog(
                             color = Color.Black
                         )
                     )
-                    Text(
-                        text = "${request.location.orEmpty()}",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
-                        maxLines = 1,
-                    )
+                    LocationText(location = request.location )
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -153,11 +151,7 @@ fun RequestDialog(
                             color = Color.Black
                         )
                     )
-                    Text(
-                        text = "${request.contact_number.orEmpty()}",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
-                        maxLines = 1,
-                    )
+                    PhoneNumberText(phoneNumber = request.contact_number)
                 }
                 if(request.description != null && request.description!!.isNotEmpty()) {
                     ExpandableText(
