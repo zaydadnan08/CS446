@@ -55,6 +55,7 @@ import coil.request.ImageRequest
 import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableText
 import com.example.farmerpro.components.GreyTextInput
+import com.example.farmerpro.components.LocationText
 import com.example.farmerpro.components.PhoneNumberText
 import com.example.farmerpro.domain.model.CameraResponse
 import com.example.farmerpro.domain.model.MarketplaceItem
@@ -173,11 +174,7 @@ fun ItemDialog(
                             color = Color.Black
                         )
                     )
-                    Text(
-                        text = "${item.location.orEmpty()}",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
-                        maxLines = 1,
-                    )
+                    LocationText(location = item.location.orEmpty())
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
