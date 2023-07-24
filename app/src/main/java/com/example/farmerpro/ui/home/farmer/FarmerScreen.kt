@@ -93,8 +93,8 @@ fun FarmerHomeScreen (
                         closeDialog = {
                             openDialog = false
                         },
-                        addItem = { name, quantity ->
-                            viewModel.addItem(name, quantity)
+                        addItem = { name, quantity, unit, notes ->
+                            viewModel.addItem(name, quantity, unit, notes)
                         }
                     )
                 }
