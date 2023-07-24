@@ -23,7 +23,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.R
 import com.example.farmerpro.Screens
+import com.example.farmerpro.components.BorderedButton
 import com.example.farmerpro.components.TextInput
+import com.example.farmerpro.types.User
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.launch
 
 @Composable
@@ -68,23 +71,11 @@ fun UserSigninScreen(
             }
         }
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color.Transparent)
-                .border(
-                    BorderStroke(2.dp, Color.Black), CircleShape
-                ),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-            onClick = {
+        BorderedButton(value = "Sign up", onClick = {
                 scope.launch {
                     viewModel.loginUser(email, password)
                 }
-            },
-        ) {
-            Text(text = "Sign In", color = Color.Black)
-        }
+        })
 
         Spacer(modifier = Modifier.height(16.dp))
 
