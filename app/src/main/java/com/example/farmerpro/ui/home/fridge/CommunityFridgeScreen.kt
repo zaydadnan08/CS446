@@ -180,7 +180,7 @@ fun CommunityFridgeScreen(
                 columns = GridCells.Fixed(1), modifier = Modifier
                     .padding(1.dp)
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(350.dp)
             ) {
                 filteredFridges.forEach { fridge ->
                     item {
