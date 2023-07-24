@@ -66,7 +66,7 @@ fun TrackSaleDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    viewModel.updateInventoryItemCount(name, origQuantity.minus(quantity.toDouble()))
+                    viewModel.updateInventoryItem(name, origQuantity.minus(quantity.toDouble()))
                     viewModel.trackSaleRecord(name, quantity.toDouble(), price.toDouble())
                     navController.popBackStack()
                     closeDialog()

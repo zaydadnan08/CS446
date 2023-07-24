@@ -23,10 +23,11 @@ import kotlinx.coroutines.job
 @Composable
 fun AddInventoryAlertDialog(
     closeDialog: () -> Unit,
-    addItem: (name: String, quantity: String) -> Unit
+    addItem: (name: String, quantity: String, unit: String, notes: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var quantity by remember { mutableStateOf("") }
+    var notes by remember { mutableStateOf("") }
 
     val focusRequester = FocusRequester()
 
@@ -53,13 +54,23 @@ fun AddInventoryAlertDialog(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 GreyTextInput(value = quantity, onValueChange =  { quantity = it } , placeholder = "Quantity")
+
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = notes,
+                    onValueChange = { notes = it },
+                    placeholder = "Notes (Optional)"
+                )
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
-                    closeDialog()
-                    addItem(name, quantity)
+                    if (quantity.toDoubleOrNull() != null && name != "") {
+                        closeDialog()
+                        addItem(name, quantity, "lbs", notes)
+                    }
+
                 }
             ) {
                 Text(
