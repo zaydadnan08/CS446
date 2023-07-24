@@ -9,6 +9,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
-    var getCurrentUser = repository.currentUser
+    fun isUserLoggedIn(): Boolean {
+        return repository.currentUser != null
+    }
     var email = repository.currentUser?.email ?: ""
 }

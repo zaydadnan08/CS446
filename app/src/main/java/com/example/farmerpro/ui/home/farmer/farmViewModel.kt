@@ -1,10 +1,13 @@
 package com.example.farmerpro.ui.home.farmer
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.farmerpro.Screens
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
@@ -101,5 +104,8 @@ class farmViewModel @Inject constructor(
             useCases.trackSale(saleRecord, userId)
         }
 
+    }
+    fun signOut() {
+        repository.signOut()
     }
 }

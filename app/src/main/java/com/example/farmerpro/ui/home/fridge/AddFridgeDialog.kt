@@ -60,7 +60,6 @@ fun AddFridgeDialog(
                     color = Color.Black
                 )
             )
-
             IconButton(
                 onClick = {
                     openGallery()
@@ -83,9 +82,7 @@ fun AddFridgeDialog(
                     )
                 }
             }
-
             Spacer(modifier = Modifier.height(4.dp))
-
             when (val addImageToStorageResponse = viewModel.addImageToStorageResponse) {
                 is CameraResponse.Loading -> {
                     Text(
@@ -93,7 +90,6 @@ fun AddFridgeDialog(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
-
                 is CameraResponse.Success -> addImageToStorageResponse.data?.let { downloadUrl ->
                     viewModel.setDownloadUrl(downloadUrl.toString())
                     Text(
@@ -102,7 +98,6 @@ fun AddFridgeDialog(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
-
                 is CameraResponse.Failure -> {
                     Text(
                         text = "Error adding image",
@@ -124,14 +119,11 @@ fun AddFridgeDialog(
                     focusRequester.requestFocus()
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
             GreyTextInput(
                 value = location, onValueChange = { location = it }, placeholder = "Location"
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
         }
     }, confirmButton = {
         val addImageToStorageResponse = viewModel.addImageToStorageResponse

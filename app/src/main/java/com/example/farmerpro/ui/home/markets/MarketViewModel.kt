@@ -1,11 +1,14 @@
 package com.example.farmerpro.ui.home.markets
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.farmerpro.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import com.example.farmerpro.domain.model.Response.Loading
@@ -99,6 +102,9 @@ class MarketViewModel @Inject constructor(
         downloadUrl.value = url;
     }
 
+    fun signOut(): () -> Unit = {
+        repository.signOut()
+    }
     fun deleteItem(ItemId: String) = viewModelScope.launch {
         deleteItemResponse = Loading
         deleteItemResponse = marketUseCases.deleteItem(ItemId)

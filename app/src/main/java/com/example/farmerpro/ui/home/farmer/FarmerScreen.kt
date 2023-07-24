@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,8 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.farmerpro.Screens
 import com.example.farmerpro.components.AddFloatingActionButton
 import com.example.farmerpro.components.SearchAppBar
+import com.example.farmerpro.components.Title
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
@@ -35,7 +38,8 @@ import com.example.farmerpro.ui.home.farmer.components.ItemRow
 @Composable
 fun FarmerHomeScreen (
     viewModel: farmViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    mainNavController: NavController
 ) {
     var openDialog by remember { mutableStateOf(false) }
 
@@ -54,15 +58,10 @@ fun FarmerHomeScreen (
                     .fillMaxSize()
                     .padding(start = 10.dp, end = 10.dp, top = 10.dp)
             ) {
-                Text(
-                    text = "Farmer",
-                    modifier = Modifier.padding(bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 28.sp,
-                        textAlign = TextAlign.Start
-                    )
-                )
+                Title(text = "Farmer", onClick = {
+                    viewModel.signOut()
+                    mainNavController.navigate(Screens.Start.name)
+                })
                 Spacer(modifier = Modifier.height(8.dp))
                 val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
                 SearchAppBar(searchQuery, setSearchQuery)
@@ -75,19 +74,17 @@ fun FarmerHomeScreen (
                     modifier = Modifier
                         .padding(1.dp)
                         .fillMaxSize()) {
-                    if (items != null) {
                         items.inventory.forEach { item ->
                             item {
                                 ItemRow(
                                     item = item,
                                     viewModel = viewModel,
                                     onClick = {
-                                        navController.navigate("${FarmerSubScreens.InventoryItem.name}/${item.name}/${item.quantity}/${item.unit}/${item.notes}");
+                                        navController.navigate("${FarmerSubScreens.InventoryItem.name}?name=${item.name}&quantity=${item.quantity}&unit=${item.unit}&notes=${item.notes}");
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
-                        }
                     }
                 }
                 if (openDialog) {

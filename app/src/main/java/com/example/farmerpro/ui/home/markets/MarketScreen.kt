@@ -4,25 +4,37 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.farmerpro.Screens
 import com.example.farmerpro.ui.home.markets.components.AddItemAlertDialog
 import com.example.farmerpro.components.AddFloatingActionButton
 import com.example.farmerpro.components.SearchAppBar
+import com.example.farmerpro.components.Title
 import com.example.farmerpro.components.ToggleWithText
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.MarketplaceItem
@@ -34,8 +46,10 @@ import com.example.farmerpro.ui.home.markets.components.ItemDialog
 
 @Composable
 fun ItemsScreen(
+    navController: NavController,
     viewModel: MarketViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     var openDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf(MarketplaceItem()) }
@@ -54,13 +68,10 @@ fun ItemsScreen(
                 .fillMaxSize()
                 .padding(start = 10.dp, end = 10.dp, top = 10.dp)
         ) {
-            Text(
-                text = "Marketplace", modifier = Modifier.padding(
-                    bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
-                ), style = TextStyle(
-                    fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
-                )
-            )
+            Title(text = "Marketplace", onClick = {
+                viewModel.signOut()
+                navController.navigate(Screens.Start.name)
+            })
             Spacer(modifier = Modifier.height(8.dp))
             val (searchQuery, setSearchQuery) = remember { mutableStateOf("") }
             SearchAppBar(searchQuery, setSearchQuery)
