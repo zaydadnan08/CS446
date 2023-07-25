@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
@@ -42,51 +43,55 @@ fun AddRequestDialog(
     val focusRequester = FocusRequester()
 
     AlertDialog(onDismissRequest = closeDialog, text = {
-        Column {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Add Request", modifier = Modifier.padding(4.dp), style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Start,
-                    color = Color.Black
+        LazyColumn {
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Add Request", modifier = Modifier.padding(4.dp), style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Start,
+                        color = Color.Black
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            GreyTextInput(
-                value = name,
-                onValueChange = { name = it },
-                placeholder = "Product Name",
-                Modifier.focusRequester(focusRequester)
-            )
-            LaunchedEffect(Unit) {
-                coroutineContext.job.invokeOnCompletion {
-                    focusRequester.requestFocus()
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = name,
+                    onValueChange = { name = it },
+                    placeholder = "Product Name",
+                    Modifier.focusRequester(focusRequester)
+                )
+                LaunchedEffect(Unit) {
+                    coroutineContext.job.invokeOnCompletion {
+                        focusRequester.requestFocus()
+                    }
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = amount,
+                    onValueChange = { amount = it },
+                    placeholder = "Amount Requesting (lb)",
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = description,
+                    onValueChange = { description = it },
+                    placeholder = "Product Description",
+                    maxLines = 4
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = fridgeName,
+                    onValueChange = { fridgeName = it },
+                    placeholder = "Fridge Name"
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = location, onValueChange = { location = it }, placeholder = "Location"
+                )
+                Spacer(modifier = Modifier.height(8.dp))
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            GreyTextInput(
-                value = amount,
-                onValueChange = { amount = it },
-                placeholder = "Amount Requesting (lb)",
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            GreyTextInput(
-                value = description,
-                onValueChange = { description = it },
-                placeholder = "Product Description"
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            GreyTextInput(
-                value = fridgeName,
-                onValueChange = { fridgeName = it },
-                placeholder = "Fridge Name"
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            GreyTextInput(
-                value = location, onValueChange = { location = it }, placeholder = "Location"
-            )
         }
     }, confirmButton = {
         TextButton(
