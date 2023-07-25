@@ -1,14 +1,11 @@
 package com.example.farmerpro.ui.home.fridge
 
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -18,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,9 +30,8 @@ import com.example.farmerpro.components.Title
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
-import com.example.farmerpro.ui.home.markets.components.ItemCard
-import com.example.farmerpro.ui.home.markets.components.ItemDialog
-import com.example.farmerpro.ui.home.markets.components.Items
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 
 @Composable
 fun CommunityFridgeScreen(
@@ -53,8 +50,11 @@ fun CommunityFridgeScreen(
     var openDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var showDialog2 by remember { mutableStateOf(false) }
-    var selectedRequest by remember { mutableStateOf(FridgeRequest())}
-    var selectedFridge by remember { mutableStateOf(FridgeItem())}
+    var selectedRequest by remember { mutableStateOf(FridgeRequest()) }
+    var selectedFridge by remember { mutableStateOf(FridgeItem()) }
+
+    var isCheckedRequests by remember { mutableStateOf(false) }
+    var isCheckedFridges by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Top, modifier = Modifier
@@ -67,24 +67,40 @@ fun CommunityFridgeScreen(
             navController.navigate(Screens.Start.name)
         })
         Spacer(modifier = Modifier.height(8.dp))
+
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(0.dp)
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "Requests", modifier = Modifier.padding(4.dp), style = TextStyle(
-                    fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(0.dp)
+            ) {
+                Text(
+                    text = "Requests", modifier = Modifier.padding(4.dp), style = TextStyle(
+                        fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
+                    )
                 )
-            )
-            CircleButtonWithPlus(
-                onClick = { openRequestDialog = true },
+                CircleButtonWithPlus(
+                    onClick = { openRequestDialog = true },
+                )
+            }
+            Switch(
+                checked = isCheckedRequests,
+                onCheckedChange = { isCheckedRequests = it },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = Color.White,
+                    checkedTrackColor = Color.Black,
+                    uncheckedThumbColor = Color.Black,
+                    uncheckedTrackColor = Color.White
+                )
             )
         }
 
         FridgeRequests(requestContent = { requests ->
-            val filteredRequests = if (false) {
+            val filteredRequests = if (isCheckedRequests) {
                 requests.filter { request ->
                     request.uid == viewModel.userId.value
                 }
@@ -97,7 +113,7 @@ fun CommunityFridgeScreen(
                     .fillMaxWidth()
                     .height(200.dp)
             ) {
-                requests.forEach { request ->
+                filteredRequests.forEach { request ->
                     item {
                         RequestCard(request = request, onCardClick = {
                             selectedRequest = request
@@ -109,9 +125,6 @@ fun CommunityFridgeScreen(
             }
 
         })
-
-
-
         if (openRequestDialog) {
             AddRequestDialog(
                 closeDialog = {
@@ -131,12 +144,11 @@ fun CommunityFridgeScreen(
                     viewModel.addFridge(name, location)
                 },
                 openGallery = {
-                galleryLauncher.launch(Constants.ALL_IMAGES)
+                    galleryLauncher.launch(Constants.ALL_IMAGES)
                 },
                 viewModel = viewModel
             )
         }
-
         if (showDialog) {
             RequestDialog(
                 closeDialog = { showDialog = false },
@@ -149,27 +161,40 @@ fun CommunityFridgeScreen(
                 },
             )
         }
-
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "Fridges", modifier = Modifier.padding(4.dp), style = TextStyle(
-                    fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(0.dp)
+            ) {
+                Text(
+                    text = "Fridges", modifier = Modifier.padding(4.dp), style = TextStyle(
+                        fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
+                    )
                 )
-            )
-            CircleButtonWithPlus(
-                onClick = { openFridgeDialog = true },
-            )
+                CircleButtonWithPlus(
+                    onClick = { openFridgeDialog = true },
+                )
+            }
+                Switch(
+                    checked = isCheckedFridges,
+                    onCheckedChange = { isCheckedFridges = it },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = Color.Black,
+                        uncheckedThumbColor = Color.Black,
+                        uncheckedTrackColor = Color.White
+                    )
+                )
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-
         Fridges(requestContent = { fridges ->
-            val filteredFridges = if (false) {
+            val filteredFridges = if (isCheckedFridges) {
                 fridges.filter { fridge ->
                     fridge.uid == viewModel.userId.value
                 }
@@ -180,13 +205,13 @@ fun CommunityFridgeScreen(
                 columns = GridCells.Fixed(1), modifier = Modifier
                     .padding(1.dp)
                     .fillMaxWidth()
-                    .height(350.dp)
+                    .height(340.dp)
             ) {
                 filteredFridges.forEach { fridge ->
                     item {
                         FridgeCard(fridgeItem = fridge, onCardClick = {
-                             selectedFridge = fridge
-                             showDialog2 = true
+                            selectedFridge = fridge
+                            showDialog2 = true
                         })
                         Spacer(modifier = Modifier.height(8.dp))
                     }
