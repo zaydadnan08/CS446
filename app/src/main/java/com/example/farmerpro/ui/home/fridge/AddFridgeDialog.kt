@@ -130,7 +130,7 @@ fun AddFridgeDialog(
         }
     }, confirmButton = {
         val addImageToStorageResponse = viewModel.addImageToStorageResponse
-        val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading)
+        val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading) && name.isNotEmpty() && location.isNotEmpty()
         TextButton(
             onClick = {
                 if (isEnabled) {

@@ -1,6 +1,5 @@
 package com.example.farmerpro.ui.home.fridge
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -66,39 +65,42 @@ fun AddRequestDialog(
                         focusRequester.requestFocus()
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(
-                    value = amount,
-                    onValueChange = { amount = it },
-                    placeholder = "Amount Requesting (lb)",
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(
-                    value = description,
-                    onValueChange = { description = it },
-                    placeholder = "Product Description",
-                    maxLines = 4
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(
-                    value = fridgeName,
-                    onValueChange = { fridgeName = it },
-                    placeholder = "Fridge Name"
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                GreyTextInput(
-                    value = location, onValueChange = { location = it }, placeholder = "Location"
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+            Spacer(modifier = Modifier.height(8.dp))
+            GreyTextInput(
+                value = amount,
+                onValueChange = { amount = it },
+                placeholder = "Amount Requesting (lb)",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            GreyTextInput(
+                value = description,
+                onValueChange = { description = it },
+                placeholder = "Product Description (optional)"
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            GreyTextInput(
+                value = fridgeName,
+                onValueChange = { fridgeName = it },
+                placeholder = "Fridge Name"
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            GreyTextInput(
+                value = location, onValueChange = { location = it }, placeholder = "Location"
+            )
+            Spacer(modifier = Modifier.height(8.dp))
         }
+    }
     }, confirmButton = {
+        val isEnabled = name.isNotEmpty() && amount.isNotEmpty() && location.isNotEmpty() && fridgeName.isNotEmpty()
         TextButton(
+
             onClick = {
-                closeDialog()
-                addRequest(name, description, amount, location, fridgeName)
-            }
+                if (isEnabled) {
+                    closeDialog()
+                    addRequest(name, description, amount, location, fridgeName)
+                }
+            }, enabled = isEnabled
         ) {
             Text(
                 text = "Add"
