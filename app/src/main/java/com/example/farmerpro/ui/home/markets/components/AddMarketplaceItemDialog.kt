@@ -147,14 +147,14 @@ fun AddItemAlertDialog(
             GreyTextInput(
                 value = description,
                 onValueChange = { description = it },
-                placeholder = "Product Description"
+                placeholder = "Product Description (optional)"
             )
             Spacer(modifier = Modifier.height(8.dp))
 
         }
     }, confirmButton = {
         val addImageToStorageResponse = viewModel.addImageToStorageResponse
-        val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading) && name.isNotEmpty() && price_per_lb.isNotEmpty() && description.isNotEmpty() && location.isNotEmpty()
+        val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading) && name.isNotEmpty() && price_per_lb.isNotEmpty() && location.isNotEmpty()
         TextButton(
             onClick = {
                 if (isEnabled) {

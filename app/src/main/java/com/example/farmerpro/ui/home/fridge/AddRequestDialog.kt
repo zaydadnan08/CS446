@@ -76,7 +76,7 @@ fun AddRequestDialog(
             GreyTextInput(
                 value = description,
                 onValueChange = { description = it },
-                placeholder = "Product Description"
+                placeholder = "Product Description (optional)"
             )
             Spacer(modifier = Modifier.height(8.dp))
             GreyTextInput(
@@ -90,7 +90,7 @@ fun AddRequestDialog(
             )
         }
     }, confirmButton = {
-        val isEnabled = name.isNotEmpty() && description.isNotEmpty() && amount.isNotEmpty() && location.isNotEmpty() && fridgeName.isNotEmpty()
+        val isEnabled = name.isNotEmpty() && amount.isNotEmpty() && location.isNotEmpty() && fridgeName.isNotEmpty()
         TextButton(
 
             onClick = {
