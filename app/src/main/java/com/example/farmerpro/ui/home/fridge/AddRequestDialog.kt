@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.farmerpro.components.GreyTextInput
+import com.example.farmerpro.domain.model.CameraResponse
 import kotlinx.coroutines.job
 
 @Composable
@@ -89,11 +90,15 @@ fun AddRequestDialog(
             )
         }
     }, confirmButton = {
+        val isEnabled = name.isNotEmpty() && description.isNotEmpty() && amount.isNotEmpty() && location.isNotEmpty() && fridgeName.isNotEmpty()
         TextButton(
+
             onClick = {
-                closeDialog()
-                addRequest(name, description, amount, location, fridgeName)
-            }
+                if (isEnabled) {
+                    closeDialog()
+                    addRequest(name, description, amount, location, fridgeName)
+                }
+            }, enabled = isEnabled
         ) {
             Text(
                 text = "Add"

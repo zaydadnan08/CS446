@@ -51,7 +51,7 @@ fun AddItemAlertDialog(
     var price_per_lb by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    val context = LocalContext.current
+
 
     val focusRequester = FocusRequester()
 
