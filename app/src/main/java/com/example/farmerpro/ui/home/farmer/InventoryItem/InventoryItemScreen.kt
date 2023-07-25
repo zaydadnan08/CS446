@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
@@ -31,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -45,7 +49,7 @@ import com.example.farmerpro.ui.home.farmer.farmViewModel
 @Composable
 fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navController: NavController, name: String, quantity: Double, unit: String, notes: String) {
     var selectedUnit by remember { mutableStateOf(unit) }
-    var selectedQuantity by remember { mutableStateOf(quantity) }
+    var selectedQuantity by remember { mutableStateOf(quantity.toString()) }
     var openDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -110,7 +114,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     IconButton(onClick = {
-                        selectedQuantity = selectedQuantity.minus(1.0)
+                        selectedQuantity = selectedQuantity.toDouble().minus(1.0).toString()
                     }) {
                         Icon(
                             Icons.Filled.KeyboardArrowDown,
@@ -118,11 +122,29 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                             tint = LocalContentColor.current
                         )
                     }
-                    Text(
-                        text = selectedQuantity.toString(),
-                        style = MaterialTheme.typography.h6,
+                    TextField(
+                        value = selectedQuantity,
+                        onValueChange = { selectedQuantity = it },
+                        textStyle = MaterialTheme.typography.h6,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        modifier = Modifier
+                            .width(90.dp) // Set the width of the TextField
+                            .padding(horizontal = 2.dp), // Add horizontal padding for better spacing
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                val newQuantity = selectedQuantity.toDoubleOrNull() ?: 0.0
+                                viewModel.updateInventoryItem(
+                                    name,
+                                    newQuantity,
+                                    unit,
+                                    notes
+                                )
+                            }
+                        )
                     )
                     IconButton(onClick = { selectedQuantity = selectedQuantity.plus(1.0) }) {
                         Icon(
@@ -192,7 +214,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
 
                 Button(
                     onClick = {
-                        viewModel.updateInventoryItem(name, selectedQuantity, selectedUnit)
+                        viewModel.updateInventoryItem(name, selectedQuantity.toDouble(), selectedUnit)
                         navController.popBackStack()
                     }
                 ) {
