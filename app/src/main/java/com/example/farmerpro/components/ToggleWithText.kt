@@ -22,7 +22,6 @@ fun ToggleWithText(
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(4.dp).fillMaxWidth()
