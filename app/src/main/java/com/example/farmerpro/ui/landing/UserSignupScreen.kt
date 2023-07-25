@@ -94,7 +94,11 @@ fun UserSignupScreen(
         BorderedButton(value = "Sign up", onClick = {
             if(contactNumber.length !== 10){
                 FancyToast.makeText(context,"Please add valid phone number",FancyToast.LENGTH_SHORT,FancyToast.WARNING,false).show()
-            } else {
+            } else if(fullName.isEmpty() || !fullName.matches(Regex("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*\$")))
+            {
+                FancyToast.makeText(context,"Please add valid full name",FancyToast.LENGTH_SHORT,FancyToast.WARNING,false).show()
+            }
+            else {
                 scope.launch {
                     viewModel.signUpUser(User(fullName, userType, contactNumber), email, password)
                 }
