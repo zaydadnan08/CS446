@@ -54,11 +54,11 @@ A regular user, who may or may not be lower income, can use the app to see whatâ
 
 **Architectural View:**
 
-Sequence diagram of farmer updating inventory. In this case the user is the farmer (left).![](Aspose.Words.ead29ff7-b8f7-40b4-85b7-383b6146d440.001.jpeg)
+Sequence diagram of farmer updating inventory. In this case the user is the farmer (left).![](pic1.jpeg)
 
 Sequence diagram of Community Fridge admin adding food request. In this case user in the diagram below is the community fridge admin (below)
 
-![](Aspose.Words.ead29ff7-b8f7-40b4-85b7-383b6146d440.002.jpeg)
+![](pic2.jpeg)
 
 **Non-functional Properties:**
 
@@ -84,5 +84,4 @@ Residents of KW region: Residents of the KW region and view what is available in
 
 Below are mockups for the inventory and market mode pages where farmers can update their inventory. Pages 2 the marketplace works where farmers can view their sales. Page 3 in a view of the community fridge and how KW residents can view what is available in the community fridge and reserve it.
 
-![](Aspose.Words.ead29ff7-b8f7-40b4-85b7-383b6146d440.003.jpeg)
-6
+![](pic3.jpeg)
