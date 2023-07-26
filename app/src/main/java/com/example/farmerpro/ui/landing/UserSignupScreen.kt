@@ -105,17 +105,6 @@ fun UserSignupScreen(
             }
         })
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            modifier = Modifier.background(Color.Transparent),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-            onClick = {
-                scope.launch {
-                    navController.navigate(Screens.UserSignin.name);
-                }
-            },
-        ) {
-            Text(text = "Already have an account? Sign in", color = Color.Black)
-        }
 
         LaunchedEffect(key1 = state.value?.isSuccess) {
             scope.launch {

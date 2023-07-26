@@ -71,7 +71,7 @@ fun UserSigninScreen(
             }
         }
 
-        BorderedButton(value = "Sign up", onClick = {
+        BorderedButton(value = "Sign in", onClick = {
                 scope.launch {
                     viewModel.loginUser(email, password)
                 }
