@@ -11,6 +11,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,9 +22,11 @@ import androidx.navigation.NavController
 import com.example.farmerpro.Screens
 import com.example.farmerpro.R
 import com.example.farmerpro.components.BorderedButton
+import kotlinx.coroutines.launch
 
 @Composable
 fun StartScreen(navController: NavController) {
+    val scope = rememberCoroutineScope()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -43,6 +46,17 @@ fun StartScreen(navController: NavController) {
         BorderedButton(value = "get started", onClick = {
             navController.navigate(Screens.UserSelect.name);
         })
+        Button(
+            modifier = Modifier.background(Color.Transparent),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+            onClick = {
+                scope.launch {
+                    navController.navigate(Screens.UserSignin.name);
+                }
+            },
+        ) {
+            Text(text = "Already have an account? Sign in", color = Color.Black)
+        }
     }
 }
 

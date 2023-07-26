@@ -30,7 +30,7 @@ fun GreyTextInput(
         value = value,
         onValueChange = onValueChange,
         maxLines = maxLines,
-        singleLine = placeholder != "Product Description",
+        singleLine = maxLines == 1,
         keyboardOptions = keyboardOptions,
         placeholder = {
             Text(

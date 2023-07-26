@@ -61,6 +61,7 @@ import com.example.farmerpro.domain.model.SaleRecords
 import com.example.farmerpro.ui.home.bottomBar.FarmerSubScreens
 import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
 import com.example.farmerpro.ui.home.farmer.components.ItemRow
+import com.example.farmerpro.ui.home.farmer.components.SalesRow
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.AxisBase
@@ -186,6 +187,31 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
                             .wrapContentSize()
                             .padding(5.dp)
                     )
+                }
+            }
+            Text(
+                text = "Sales History",
+                modifier = Modifier.padding(
+                    bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
+                ),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
+                )
+            )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(1),
+                modifier = Modifier
+                    .padding(1.dp)
+                    .fillMaxSize()
+            ) {
+                sales.sales.forEach { item ->
+                    item {
+                        SalesRow(
+                            item = item,
+                            viewModel = viewModel,
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }

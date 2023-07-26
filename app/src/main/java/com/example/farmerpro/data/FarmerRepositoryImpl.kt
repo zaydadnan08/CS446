@@ -80,4 +80,13 @@ class FarmerRepositoryImpl @Inject constructor(
     } catch (e: Exception) {
         Failure(e)
     }
+
+    override fun updateSalesItems(
+        newSaleRecords: SaleRecords, farmerID: String
+    ): Response<Boolean> = try {
+        inventoryRef.document(farmerID).update("sales", newSaleRecords.sales)
+        Success(true)
+    } catch (e: Exception) {
+        Failure(e)
+    }
 }

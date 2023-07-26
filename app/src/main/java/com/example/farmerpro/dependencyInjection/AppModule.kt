@@ -17,11 +17,13 @@ import com.example.farmerpro.domain.inventory_use_case.GetSalesByFarmer
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.inventory_use_case.TrackSale
 import com.example.farmerpro.domain.inventory_use_case.UpdateInventory
+import com.example.farmerpro.domain.inventory_use_case.UpdateSales
 import com.example.farmerpro.domain.marketplace_use_case.AddImageToStorage
 import com.example.farmerpro.domain.marketplace_use_case.AddItem
 import com.example.farmerpro.domain.marketplace_use_case.DeleteItem
 import com.example.farmerpro.domain.marketplace_use_case.GetItems
 import com.example.farmerpro.domain.marketplace_use_case.MarketUseCases
+import com.example.farmerpro.domain.marketplace_use_case.UpdateItem
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.FridgeRepository
 import com.example.farmerpro.domain.repository.RequestRepository
@@ -73,7 +75,8 @@ object AppModule {
         addItem = AddOrUpdateInventory(repo),
         updateInventory = UpdateInventory(repo),
         getSales = GetSalesByFarmer(repo),
-        trackSale = TrackSale(repo)
+        trackSale = TrackSale(repo),
+        updateSales = UpdateSales(repo)
     )
 
     @Provides
@@ -102,7 +105,8 @@ object AppModule {
         getItems = GetItems(repo),
         addItem = AddItem(repo),
         deleteItem = DeleteItem(repo),
-        addImageToStorage = AddImageToStorage(repo)
+        addImageToStorage = AddImageToStorage(repo),
+        updateItem = UpdateItem(repo)
     )
 
     @Provides

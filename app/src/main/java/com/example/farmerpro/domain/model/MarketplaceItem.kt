@@ -11,5 +11,7 @@ data class MarketplaceItem(
     var location: String? = null,
     var description: String? = null,
     var contact_number: String = "5555555555",
-    var imageUrl: String = ""
+    var imageUrl: String = "",
+    var rating: Double? = null,
+    var numberOfRatings: Int = 0
 )

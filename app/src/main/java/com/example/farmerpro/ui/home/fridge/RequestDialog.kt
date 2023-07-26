@@ -158,7 +158,6 @@ fun RequestDialog(
                         text = request.description.orEmpty(),
                     )
                 }
-
                 if(owner) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
@@ -177,7 +176,7 @@ fun RequestDialog(
                             text = "Delete Posting",
                             style = TextStyle(
                                 color = Color.White,
-                                fontSize = 12.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                             ),
                             textAlign = TextAlign.Center,
