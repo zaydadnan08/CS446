@@ -82,9 +82,11 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                CircleButtonWithPlus(
-                    onClick = { openRequestDialog = true },
-                )
+                if (viewModel.isUserAdmin()) {
+                    CircleButtonWithPlus(
+                        onClick = { openRequestDialog = true },
+                    )
+                }
             }
             Switch(
                 checked = isCheckedRequests,
@@ -175,9 +177,11 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                CircleButtonWithPlus(
-                    onClick = { openFridgeDialog = true },
-                )
+                if (viewModel.isUserAdmin()) {
+                    CircleButtonWithPlus(
+                        onClick = { openFridgeDialog = true },
+                    )
+                }
             }
                 Switch(
                     checked = isCheckedFridges,
