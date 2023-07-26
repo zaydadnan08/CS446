@@ -121,7 +121,7 @@ class CommunityFridgeViewModel @Inject constructor(
         deleteRequestResponse = requestUseCases.deleteRequest(ItemId)
     }
 
-    fun signOut(){
+    fun signOut() {
         repository.signOut()
     }
 
@@ -171,5 +171,9 @@ class CommunityFridgeViewModel @Inject constructor(
     fun updateFridge(ItemId: String, fridgeInventory: String) = viewModelScope.launch {
         updateFridgeResponse = Response.Loading
         updateFridgeResponse = fridgeUseCases.updateFridge(ItemId, fridgeInventory)
+    }
+
+    fun isUserAdmin():Boolean {
+        return (currentUser.value?.type == "Admin")
     }
 }
