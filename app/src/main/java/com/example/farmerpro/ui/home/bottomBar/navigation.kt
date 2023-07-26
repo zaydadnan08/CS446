@@ -15,16 +15,16 @@ import com.example.farmerpro.ui.home.markets.ItemsScreen
 import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
 
 @Composable
-fun navigation(navController: NavHostController, mainNavController: NavController){
+fun navigation(navController: NavHostController, mainNavController: NavController, userType: String ){
     NavHost(navController = navController, startDestination = Screens.Market.name){
         composable(route = Screens.Market.name) {
-            ItemsScreen(navController = mainNavController)
+            ItemsScreen(navController = mainNavController, userType = userType)
         }
         composable(route = Screens.Farmer.name) {
             val farmerNavController = rememberNavController()
             NavHost(navController = farmerNavController, startDestination = FarmerSubScreens.FarmerHome.name) {
                 composable(route = FarmerSubScreens.FarmerHome.name) {
-                    FarmerHomeScreen(navController = farmerNavController, mainNavController = mainNavController)
+                    FarmerHomeScreen(navController = farmerNavController, mainNavController = mainNavController, userType = userType)
                 }
                 composable(
                     route = "${FarmerSubScreens.InventoryItem.name}?name={name}&quantity={quantity}&unit={unit}&notes={notes}",
@@ -48,7 +48,7 @@ fun navigation(navController: NavHostController, mainNavController: NavControlle
             }
         }
         composable(route = Screens.Fridge.name) {
-            CommunityFridgeScreen(navController = mainNavController)
+            CommunityFridgeScreen(navController = mainNavController, userType = userType)
         }
     }
 }
@@ -58,6 +58,11 @@ enum class Screens {
     Market,
     Fridge,
 }
+enum class ScreensFiltered {
+    Market,
+    Fridge,
+}
+
 
 enum class FarmerSubScreens {
     FarmerHome,

@@ -35,7 +35,7 @@ import androidx.compose.material3.SwitchDefaults
 
 @Composable
 fun CommunityFridgeScreen(
-    navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel()
+    navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel(), userType: String
 ) {
     var openRequestDialog by remember { mutableStateOf(false) }
     var openFridgeDialog by remember { mutableStateOf(false) }
@@ -83,9 +83,11 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                CircleButtonWithPlus(
-                    onClick = { openRequestDialog = true },
-                )
+                if(userType == "Admin") {
+                    CircleButtonWithPlus(
+                        onClick = { openRequestDialog = true },
+                    )
+                }
             }
             Switch(
                 checked = isCheckedRequests,
@@ -176,9 +178,11 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                CircleButtonWithPlus(
-                    onClick = { openFridgeDialog = true },
-                )
+                if(userType == "Admin") {
+                    CircleButtonWithPlus(
+                        onClick = { openFridgeDialog = true },
+                    )
+                }
             }
                 Switch(
                     checked = isCheckedFridges,
@@ -232,5 +236,6 @@ fun CommunityFridgeScreen(
         }
     }
 }
+
 
 
