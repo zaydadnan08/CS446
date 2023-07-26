@@ -254,7 +254,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            color = Color.Black
+                            color = Color.White
                         )
                     )
                 }
@@ -272,7 +272,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            color = Color.Black
+                            color = Color.White
                         )
                     )
                 }
