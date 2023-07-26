@@ -18,6 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -66,6 +68,8 @@ fun ItemRow(
     viewModel: farmViewModel = hiltViewModel(),
     onClick: () -> Unit
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    var voiceInput by remember { mutableStateOf("") }
     var selectedQuantity by remember { mutableStateOf(item.quantity.toString()) }
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.RECORD_AUDIO
@@ -77,10 +81,9 @@ fun ItemRow(
     val speechRecognizerLauncher = rememberLauncherForActivityResult(
         contract = SpeechRecognizerContract(),
         onResult = {
-            if (it != null) {
-                if (it.isNotEmpty() && it[0].toDoubleOrNull() != null)
-                    selectedQuantity = (selectedQuantity.toDouble() + it?.get(0)?.toDouble()!!).toString()
-                    viewModel.updateInventoryItem(item.name, item.quantity + it?.get(0)?.toDouble()!!, item.unit, item.notes)
+            if (!it.isNullOrEmpty() && it[0].toDoubleOrNull() != null) {
+                    showDialog = true
+                    voiceInput = it[0]
             }
         }
     )
@@ -166,5 +169,31 @@ fun ItemRow(
 
             }
         }
+    }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Are you sure you want to add $voiceInput ${item.name}?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        selectedQuantity = if (selectedQuantity.toDouble() + voiceInput.toDouble() >= 0) (selectedQuantity.toDouble() + voiceInput.toDouble()).toString() else selectedQuantity
+                        viewModel.updateInventoryItem(item.name, item.quantity + voiceInput.toDouble(), item.unit, item.notes)
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                    }
+                ) {
+                    Text("No")
+                }
+            }
+        )
     }
 }
