@@ -1,0 +1,49 @@
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Composable
+fun PasswordInput(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions()
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        visualTransformation = PasswordVisualTransformation(),
+        placeholder = {
+            Text(
+                text = placeholder, style = TextStyle(fontSize = 14.sp)
+            )
+        },
+        textStyle = TextStyle(fontSize = 18.sp, lineHeight = 32.sp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            unfocusedBorderColor = Color.Transparent,
+            focusedBorderColor = Color.Transparent,
+            cursorColor = Color.Gray
+        ),
+        keyboardOptions = keyboardOptions,
+        modifier = Modifier
+            .border(
+                BorderStroke(2.dp, Color.Black), CircleShape
+            )
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+    )
+}

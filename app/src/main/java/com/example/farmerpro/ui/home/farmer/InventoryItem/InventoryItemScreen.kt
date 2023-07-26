@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -42,8 +44,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.components.Dropdown
+import com.example.farmerpro.domain.model.Response
+import com.example.farmerpro.domain.model.SaleRecord
+import com.example.farmerpro.domain.model.SaleRecords
 import com.example.farmerpro.ui.home.bottomBar.FarmerSubScreens
 import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
+import com.example.farmerpro.ui.home.farmer.components.SalesRow
 import com.example.farmerpro.ui.home.farmer.components.TrackSaleDialog
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 
@@ -52,6 +58,12 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
     var selectedUnit by remember { mutableStateOf(unit) }
     var selectedQuantity by remember { mutableStateOf(quantity.toString()) }
     var openDialog by remember { mutableStateOf(false) }
+    var sales: List<SaleRecord> = when(val salesResponse = viewModel.salesResponse) {
+        is Response.Success -> salesResponse.data.sales.filter { it.name == name }
+        else -> {
+            emptyList<SaleRecord>()
+        }
+    }
 
     Column(
         modifier = Modifier.padding(horizontal = 32.dp),
@@ -174,6 +186,34 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                     onOptionSelected = { selectedUnit = it },
                     selectedOption = selectedUnit
                 )
+            }
+        }
+
+        Text(
+            text = "Sales History",
+            modifier = Modifier.padding(
+                bottom = 8.dp, top = 12.dp, end = 4.dp
+            ),
+            style = TextStyle(
+                fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
+            )
+        )
+        if (sales.isEmpty()) {
+            Text(text = "No Sales")
+        }
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(1),
+            modifier = Modifier
+                .padding(1.dp)
+        ) {
+            sales.forEach { item ->
+                item {
+                    SalesRow(
+                        item = item,
+                        viewModel = viewModel,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
 

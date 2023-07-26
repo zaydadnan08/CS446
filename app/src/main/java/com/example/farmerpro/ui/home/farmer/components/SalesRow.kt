@@ -52,6 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.farmerpro.R
 import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.MarketplaceItem
+import com.example.farmerpro.domain.model.SaleRecord
 import com.example.farmerpro.ui.SpeechRecognizerContract
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.example.farmerpro.ui.theme.Gray400
@@ -61,29 +62,12 @@ import com.google.accompanist.permissions.rememberPermissionState
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
 @Composable
-fun ItemRow(
-    item: InventoryItem,
-    viewModel: farmViewModel = hiltViewModel(),
-    onClick: () -> Unit
+fun SalesRow(
+    item: SaleRecord,
+    viewModel: farmViewModel = hiltViewModel()
 ) {
     var selectedQuantity by remember { mutableStateOf(item.quantity.toString()) }
-    val permissionState = rememberPermissionState(
-        permission = Manifest.permission.RECORD_AUDIO
-    )
-    SideEffect {
-        permissionState.launchPermissionRequest()
-    }
 
-    val speechRecognizerLauncher = rememberLauncherForActivityResult(
-        contract = SpeechRecognizerContract(),
-        onResult = {
-            if (it != null) {
-                if (it.isNotEmpty() && it[0].toDoubleOrNull() != null)
-                    selectedQuantity = (selectedQuantity.toDouble() + it?.get(0)?.toDouble()!!).toString()
-                    viewModel.updateInventoryItem(item.name, item.quantity + it?.get(0)?.toDouble()!!, item.unit, item.notes)
-            }
-        }
-    )
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -92,7 +76,6 @@ fun ItemRow(
                 BorderStroke(0.5.dp, Gray400),
                 RoundedCornerShape(16.dp)
             ),
-        onClick = onClick
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -109,60 +92,33 @@ fun ItemRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp) // Spacing between buttons and quantity
             ) {
-                IconButton(onClick = {
-                    selectedQuantity = if (selectedQuantity.toDouble().minus(1.0) >= 0.0) (selectedQuantity.toDouble().minus(1.0)).toString() else "0.0"
-                    viewModel.updateInventoryItem(item.name, item.quantity - 1.0)
-                }) {
-                    Icon(
-                        Icons.Filled.KeyboardArrowDown,
-                        contentDescription = "Subtract Item",
-                        tint = LocalContentColor.current
-                    )
-                }
-                TextField(
-                    value = selectedQuantity,
-                    onValueChange = { selectedQuantity = it },
-                    textStyle = MaterialTheme.typography.h6,
+                Text(
+                    text = "$ " + item.price.toString(),
+                    style = MaterialTheme.typography.h6,
                     maxLines = 1,
-                    modifier = Modifier
-                        .width(90.dp) // Set the width of the TextField
-                        .padding(horizontal = 2.dp), // Add horizontal padding for better spacing
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            val newQuantity = selectedQuantity.toDoubleOrNull() ?: 0.0
-                            viewModel.updateInventoryItem(
-                                item.name,
-                                newQuantity,
-                                item.unit,
-                                item.notes
-                            )
-                        }
-                    )
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(end = 10.dp)
                 )
-                IconButton(onClick = {
-                    selectedQuantity = selectedQuantity.toDouble().plus(1.0).toString()
-                    viewModel.updateInventoryItem(item.name, item.quantity + 1.0)
-                }) {
+                Text(
+                    text = item.quantity.toString(),
+                    style = MaterialTheme.typography.h6,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = item.unit,
+                    style = MaterialTheme.typography.h6,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                IconButton(onClick = { viewModel.updateSalesRecord(item.name, item.price, item.quantity) }) {
                     Icon(
-                        Icons.Filled.KeyboardArrowUp,
-                        contentDescription = "Add",
-                        tint = LocalContentColor.current
-                    )
-                }
-                IconButton(onClick = { if (permissionState.status.isGranted) {
-                    speechRecognizerLauncher.launch(Unit)
-                } else
-                    permissionState.launchPermissionRequest()}) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_mic_24) ,
+                        Icons.Filled.Delete,
                         contentDescription = "Delete",
                         tint = LocalContentColor.current
                     )
                 }
+
 
             }
         }

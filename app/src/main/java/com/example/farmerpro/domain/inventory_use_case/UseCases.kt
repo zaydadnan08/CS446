@@ -5,5 +5,6 @@ data class InventoryUseCases (
     val addItem: AddOrUpdateInventory,
     val updateInventory: UpdateInventory,
     val getSales: GetSalesByFarmer,
-    val trackSale: TrackSale
+    val trackSale: TrackSale,
+    val updateSales: UpdateSales
 )

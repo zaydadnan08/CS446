@@ -2,6 +2,7 @@ package com.example.farmerpro.ui.home.markets
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,6 +19,7 @@ import com.example.farmerpro.domain.repository.ItemResponse
 import com.example.farmerpro.domain.repository.DeleteItemResponse
 import com.example.farmerpro.domain.marketplace_use_case.MarketUseCases
 import com.example.farmerpro.domain.model.CameraResponse
+import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.types.User
@@ -43,6 +45,9 @@ class MarketViewModel @Inject constructor(
     var addItemResponse by mutableStateOf<AddItemResponse>(Success(false))
         private set
     var deleteItemResponse by mutableStateOf<DeleteItemResponse>(Success(false))
+        private set
+
+    var updateItemResponse by mutableStateOf<Response<Boolean>>(Success(false))
         private set
 
     init {
@@ -109,4 +114,10 @@ class MarketViewModel @Inject constructor(
         deleteItemResponse = Loading
         deleteItemResponse = marketUseCases.deleteItem(ItemId)
     }
+
+    fun updateItem(ItemId: String, item: MarketplaceItem, rating: Double) = viewModelScope.launch {
+        updateItemResponse = Loading
+        updateItemResponse = marketUseCases.updateItem(ItemId, rating, item)
+    }
+
 }

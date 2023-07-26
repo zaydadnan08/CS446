@@ -2,8 +2,10 @@ package com.example.farmerpro.ui.home.farmer.Analytics
 
 import android.graphics.ColorSpace.Rgb
 import android.graphics.Typeface
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -58,12 +61,15 @@ import com.example.farmerpro.domain.model.SaleRecords
 import com.example.farmerpro.ui.home.bottomBar.FarmerSubScreens
 import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
 import com.example.farmerpro.ui.home.farmer.components.ItemRow
+import com.example.farmerpro.ui.home.farmer.components.SalesRow
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
@@ -84,6 +90,12 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
 
     var pieEntries = sales.sales.groupBy { it.name }
         .mapValues { entry -> entry.value.map { it.price }.reduce { acc, price -> acc + price } }
+
+    var d = pieEntries.map { (key, value) ->
+        PieEntry( value.toFloat(), key)
+    }
+
+    var colors = List(d.size) { randomLightArgbColor() }
 
     Scaffold { padding ->
         Column(
@@ -143,60 +155,61 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
 
             }
 
-            val d = pieEntries.map { (key, value) ->
-                PieEntry( value.toFloat(), key)
-            }
-
             Row(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                AndroidView(factory = { context ->
-                    PieChart(context).apply {
-                        layoutParams = LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            1024,
-                        )
-                        this.description.isEnabled = false
-                        this.isDrawHoleEnabled = true
-                        this.legend.isEnabled = true
-                        this.legend.textSize = 14F
-                        this.legend.horizontalAlignment =
-                            Legend.LegendHorizontalAlignment.CENTER
-                        this.setEntryLabelColor(R.color.black)
+                Crossfade(targetState = d) { d ->
+                    AndroidView(factory = { context ->
+                        PieChart(context).apply {
+                            layoutParams = LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                1024,
+                            )
+                            this.description.isEnabled = false
+                            this.isDrawHoleEnabled = true
+                            this.legend.isEnabled = false
+                            this.setEntryLabelColor(R.color.black)
+                            val ds = PieDataSet(d, "")
+                            ds.colors = colors
+                            ds.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+                            ds.xValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+                            ds.sliceSpace = 2f
+                            ds.valueTextSize = 20f
+                            ds.valueTypeface = Typeface.DEFAULT_BOLD
 
-                        val ds = PieDataSet(d, "")
-                        ds.colors = arrayListOf(
-                            randomLightArgbColor(),
-                            randomLightArgbColor(),
-                            randomLightArgbColor(),
-                            randomLightArgbColor()
-                        )
-                        ds.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
-                        ds.xValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
-                        ds.sliceSpace = 2f
-                        ds.valueTextSize = 18f
-                        ds.valueTypeface = Typeface.DEFAULT_BOLD
-
-                        this.data = PieData(ds)
-                    } },
-                    // on below line we are specifying modifier
-                    // for it and specifying padding to it.
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(5.dp)
-                )
+                            this.data = PieData(ds)
+                        }
+                    },
+                        // on below line we are specifying modifier
+                        // for it and specifying padding to it.
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(5.dp)
+                    )
+                }
             }
-
+            Text(
+                text = "Sales History",
+                modifier = Modifier.padding(
+                    bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
+                ),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
+                )
+            )
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier
                     .padding(1.dp)
                     .fillMaxSize()
             ) {
-                sales.sales.forEach { sale ->
+                sales.sales.forEach { item ->
                     item {
-                        Text(sale.name)
+                        SalesRow(
+                            item = item,
+                            viewModel = viewModel,
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
