@@ -21,7 +21,6 @@ fun Navigation(
     } else {
         start = Screens.Start.name
     }
-
     NavHost(navController = navController, startDestination = start) {
         composable(route = Screens.Start.name) {
             StartScreen(navController = navController)
