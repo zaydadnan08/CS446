@@ -82,7 +82,6 @@ fun TrackSaleDialog(
                         navController.navigate("FarmerHome")
                         closeDialog()
                     }
-
                 }
             ) {
                 Text(

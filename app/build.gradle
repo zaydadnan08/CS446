@@ -100,4 +100,6 @@ dependencies {
     //toasts
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
 
+    //charts/graphs
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 }
