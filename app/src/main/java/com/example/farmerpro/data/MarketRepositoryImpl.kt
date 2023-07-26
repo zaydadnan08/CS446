@@ -61,8 +61,8 @@ class MarketRepositoryImpl @Inject constructor(
             description= description,
             contact_number = contact_number,
             imageUrl = imageUrl,
-            rating = null,
-            numberOfRatings = 0
+            rating = 5.0,
+            numberOfRatings = 1
         )
         itemsRef.document(id).set(item).await()
         Success(true)
