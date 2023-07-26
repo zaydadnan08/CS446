@@ -82,8 +82,9 @@ fun ItemsScreen(
             SearchAppBar(searchQuery, setSearchQuery)
             Spacer(modifier = Modifier.height(8.dp))
 
-            ToggleWithText(isChecked = isChecked, onCheckedChange = { isChecked = it })
-
+            if(userType == "Farmer") {
+                ToggleWithText(isChecked = isChecked, onCheckedChange = { isChecked = it })
+            }
             Items(itemsContent = { items ->
                 var filteredItems = if (searchQuery.isNotEmpty()) {
                     items.filter { item ->
