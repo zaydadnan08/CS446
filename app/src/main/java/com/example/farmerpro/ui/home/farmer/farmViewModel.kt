@@ -13,6 +13,7 @@ import com.example.farmerpro.domain.model.InventoryItem
 import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.model.SaleRecord
+import com.example.farmerpro.domain.model.SaleRecords
 import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.domain.repository.DeleteItemResponse
@@ -80,6 +81,23 @@ class farmViewModel @Inject constructor(
             deleteItemResponse = useCases.updateInventory(newInventoryItems, userId)
         }
     }
+
+    fun updateSalesRecord(name: String, price: Double, quantity: Double) = viewModelScope.launch {
+        var sales: SaleRecords = when(val salesResponse = salesResponse) {
+            is Response.Success -> salesResponse.data
+            else -> {
+                SaleRecords(emptyList<SaleRecord>())
+            }
+        }
+        var newItemList = sales.sales.filter {it.name != name && it.price != price && it.quantity != quantity}
+        var newSaleRecords = SaleRecords(newItemList)
+        var userId = repository.currentUser?.uid
+        deleteItemResponse = Response.Loading
+        if (userId != null) {
+            deleteItemResponse = useCases.updateSales(newSaleRecords, userId)
+        }
+    }
+
     fun updateInventoryItem(name: String, quantity: Double? = null, unit: String? = null, notes: String? = null) = viewModelScope.launch {
         var items: InventoryItems = when(val itemsResponse = inventoryResponse) {
             is Response.Success -> itemsResponse.data

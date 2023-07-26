@@ -25,4 +25,8 @@ interface FarmerRepository {
     suspend fun updateInventoryItems(
         newInventoryItems: InventoryItems, farmerID: String
     ): Response<Boolean>
+
+    fun updateSalesItems(
+        newSaleRecords: SaleRecords, farmerID: String
+    ): Response<Boolean>
 }
