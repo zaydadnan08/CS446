@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ExpandableList(
     text: String,
-    maxLines: Int = 8,
+    maxLines: Int = 5,
     color: Color = Color.Gray,
 ) {
     val items = text.split("\n")
