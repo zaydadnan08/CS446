@@ -88,16 +88,18 @@ fun CommunityFridgeScreen(
                     )
                 }
             }
-            Switch(
-                checked = isCheckedRequests,
-                onCheckedChange = { isCheckedRequests = it },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = Color.Black,
-                    uncheckedThumbColor = Color.Black,
-                    uncheckedTrackColor = Color.White
+            if(userType == "Admin") {
+                Switch(
+                    checked = isCheckedRequests,
+                    onCheckedChange = { isCheckedRequests = it },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = Color.Black,
+                        uncheckedThumbColor = Color.Black,
+                        uncheckedTrackColor = Color.White
+                    )
                 )
-            )
+            }
         }
 
         FridgeRequests(requestContent = { requests ->
@@ -183,6 +185,7 @@ fun CommunityFridgeScreen(
                     )
                 }
             }
+            if(userType == "Admin") {
                 Switch(
                     checked = isCheckedFridges,
                     onCheckedChange = { isCheckedFridges = it },
@@ -193,6 +196,7 @@ fun CommunityFridgeScreen(
                         uncheckedTrackColor = Color.White
                     )
                 )
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -243,6 +247,5 @@ fun CommunityFridgeScreen(
         }
     }
 }
-
 
 
