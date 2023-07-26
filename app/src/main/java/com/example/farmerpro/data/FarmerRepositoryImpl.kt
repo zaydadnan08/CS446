@@ -10,8 +10,10 @@ import kotlinx.coroutines.tasks.await
 import com.example.farmerpro.domain.model.Response.Failure
 import com.example.farmerpro.domain.model.Response.Success
 import com.example.farmerpro.domain.model.SaleRecord
+import com.example.farmerpro.domain.model.SaleRecords
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.InventoryResponse
+import com.example.farmerpro.domain.repository.SalesResponse
 import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +33,21 @@ class FarmerRepositoryImpl @Inject constructor(
                 Failure(e)
             }
             trySend(itemsResponse as InventoryResponse)
+        }
+        awaitClose {
+            snapshotListener.remove()
+        }
+    }
+
+    override fun getSalesFromFirestore(farmerID: String): Flow<SalesResponse> = callbackFlow {
+        val snapshotListener = inventoryRef.document(farmerID).addSnapshotListener { snapshot, e ->
+            val salesResponse = if (snapshot != null) {
+                val items = snapshot.toObject(SaleRecords::class.java)
+                Success(items)
+            } else {
+                Failure(e)
+            }
+            trySend(salesResponse as SalesResponse)
         }
         awaitClose {
             snapshotListener.remove()
