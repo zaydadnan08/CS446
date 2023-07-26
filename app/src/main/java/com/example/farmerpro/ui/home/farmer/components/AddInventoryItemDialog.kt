@@ -95,7 +95,7 @@ fun AddInventoryAlertDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (quantity.toDoubleOrNull() != null && name != "") {
+                    if (quantity.toDoubleOrNull() != null && quantity.toDouble() >= 0.0 && name != "") {
                         closeDialog()
                         addItem(name, quantity, unit, notes)
                     }
