@@ -96,7 +96,7 @@ class MarketRepositoryImpl @Inject constructor(
         val ratingValue = if(item.rating == null){
             rating
         } else {
-            (rating + item.rating!!) / (item.numberOfRatings + 1)
+            (rating + (item.rating!! * item.numberOfRatings)) / (item.numberOfRatings + 1)
         }
         itemsRef.document(itemId).update("rating", ratingValue)
         itemsRef.document(itemId).update("numberOfRatings", item.numberOfRatings + 1)

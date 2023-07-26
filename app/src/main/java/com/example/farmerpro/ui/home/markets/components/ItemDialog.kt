@@ -1,6 +1,7 @@
 package com.example.farmerpro.ui.home.markets.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,14 +10,19 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -40,6 +46,7 @@ import com.example.farmerpro.components.LocationText
 import com.example.farmerpro.components.PhoneNumberText
 import com.example.farmerpro.components.StaticRatingBar
 import com.example.farmerpro.domain.model.MarketplaceItem
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -49,9 +56,8 @@ fun ItemDialog(
     item: MarketplaceItem,
     owner: Boolean,
     deleteItem: () -> Unit,
+    ratingDialog: () -> Unit,
     ) {
-    var rating: Float by remember { mutableStateOf(3.2f) }
-
     Dialog(onDismissRequest = closeDialog) {
         Surface(shape = RoundedCornerShape(20.dp), elevation = 24.dp) {
             Column(
@@ -103,9 +109,19 @@ fun ItemDialog(
                             modifier = Modifier.padding(horizontal = 12.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            Text(
+                                text = roundToOneDecimalPlace(item.rating!!).toString(),
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 18.sp,
+                                    textAlign = TextAlign.Start,
+                                    color = Color.Black
+                                ),
+                                color = Color(0xFF8d8d8d),
+                            )
                             StaticRatingBar(rating = item.rating!!.roundToInt())
                             Text(
-                                text = "(" + item.numberOfRatings + ")",
+                                text = "(" + item.numberOfRatings + " ratings)",
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 18.sp,
@@ -115,20 +131,24 @@ fun ItemDialog(
                                 color = Color(0xFF8d8d8d),
                             )
                         }
-                        Button(
-                            onClick = { },
-                            modifier = Modifier
-                                .padding(8.dp),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = MaterialTheme.colors.primary,
-                                contentColor = Color.White
-                            )
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = "Add Rating",
-                                fontSize = 14.sp
-                            )
+                            IconButton(
+                                onClick = { ratingDialog() },
+                                modifier = Modifier.size(32.dp)
+                                    .background(
+                                        MaterialTheme.colors.primary,
+                                        shape = RoundedCornerShape(0.dp)
+                                    )
+                            ) {
+                                Icon(
+                                    Icons.Filled.Add,
+                                    contentDescription = "Plus Icon",
+                                    tint = Color.White,
+                                )
+                            }
                         }
                     }
                 }
@@ -158,7 +178,6 @@ fun ItemDialog(
                         color = Color(0xFF8d8d8d),
                     )
                 }
-
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
@@ -180,7 +199,6 @@ fun ItemDialog(
                         maxLines = 1,
                     )
                 }
-
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
@@ -198,7 +216,6 @@ fun ItemDialog(
                     )
                     LocationText(location = item.location.orEmpty())
                 }
-
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),
@@ -251,4 +268,9 @@ fun ItemDialog(
             }
         }
     }
+}
+
+fun roundToOneDecimalPlace(number: Double): Double {
+    val factor = 10.0
+    return round(number * factor) / factor
 }

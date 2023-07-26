@@ -158,7 +158,6 @@ fun RequestDialog(
                         text = request.description.orEmpty(),
                     )
                 }
-
                 if(owner) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(

@@ -46,19 +46,7 @@ fun StaticRatingBar(
                 contentDescription = "star",
                 modifier = modifier
                     .width(size)
-                    .height(size)
-                    .pointerInteropFilter {
-                        when (it.action) {
-                            MotionEvent.ACTION_DOWN -> {
-                                selected = true
-                                ratingState = i
-                            }
-                            MotionEvent.ACTION_UP -> {
-                                selected = false
-                            }
-                        }
-                        true
-                    },
+                    .height(size),
                 tint = if (i <= ratingState) Color(0xFFFFD700) else Color(0xFFA2ADB1)
             )
         }
