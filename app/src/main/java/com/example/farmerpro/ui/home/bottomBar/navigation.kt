@@ -16,7 +16,7 @@ import com.example.farmerpro.ui.home.fridge.CommunityFridgeScreen
 
 @Composable
 fun navigation(navController: NavHostController, mainNavController: NavController){
-    NavHost(navController = navController, startDestination = Screens.Fridge.name){
+    NavHost(navController = navController, startDestination = Screens.Market.name){
         composable(route = Screens.Market.name) {
             ItemsScreen(navController = mainNavController)
         }

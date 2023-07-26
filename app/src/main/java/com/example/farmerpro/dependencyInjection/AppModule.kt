@@ -13,6 +13,7 @@ import com.example.farmerpro.domain.fridge_use_case.GetFridges
 import com.example.farmerpro.domain.inventory_use_case.AddOrUpdateInventory
 import com.example.farmerpro.domain.repository.MarketRepository
 import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
+import com.example.farmerpro.domain.inventory_use_case.GetSalesByFarmer
 import com.example.farmerpro.domain.inventory_use_case.InventoryUseCases
 import com.example.farmerpro.domain.inventory_use_case.TrackSale
 import com.example.farmerpro.domain.inventory_use_case.UpdateInventory
@@ -72,6 +73,7 @@ object AppModule {
         getItems = GetInventoryByFarmer(repo),
         addItem = AddOrUpdateInventory(repo),
         updateInventory = UpdateInventory(repo),
+        getSales = GetSalesByFarmer(repo),
         trackSale = TrackSale(repo)
     )
 

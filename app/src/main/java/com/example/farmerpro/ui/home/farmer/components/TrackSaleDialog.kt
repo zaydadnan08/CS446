@@ -76,10 +76,12 @@ fun TrackSaleDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    viewModel.updateInventoryItem(name, origQuantity.minus(quantity.toDouble()))
-                    viewModel.trackSaleRecord(name, quantity.toDouble(), price.toDouble())
-                    navController.popBackStack()
-                    closeDialog()
+                    if (quantity.toDoubleOrNull() != null && quantity.toDouble() >= 0.0 && price.toDoubleOrNull() != null && price.toDouble() >= 0.0) {
+                        viewModel.updateInventoryItem(name, origQuantity.minus(quantity.toDouble()))
+                        viewModel.trackSaleRecord(name, quantity.toDouble(), unit, price.toDouble())
+                        navController.navigate("FarmerHome")
+                        closeDialog()
+                    }
                 }
             ) {
                 Text(

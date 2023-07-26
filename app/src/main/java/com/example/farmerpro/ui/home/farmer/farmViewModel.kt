@@ -17,6 +17,7 @@ import com.example.farmerpro.domain.repository.AddItemResponse
 import com.example.farmerpro.domain.repository.AuthRepository
 import com.example.farmerpro.domain.repository.DeleteItemResponse
 import com.example.farmerpro.domain.repository.InventoryResponse
+import com.example.farmerpro.domain.repository.SalesResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +29,8 @@ class farmViewModel @Inject constructor(
     var addItemResponse by mutableStateOf<AddItemResponse>(Response.Success(false))
     var deleteItemResponse by mutableStateOf<DeleteItemResponse>(Response.Success(false))
     var inventoryResponse by mutableStateOf<InventoryResponse>(Response.Loading)
+    var salesResponse by mutableStateOf<SalesResponse>(Response.Loading)
+
     var state by mutableStateOf(farmscreenstate())
         private set
 
@@ -40,6 +43,7 @@ class farmViewModel @Inject constructor(
     }
     init {
         getFarmerInventory()
+        getSaleRecords()
     }
 
     private fun getFarmerInventory() = viewModelScope.launch {
@@ -53,7 +57,7 @@ class farmViewModel @Inject constructor(
         var inventoryItem = InventoryItem(name, quantity.toDouble(), unit, notes)
         var userId = repository.currentUser?.uid
         addItemResponse = Response.Loading
-        if (userId != null) {
+        if (userId != null && quantity.toDoubleOrNull() != null && quantity.toDouble() >= 0.0) {
             addItemResponse = useCases.addItem(inventoryItem, userId)
             useCases.getItems(userId).collect { response ->
                 inventoryResponse = response
@@ -83,28 +87,42 @@ class farmViewModel @Inject constructor(
                 InventoryItems(emptyList<InventoryItem>())
             }
         }
-        var itemList = items.inventory.map {
-            if (it.name.equals(name)) {
-                InventoryItem(it.name, quantity ?: it.quantity, unit ?: it.unit, notes ?: it.notes )
-            } else {
-                it
+        if (quantity != null && quantity >= 0.0) {
+            var itemList = items.inventory.map {
+                if (it.name.equals(name)) {
+                    InventoryItem(
+                        it.name,
+                        quantity ?: it.quantity,
+                        unit ?: it.unit,
+                        notes ?: it.notes
+                    )
+                } else {
+                    it
+                }
             }
-        }
-        var newInventoryItems = InventoryItems(itemList)
-        var userId = repository.currentUser?.uid
-        if (userId != null) {
-            useCases.updateInventory(newInventoryItems, userId)
+            var newInventoryItems = InventoryItems(itemList)
+            var userId = repository.currentUser?.uid
+            if (userId != null) {
+                useCases.updateInventory(newInventoryItems, userId)
+            }
         }
     }
 
-      fun trackSaleRecord(name: String, quantity: Double, price: Double) {
-        var saleRecord = SaleRecord(name, quantity, price)
+    fun trackSaleRecord(name: String, quantity: Double, unit: String, price: Double) {
+        var saleRecord = SaleRecord(name, quantity, unit, price)
         var userId = repository.currentUser?.uid
         if (userId != null) {
             useCases.trackSale(saleRecord, userId)
         }
-
     }
+
+    private fun getSaleRecords() = viewModelScope.launch {
+        var userId = repository.currentUser?.uid
+        useCases.getSales(userId.toString()).collect { response ->
+            salesResponse = response
+        }
+    }
+
     fun signOut() {
         repository.signOut()
     }
