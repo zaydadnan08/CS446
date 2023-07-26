@@ -10,6 +10,7 @@ import com.example.farmerpro.domain.fridge_use_case.AddFridge
 import com.example.farmerpro.domain.fridge_use_case.DeleteFridge
 import com.example.farmerpro.domain.fridge_use_case.FridgeUseCases
 import com.example.farmerpro.domain.fridge_use_case.GetFridges
+import com.example.farmerpro.domain.fridge_use_case.UpdateFridge
 import com.example.farmerpro.domain.inventory_use_case.AddOrUpdateInventory
 import com.example.farmerpro.domain.repository.MarketRepository
 import com.example.farmerpro.domain.inventory_use_case.GetInventoryByFarmer
@@ -95,7 +96,8 @@ object AppModule {
         getFridges = GetFridges(repo),
         addFridge = AddFridge(repo),
         deleteFridge = DeleteFridge(repo),
-        addImageToStorage = com.example.farmerpro.domain.fridge_use_case.AddImageToStorage(repo)
+        addImageToStorage = com.example.farmerpro.domain.fridge_use_case.AddImageToStorage(repo),
+        updateFridge = UpdateFridge(repo)
     )
 
     @Provides

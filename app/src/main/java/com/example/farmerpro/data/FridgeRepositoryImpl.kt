@@ -81,5 +81,13 @@ class FridgeRepositoryImpl @Inject constructor(
     } catch (e: Exception) {
         Response.Failure(e)
     }
+
+    override suspend fun updateFridgeFromFirestore(itemId: String, fridgeInventory: String): Response<Boolean> = try {
+        itemsRef.document(itemId).update("fridgeinventory", fridgeInventory)
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }
+
 }
 
