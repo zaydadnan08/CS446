@@ -35,7 +35,7 @@ import androidx.compose.material3.SwitchDefaults
 
 @Composable
 fun CommunityFridgeScreen(
-    navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel()
+    navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel(), userType: String
 ) {
     var openRequestDialog by remember { mutableStateOf(false) }
     var openFridgeDialog by remember { mutableStateOf(false) }
@@ -82,22 +82,24 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                if (viewModel.isUserAdmin()) {
+                if(userType == "Admin") {
                     CircleButtonWithPlus(
                         onClick = { openRequestDialog = true },
                     )
                 }
             }
-            Switch(
-                checked = isCheckedRequests,
-                onCheckedChange = { isCheckedRequests = it },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = Color.Black,
-                    uncheckedThumbColor = Color.Black,
-                    uncheckedTrackColor = Color.White
+            if(userType == "Admin") {
+                Switch(
+                    checked = isCheckedRequests,
+                    onCheckedChange = { isCheckedRequests = it },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = Color.Black,
+                        uncheckedThumbColor = Color.Black,
+                        uncheckedTrackColor = Color.White
+                    )
                 )
-            )
+            }
         }
 
         FridgeRequests(requestContent = { requests ->
@@ -177,12 +179,13 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                if (viewModel.isUserAdmin()) {
+                if(userType == "Admin") {
                     CircleButtonWithPlus(
                         onClick = { openFridgeDialog = true },
                     )
                 }
             }
+            if(userType == "Admin") {
                 Switch(
                     checked = isCheckedFridges,
                     onCheckedChange = { isCheckedFridges = it },
@@ -193,6 +196,7 @@ fun CommunityFridgeScreen(
                         uncheckedTrackColor = Color.White
                     )
                 )
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
