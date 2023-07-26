@@ -39,7 +39,6 @@ fun CommunityFridgeScreen(
 ) {
     var openRequestDialog by remember { mutableStateOf(false) }
     var openFridgeDialog by remember { mutableStateOf(false) }
-    val context = LocalContext.current
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
@@ -47,7 +46,7 @@ fun CommunityFridgeScreen(
                 viewModel.addImageToStorage(imageUri)
             }
         }
-    var openDialog by remember { mutableStateOf(false) }
+    var showEditDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var showDialog2 by remember { mutableStateOf(false) }
     var selectedRequest by remember { mutableStateOf(FridgeRequest()) }
@@ -232,7 +231,15 @@ fun CommunityFridgeScreen(
                         viewModel.deleteFridge(itemId)
                     }
                 },
+                editFridge = {
+                    showDialog2 = false;
+                    showEditDialog = true;
+                },
             )
+        }
+        if(showEditDialog){
+            EditFridgeDialog(closeDialog = { showEditDialog = false; },
+                item = selectedFridge, viewModel = viewModel)
         }
     }
 }

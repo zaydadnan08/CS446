@@ -45,6 +45,10 @@ class CommunityFridgeViewModel @Inject constructor(
         private set
     var deleteFridgeResponse by mutableStateOf<DeleteFridgeResponse>(Response.Success(false))
         private set
+
+    var updateFridgeResponse by mutableStateOf<Response<Boolean>>(Response.Success(false))
+        private set
+
     var deleteRequestResponse by mutableStateOf<DeleteRequestResponse>(Response.Success(false))
         private set
     var addImageToStorageResponse by mutableStateOf<CameraResponse<Uri>>(CameraResponse.Success(null))
@@ -117,7 +121,7 @@ class CommunityFridgeViewModel @Inject constructor(
         deleteRequestResponse = requestUseCases.deleteRequest(ItemId)
     }
 
-    fun signOut(){
+    fun signOut() {
         repository.signOut()
     }
 
@@ -163,5 +167,13 @@ class CommunityFridgeViewModel @Inject constructor(
         requestUseCases.getRequests().collect { response ->
             requestResponse = response
         }
+    }
+    fun updateFridge(ItemId: String, fridgeInventory: String) = viewModelScope.launch {
+        updateFridgeResponse = Response.Loading
+        updateFridgeResponse = fridgeUseCases.updateFridge(ItemId, fridgeInventory)
+    }
+
+    fun isUserAdmin():Boolean {
+        return (currentUser.value?.type == "Admin")
     }
 }
