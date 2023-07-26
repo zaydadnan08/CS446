@@ -50,7 +50,8 @@ fun HomeScreen(
                 ) {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
-                    val type = viewModel.currentUser.value?.type ?: "Customer"
+                    //val type = viewModel.currentUser.value?.type ?: "Farmer"
+                    val type = "Farmer"
 
                 if(type == "Farmer"){
                     Screens.values().forEach { screen ->
