@@ -32,16 +32,7 @@ class farmViewModel @Inject constructor(
     var inventoryResponse by mutableStateOf<InventoryResponse>(Response.Loading)
     var salesResponse by mutableStateOf<SalesResponse>(Response.Loading)
 
-    var state by mutableStateOf(farmscreenstate())
-        private set
 
-    fun changeTextValue(text:String){
-        viewModelScope.launch {
-            state = state.copy(
-                text = text
-            )
-        }
-    }
     init {
         getFarmerInventory()
         getSaleRecords()
@@ -89,7 +80,7 @@ class farmViewModel @Inject constructor(
                 SaleRecords(emptyList<SaleRecord>())
             }
         }
-        var newItemList = sales.sales.filter {it.name != name && it.price != price && it.quantity != quantity}
+        var newItemList = sales.sales.filter {it.name != name || it.price != price || it.quantity != quantity}
         var newSaleRecords = SaleRecords(newItemList)
         var userId = repository.currentUser?.uid
         deleteItemResponse = Response.Loading
