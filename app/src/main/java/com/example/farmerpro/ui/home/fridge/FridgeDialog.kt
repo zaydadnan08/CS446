@@ -3,6 +3,7 @@ package com.example.farmerpro.ui.home.fridge
 
 import android.location.Location
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +16,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +50,8 @@ fun FridgeDialog(
     fridge: FridgeItem,
     owner: Boolean,
     deleteFridge: () -> Unit,
-) {
+    editFridge: () -> Unit,
+    ) {
     Dialog(onDismissRequest = closeDialog) {
         Surface(shape = RoundedCornerShape(20.dp), elevation = 24.dp) {
             Column(
@@ -56,17 +61,29 @@ fun FridgeDialog(
             ) {
 
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = fridge.fridge_name,
-                    modifier = Modifier.padding(horizontal = 12.dp),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Start,
-                        color = Color.Black
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                ) {
+                    Text(
+                        text = fridge.fridge_name,
+                        modifier = Modifier.weight(1f),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Start,
+                            color = Color.Black
+                        )
                     )
-                )
-
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit",
+                        tint = Color.Black,
+                        modifier = Modifier.padding(start = 8.dp)
+                            .clickable { editFridge() } 
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp),

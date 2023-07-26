@@ -24,6 +24,9 @@ interface FridgeRepository {
 
     suspend fun deleteFridgeFromFirestore(itemId: String): DeleteFridgeResponse
 
+    suspend fun updateFridgeFromFirestore(itemId: String, fridgeInventory: String): Response<Boolean>
+
+
     suspend fun addImageToFirebaseStorage(
         imageUri: Uri, fileName: String
     ): AddImageToStorageResponse
