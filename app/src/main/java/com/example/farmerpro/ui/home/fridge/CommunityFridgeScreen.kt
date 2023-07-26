@@ -35,7 +35,7 @@ import androidx.compose.material3.SwitchDefaults
 
 @Composable
 fun CommunityFridgeScreen(
-    navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel()
+    navController: NavController, viewModel: CommunityFridgeViewModel = hiltViewModel(), userType: String
 ) {
     var openRequestDialog by remember { mutableStateOf(false) }
     var openFridgeDialog by remember { mutableStateOf(false) }
@@ -82,7 +82,7 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                if (viewModel.isUserAdmin()) {
+                if(userType == "Admin") {
                     CircleButtonWithPlus(
                         onClick = { openRequestDialog = true },
                     )
@@ -177,7 +177,7 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-                if (viewModel.isUserAdmin()) {
+                if(userType == "Admin") {
                     CircleButtonWithPlus(
                         onClick = { openFridgeDialog = true },
                     )
@@ -243,5 +243,6 @@ fun CommunityFridgeScreen(
         }
     }
 }
+
 
 

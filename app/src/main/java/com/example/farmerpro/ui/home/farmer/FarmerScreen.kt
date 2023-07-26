@@ -49,7 +49,8 @@ import com.example.farmerpro.ui.home.farmer.components.ItemRow
 fun FarmerHomeScreen (
     viewModel: farmViewModel = hiltViewModel(),
     navController: NavController,
-    mainNavController: NavController
+    mainNavController: NavController,
+    userType: String
 ) {
     var openDialog by remember { mutableStateOf(false) }
 
@@ -125,12 +126,14 @@ fun FarmerHomeScreen (
                 }
             }
         },
-        floatingActionButton = {
-            AddFloatingActionButton(
-                openDialog = {
-                    openDialog = true
+            floatingActionButton = {
+                if(userType == "Farmer") {
+                    AddFloatingActionButton(
+                        openDialog = {
+                            openDialog = true
+                        }
+                    )
                 }
-            )
         }
     )
 }

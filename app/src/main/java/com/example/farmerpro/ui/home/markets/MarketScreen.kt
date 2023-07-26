@@ -51,7 +51,8 @@ import com.example.farmerpro.ui.home.markets.components.ItemDialog
 @Composable
 fun ItemsScreen(
     navController: NavController,
-    viewModel: MarketViewModel = hiltViewModel()
+    viewModel: MarketViewModel = hiltViewModel(),
+    userType: String
 ) {
     var openDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
@@ -152,9 +153,11 @@ fun ItemsScreen(
             })
         }
     }, floatingActionButton = {
-        AddFloatingActionButton(openDialog = {
-            openDialog = true
-        })
+        if(userType == "Farmer") {
+            AddFloatingActionButton(openDialog = {
+                openDialog = true
+            })
+        }
     })
     AddItem()
     DeleteItem()

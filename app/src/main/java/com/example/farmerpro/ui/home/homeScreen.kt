@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -19,10 +20,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.farmerpro.ui.home.bottomBar.Screens
 import com.example.farmerpro.ui.home.bottomBar.navigation
 import com.example.farmerpro.R
+import com.example.farmerpro.ui.home.bottomBar.ScreensFiltered
+import com.example.farmerpro.ui.home.markets.MarketViewModel
 
 @Composable
 fun HomeScreen(
-    mainNavController: NavController
+    mainNavController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
     Scaffold(bottomBar = {
@@ -46,7 +50,9 @@ fun HomeScreen(
                 ) {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
+                    val type = viewModel.currentUser.value?.type ?: "Farmer"
 
+                if(type == "Farmer"){
                     Screens.values().forEach { screen ->
                         BottomNavigationItem(selected = currentDestination?.hierarchy?.any {
                             it.route == screen.name
@@ -62,7 +68,7 @@ fun HomeScreen(
                             val id = when (screen) {
                                 Screens.Market -> R.drawable.home
                                 Screens.Fridge -> R.drawable.notification
-                                Screens.Farmer -> R.drawable.edit
+                                    Screens.Farmer -> R.drawable.edit
                             }
                             Icon(
                                 painter = painterResource(id = id),
@@ -71,6 +77,31 @@ fun HomeScreen(
                             )
                         })
                     }
+                } else {
+                    ScreensFiltered.values().forEach { screen ->
+                        BottomNavigationItem(selected = currentDestination?.hierarchy?.any {
+                            it.route == screen.name
+                        }.isTrue(), label = { Text(text = screen.name) }, onClick = {
+                            navController.navigate(screen.name) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }, icon = {
+                            val id = when (screen) {
+                                ScreensFiltered.Fridge -> R.drawable.home
+                                ScreensFiltered.Market -> R.drawable.notification
+                            }
+                            Icon(
+                                painter = painterResource(id = id),
+                                modifier = Modifier.size(24.dp),
+                                contentDescription = null
+                            )
+                        })
+                    }
+                }
                 }
             }
         }
@@ -81,7 +112,11 @@ fun HomeScreen(
                 .padding(innerPadding),
             color = MaterialTheme.colors.background
         ) {
-            navigation(navController = navController, mainNavController = mainNavController)
+            navigation(
+                navController = navController,
+                mainNavController = mainNavController,
+                viewModel.currentUser.value?.type ?: "Farmer"
+            )
         }
     }
 }
