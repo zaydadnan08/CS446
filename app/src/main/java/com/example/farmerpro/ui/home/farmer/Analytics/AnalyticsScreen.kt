@@ -213,7 +213,7 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
                 )
             }
             sales.sales.filter { sale ->
-                sale.name.contains(selectedItem, ignoreCase = true)
+                if (selectedItem == "") true else sale.name == selectedItem
             }.forEach { item ->
                 SalesRow(
                     item = item,
