@@ -78,7 +78,7 @@ fun TrackSaleDialog(
                 onClick = {
                     if (quantity.toDoubleOrNull() != null && quantity.toDouble() >= 0.0 && price.toDoubleOrNull() != null && price.toDouble() >= 0.0) {
                         viewModel.updateInventoryItem(name, origQuantity.minus(quantity.toDouble()))
-                        viewModel.trackSaleRecord(name, quantity.toDouble(), price.toDouble())
+                        viewModel.trackSaleRecord(name, quantity.toDouble(), unit, price.toDouble())
                         navController.navigate("FarmerHome")
                         closeDialog()
                     }
