@@ -1,13 +1,10 @@
 package com.example.farmerpro.ui.landing
 
+import PasswordInput
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -25,8 +22,6 @@ import com.example.farmerpro.R
 import com.example.farmerpro.Screens
 import com.example.farmerpro.components.BorderedButton
 import com.example.farmerpro.components.TextInput
-import com.example.farmerpro.types.User
-import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.launch
 
 @Composable
@@ -59,7 +54,7 @@ fun UserSigninScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextInput(
+        PasswordInput(
             value = password, onValueChange = { password = it }, placeholder = "Password"
         )
 

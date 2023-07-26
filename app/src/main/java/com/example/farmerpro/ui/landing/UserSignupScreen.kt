@@ -1,21 +1,15 @@
 package com.example.farmerpro.ui.landing
 
+import PasswordInput
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -68,7 +62,7 @@ fun UserSignupScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextInput(
+        PasswordInput(
             value = password, onValueChange = { password = it }, placeholder = "Password"
         )
 
