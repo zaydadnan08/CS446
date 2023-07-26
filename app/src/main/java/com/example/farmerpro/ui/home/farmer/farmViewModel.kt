@@ -57,7 +57,7 @@ class farmViewModel @Inject constructor(
         var inventoryItem = InventoryItem(name, quantity.toDouble(), unit, notes)
         var userId = repository.currentUser?.uid
         addItemResponse = Response.Loading
-        if (userId != null) {
+        if (userId != null && quantity.toDoubleOrNull() != null && quantity.toDouble() >= 0.0) {
             addItemResponse = useCases.addItem(inventoryItem, userId)
             useCases.getItems(userId).collect { response ->
                 inventoryResponse = response
@@ -87,17 +87,24 @@ class farmViewModel @Inject constructor(
                 InventoryItems(emptyList<InventoryItem>())
             }
         }
-        var itemList = items.inventory.map {
-            if (it.name.equals(name)) {
-                InventoryItem(it.name, quantity ?: it.quantity, unit ?: it.unit, notes ?: it.notes )
-            } else {
-                it
+        if (quantity != null && quantity >= 0.0) {
+            var itemList = items.inventory.map {
+                if (it.name.equals(name)) {
+                    InventoryItem(
+                        it.name,
+                        quantity ?: it.quantity,
+                        unit ?: it.unit,
+                        notes ?: it.notes
+                    )
+                } else {
+                    it
+                }
             }
-        }
-        var newInventoryItems = InventoryItems(itemList)
-        var userId = repository.currentUser?.uid
-        if (userId != null) {
-            useCases.updateInventory(newInventoryItems, userId)
+            var newInventoryItems = InventoryItems(itemList)
+            var userId = repository.currentUser?.uid
+            if (userId != null) {
+                useCases.updateInventory(newInventoryItems, userId)
+            }
         }
     }
 

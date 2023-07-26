@@ -1,9 +1,9 @@
 package com.example.farmerpro.ui.home.fridge
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
@@ -42,28 +42,29 @@ fun AddRequestDialog(
     val focusRequester = FocusRequester()
 
     AlertDialog(onDismissRequest = closeDialog, text = {
-        Column {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Add Request", modifier = Modifier.padding(4.dp), style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Start,
-                    color = Color.Black
+        LazyColumn {
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Add Request", modifier = Modifier.padding(4.dp), style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Start,
+                        color = Color.Black
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            GreyTextInput(
-                value = name,
-                onValueChange = { name = it },
-                placeholder = "Product Name",
-                Modifier.focusRequester(focusRequester)
-            )
-            LaunchedEffect(Unit) {
-                coroutineContext.job.invokeOnCompletion {
-                    focusRequester.requestFocus()
+                Spacer(modifier = Modifier.height(8.dp))
+                GreyTextInput(
+                    value = name,
+                    onValueChange = { name = it },
+                    placeholder = "Product Name",
+                    Modifier.focusRequester(focusRequester)
+                )
+                LaunchedEffect(Unit) {
+                    coroutineContext.job.invokeOnCompletion {
+                        focusRequester.requestFocus()
+                    }
                 }
-            }
             Spacer(modifier = Modifier.height(8.dp))
             GreyTextInput(
                 value = amount,
@@ -75,7 +76,7 @@ fun AddRequestDialog(
             GreyTextInput(
                 value = description,
                 onValueChange = { description = it },
-                placeholder = "Product Description"
+                placeholder = "Product Description (optional)"
             )
             Spacer(modifier = Modifier.height(8.dp))
             GreyTextInput(
@@ -87,13 +88,19 @@ fun AddRequestDialog(
             GreyTextInput(
                 value = location, onValueChange = { location = it }, placeholder = "Location"
             )
+            Spacer(modifier = Modifier.height(8.dp))
         }
+    }
     }, confirmButton = {
+        val isEnabled = name.isNotEmpty() && amount.isNotEmpty() && location.isNotEmpty() && fridgeName.isNotEmpty()
         TextButton(
+
             onClick = {
-                closeDialog()
-                addRequest(name, description, amount, location, fridgeName)
-            }
+                if (isEnabled) {
+                    closeDialog()
+                    addRequest(name, description, amount, location, fridgeName)
+                }
+            }, enabled = isEnabled
         ) {
             Text(
                 text = "Add"

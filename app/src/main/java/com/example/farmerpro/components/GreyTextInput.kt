@@ -2,8 +2,10 @@ package com.example.farmerpro.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -21,12 +23,13 @@ fun GreyTextInput(
     onValueChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    maxLines: Int = 1
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        maxLines = if (placeholder == "Product Description") Int.MAX_VALUE else 1,
+        maxLines = maxLines,
         singleLine = placeholder != "Product Description",
         keyboardOptions = keyboardOptions,
         placeholder = {
@@ -44,6 +47,6 @@ fun GreyTextInput(
         shape = RoundedCornerShape(12.dp),
         modifier = modifier
             .background(Color(0xFFE5E5E5), RoundedCornerShape(12.dp))
-            .heightIn(min = if (placeholder == "Product Description") 72.dp else 32.dp)
+            .heightIn(min = if (maxLines > 1) 72.dp else 32.dp)
     )
 }
