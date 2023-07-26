@@ -101,7 +101,13 @@ fun FarmerHomeScreen (
                     modifier = Modifier
                         .padding(1.dp)
                         .fillMaxSize()) {
-                        items.inventory.forEach { item ->
+                        if (searchQuery.isNotEmpty()) {
+                            items.inventory.filter { item ->
+                                item.name.contains(searchQuery, ignoreCase = true)
+                            }
+                        } else {
+                            items.inventory
+                        }.forEach { item ->
                             item {
                                 ItemRow(
                                     item = item,
