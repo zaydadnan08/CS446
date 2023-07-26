@@ -76,13 +76,15 @@ fun FridgeDialog(
                             color = Color.Black
                         )
                     )
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit",
-                        tint = Color.Black,
-                        modifier = Modifier.padding(start = 8.dp)
-                            .clickable { editFridge() } 
-                    )
+                    if(owner) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit",
+                            tint = Color.Black,
+                            modifier = Modifier.padding(start = 8.dp)
+                                .clickable { editFridge() }
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
