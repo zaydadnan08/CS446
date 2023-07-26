@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.fridge
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,17 +41,8 @@ fun EditFridgeDialog(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Edit Fridge Inventory", modifier = Modifier.padding(4.dp), style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Start,
-                        color = Color.Black
-                    )
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
                     text = item.fridge_name,
-                    modifier = Modifier.padding(horizontal = 12.dp),
+                    modifier = Modifier.padding(horizontal = 4.dp),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
@@ -60,7 +52,7 @@ fun EditFridgeDialog(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
-                    modifier = Modifier.padding(horizontal = 12.dp),
+                    modifier = Modifier.padding(horizontal = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -81,17 +73,20 @@ fun EditFridgeDialog(
                     onValueChange = { fridgeinventory = it },
                     placeholder = "Fridge Inventory",
                     maxLines = 8,
+                    modifier = Modifier.border(2.dp, Color.Black, RoundedCornerShape(10.dp))
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
                         item.id?.let {itemId ->
                             viewModel.updateFridge(itemId, fridgeinventory )
                         }
+                        closeDialog()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                        .border(2.dp, Color.Black, RoundedCornerShape(10.dp)),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFA80000)),
                     shape = RoundedCornerShape(10.dp)
                 ) {
@@ -99,7 +94,7 @@ fun EditFridgeDialog(
                         text = "Update Inventory",
                         style = TextStyle(
                             color = Color.White,
-                            fontSize = 14.sp,
+                            fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                         ),
                         textAlign = TextAlign.Center,
