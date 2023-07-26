@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,6 +63,12 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
         is Response.Success -> salesResponse.data.sales.filter { it.name == name }
         else -> {
             emptyList<SaleRecord>()
+        }
+    }
+
+    val myChangeQuantity: quantityFun = object : quantityFun {
+        override fun changeQuantity(quantity: String) {
+            selectedQuantity = (selectedQuantity.toDouble() - quantity.toDouble()).toString()
         }
     }
 
@@ -205,6 +212,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
             columns = GridCells.Fixed(1),
             modifier = Modifier
                 .padding(1.dp)
+                .fillMaxHeight(0.7f)
         ) {
             sales.forEach { item ->
                 item {
@@ -273,7 +281,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
     }
     if (openDialog) {
         TrackSaleDialog(
-            navController = navController,
+            onSave = myChangeQuantity,
             closeDialog = {
                 openDialog = false
             },
@@ -282,4 +290,8 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
             unit = unit
         )
     }
+}
+
+interface quantityFun {
+    fun changeQuantity(quantity: String)
 }

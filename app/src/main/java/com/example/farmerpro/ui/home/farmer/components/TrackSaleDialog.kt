@@ -26,12 +26,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.components.GreyTextInput
+import com.example.farmerpro.ui.home.farmer.InventoryItem.quantityFun
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 import kotlinx.coroutines.job
 
 @Composable
 fun TrackSaleDialog(
-    navController: NavController,
+    onSave: quantityFun,
     closeDialog: () -> Unit,
     name: String,
     origQuantity: Double,
@@ -79,7 +80,7 @@ fun TrackSaleDialog(
                     if (quantity.toDoubleOrNull() != null && quantity.toDouble() >= 0.0 && price.toDoubleOrNull() != null && price.toDouble() >= 0.0) {
                         viewModel.updateInventoryItem(name, origQuantity.minus(quantity.toDouble()))
                         viewModel.trackSaleRecord(name, quantity.toDouble(), unit, price.toDouble())
-                        navController.navigate("FarmerHome")
+                        onSave.changeQuantity(quantity)
                         closeDialog()
                     }
                 }
