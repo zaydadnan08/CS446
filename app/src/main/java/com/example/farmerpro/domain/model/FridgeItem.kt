@@ -5,6 +5,7 @@ data class FridgeItem(
     var uid: String = "",
     var fridge_name: String = "",
     var location: String? = null,
+    var fridgeinventory: String? = null,
     var contact_number: String? = null,
     var imageUrl: String = ""
 )

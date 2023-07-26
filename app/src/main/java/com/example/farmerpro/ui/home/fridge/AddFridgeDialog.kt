@@ -24,11 +24,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.farmerpro.components.GreyTextInput
 import com.example.farmerpro.domain.model.CameraResponse
+
 import com.example.farmerpro.ui.home.markets.MarketViewModel
 import kotlinx.coroutines.job
 
@@ -37,13 +39,15 @@ fun AddFridgeDialog(
     closeDialog: () -> Unit,
     addItem: (
         name: String,
-        location: String
+        location: String,
+        fridgeinventory: String
     ) -> Unit,
     openGallery: () -> Unit,
     viewModel: CommunityFridgeViewModel
 ) {
     var name by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
+    var fridgeinventory by remember { mutableStateOf("") }
 
     val focusRequester = FocusRequester()
 
@@ -126,16 +130,25 @@ fun AddFridgeDialog(
                     value = location, onValueChange = { location = it }, placeholder = "Location"
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+
+                GreyTextInput(
+                    value = fridgeinventory,
+                    onValueChange = { fridgeinventory = it },
+                    placeholder = "Fridge Inventory",
+                    maxLines = 8,
+                    //imeOptions = ImeAction.Next,
+                )
+
             }
         }
     }, confirmButton = {
         val addImageToStorageResponse = viewModel.addImageToStorageResponse
-        val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading) && name.isNotEmpty() && location.isNotEmpty()
+        val isEnabled = !(addImageToStorageResponse is CameraResponse.Loading) && name.isNotEmpty() && location.isNotEmpty() && fridgeinventory.isNotEmpty()
         TextButton(
             onClick = {
                 if (isEnabled) {
                     closeDialog()
-                    addItem(name, location)
+                    addItem(name, location, fridgeinventory)
                 }
             }, enabled = isEnabled
         ) {

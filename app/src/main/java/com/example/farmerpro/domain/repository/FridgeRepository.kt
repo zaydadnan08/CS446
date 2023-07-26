@@ -17,6 +17,7 @@ interface FridgeRepository {
         fridge_name: String,
         uid: String,
         location: String,
+        fridgeinventory: String,
         contact_number: String,
         imageUrl: String
     ): AddFridgeResponse

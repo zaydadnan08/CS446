@@ -133,7 +133,8 @@ class CommunityFridgeViewModel @Inject constructor(
 
     fun addFridge(
         name: String,
-        location: String
+        location: String,
+        fridgeinventory: String
     ) =
         viewModelScope.launch {
             addFridgeResponse = Response.Loading
@@ -141,6 +142,7 @@ class CommunityFridgeViewModel @Inject constructor(
                 name,
                 userId.value ?: "",
                 location,
+                fridgeinventory,
                 currentUser.value?.contactNumber ?: "",
                 downloadUrl.value
             )

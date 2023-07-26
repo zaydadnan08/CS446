@@ -44,6 +44,7 @@ class FridgeRepositoryImpl @Inject constructor(
         fridge_name: String,
         uid: String,
         location: String,
+        fridgeinventory: String,
         contact_number: String,
         imageUrl: String
     ): AddFridgeResponse = try {
@@ -53,6 +54,7 @@ class FridgeRepositoryImpl @Inject constructor(
             uid = uid,
             fridge_name = fridge_name,
             location = location,
+            fridgeinventory = fridgeinventory,
             contact_number = contact_number,
             imageUrl = imageUrl
         )

@@ -140,8 +140,8 @@ fun CommunityFridgeScreen(
                 closeDialog = {
                     openFridgeDialog = false
                 },
-                addItem = { name, location ->
-                    viewModel.addFridge(name, location)
+                addItem = { name, location, fridgeinventory, ->
+                    viewModel.addFridge(name, location, fridgeinventory)
                 },
                 openGallery = {
                     galleryLauncher.launch(Constants.ALL_IMAGES)

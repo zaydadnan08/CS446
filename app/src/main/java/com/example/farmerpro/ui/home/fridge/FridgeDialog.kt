@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.farmerpro.R
+import com.example.farmerpro.components.ExpandableList
 import com.example.farmerpro.components.ExpandableText
 import com.example.farmerpro.components.LocationText
 import com.example.farmerpro.domain.model.FridgeItem
@@ -106,6 +107,11 @@ fun FridgeDialog(
                     )
                 }
 
+                if(fridge.fridgeinventory != null && fridge.fridgeinventory!!.isNotEmpty()) {
+                    ExpandableList(
+                        text = fridge.fridgeinventory.orEmpty(),
+                    )
+                }
 
                 if(owner) {
                     Spacer(modifier = Modifier.height(8.dp))

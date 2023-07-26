@@ -9,9 +9,10 @@ class AddFridge(
         fridge_name: String,
         uid: String,
         location: String,
+        fridgeinventory: String,
         contact_number: String,
         imageUrl: String = "",
     ) = repo.addFridgeToFirestore(
-        fridge_name, uid, location, contact_number, imageUrl
+        fridge_name, uid, location, fridgeinventory, contact_number, imageUrl
     )
 }
