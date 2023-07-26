@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,9 +86,11 @@ fun FridgeCard(
                     modifier = Modifier.padding(), style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     )
-                )
                 fridgeItem.location?.let {
                     Text(
                         text = it,
