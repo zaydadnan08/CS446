@@ -30,5 +30,6 @@ interface MarketRepository {
         imageUri: Uri, fileName: String
     ): AddImageToStorageResponse
 
+    suspend fun updateRating(itemId: String, item: MarketplaceItem, rating: Double): Response<Boolean>
 
 }

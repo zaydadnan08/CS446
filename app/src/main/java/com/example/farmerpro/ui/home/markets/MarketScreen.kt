@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.markets
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -39,19 +41,21 @@ import com.example.farmerpro.components.ToggleWithText
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.MarketplaceItem
 import com.example.farmerpro.ui.home.markets.components.AddItem
+import com.example.farmerpro.ui.home.markets.components.AddRatingDialog
 import com.example.farmerpro.ui.home.markets.components.Items
 import com.example.farmerpro.ui.home.markets.components.DeleteItem
 import com.example.farmerpro.ui.home.markets.components.ItemCard
 import com.example.farmerpro.ui.home.markets.components.ItemDialog
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ItemsScreen(
     navController: NavController,
     viewModel: MarketViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     var openDialog by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var ratingDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf(MarketplaceItem()) }
     var isChecked by remember { mutableStateOf(false) }
 
@@ -94,7 +98,6 @@ fun ItemsScreen(
                 } else {
                     filteredItems
                 }
-
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2), modifier = Modifier
                         .padding(1.dp)
@@ -120,6 +123,17 @@ fun ItemsScreen(
                     }, viewModel = viewModel
                     )
                 }
+                if(ratingDialog){
+                    AddRatingDialog(
+                        closeDialog = {
+                            ratingDialog = false
+                            showDialog = false
+                        },
+                        itemId =  selectedItem.id ?: "" ,
+                        item = selectedItem,
+                        viewModel = viewModel
+                    )
+                }
                 if (showDialog) {
                     ItemDialog(
                         closeDialog = { showDialog = false },
@@ -130,6 +144,9 @@ fun ItemsScreen(
                                 viewModel.deleteItem(itemId)
                             }
                         },
+                        ratingDialog = {
+                            ratingDialog = true
+                        }
                     )
                 }
             })

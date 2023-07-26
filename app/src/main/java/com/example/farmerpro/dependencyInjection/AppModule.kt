@@ -23,6 +23,7 @@ import com.example.farmerpro.domain.marketplace_use_case.AddItem
 import com.example.farmerpro.domain.marketplace_use_case.DeleteItem
 import com.example.farmerpro.domain.marketplace_use_case.GetItems
 import com.example.farmerpro.domain.marketplace_use_case.MarketUseCases
+import com.example.farmerpro.domain.marketplace_use_case.UpdateItem
 import com.example.farmerpro.domain.repository.FarmerRepository
 import com.example.farmerpro.domain.repository.FridgeRepository
 import com.example.farmerpro.domain.repository.RequestRepository
@@ -104,7 +105,8 @@ object AppModule {
         getItems = GetItems(repo),
         addItem = AddItem(repo),
         deleteItem = DeleteItem(repo),
-        addImageToStorage = AddImageToStorage(repo)
+        addImageToStorage = AddImageToStorage(repo),
+        updateItem = UpdateItem(repo)
     )
 
     @Provides

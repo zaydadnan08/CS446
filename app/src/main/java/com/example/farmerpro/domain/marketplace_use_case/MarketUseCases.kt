@@ -4,5 +4,6 @@ data class MarketUseCases(
     val getItems: GetItems,
     val addItem: AddItem,
     val deleteItem: DeleteItem,
-    val addImageToStorage: AddImageToStorage
+    val addImageToStorage: AddImageToStorage,
+    val updateItem: UpdateItem
 )

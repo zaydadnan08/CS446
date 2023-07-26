@@ -1,6 +1,7 @@
 package com.example.farmerpro.data
 
 import android.net.Uri
+import android.util.Log
 import com.example.farmerpro.core.Constants
 import com.example.farmerpro.domain.model.CameraResponse
 import com.google.firebase.firestore.CollectionReference
@@ -8,6 +9,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import com.example.farmerpro.domain.model.MarketplaceItem
+import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.model.Response.Failure
 import com.example.farmerpro.domain.model.Response.Success
 import com.example.farmerpro.domain.repository.AddImageToStorageResponse
@@ -58,7 +60,9 @@ class MarketRepositoryImpl @Inject constructor(
             location = location,
             description= description,
             contact_number = contact_number,
-            imageUrl = imageUrl
+            imageUrl = imageUrl,
+            rating = null,
+            numberOfRatings = 0
         )
         itemsRef.document(id).set(item).await()
         Success(true)
@@ -81,6 +85,21 @@ class MarketRepositoryImpl @Inject constructor(
 
     override suspend fun deleteItemFromFirestore(itemId: String): DeleteItemResponse = try {
         itemsRef.document(itemId).delete().await()
+        Success(true)
+    } catch (e: Exception) {
+        Failure(e)
+    }
+
+    override suspend fun updateRating(itemId: String,
+                                      item: MarketplaceItem,
+                                      rating: Double): Response<Boolean> = try {
+        val ratingValue = if(item.rating == null){
+            rating
+        } else {
+            (rating + (item.rating!! * item.numberOfRatings)) / (item.numberOfRatings + 1)
+        }
+        itemsRef.document(itemId).update("rating", ratingValue)
+        itemsRef.document(itemId).update("numberOfRatings", item.numberOfRatings + 1)
         Success(true)
     } catch (e: Exception) {
         Failure(e)
