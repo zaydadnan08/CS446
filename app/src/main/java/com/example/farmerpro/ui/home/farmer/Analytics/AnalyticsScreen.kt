@@ -1,8 +1,6 @@
 package com.example.farmerpro.ui.home.farmer.Analytics
 
-import android.graphics.ColorSpace.Rgb
 import android.graphics.Typeface
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.compose.animation.Crossfade
@@ -16,29 +14,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.Button
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,27 +41,18 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.R
-import com.example.farmerpro.Screens
-import com.example.farmerpro.components.AddFloatingActionButton
-import com.example.farmerpro.components.SearchAppBar
-import com.example.farmerpro.components.Title
-import com.example.farmerpro.domain.model.InventoryItem
-import com.example.farmerpro.domain.model.InventoryItems
 import com.example.farmerpro.domain.model.Response
 import com.example.farmerpro.domain.model.SaleRecord
 import com.example.farmerpro.domain.model.SaleRecords
-import com.example.farmerpro.ui.home.bottomBar.FarmerSubScreens
-import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
-import com.example.farmerpro.ui.home.farmer.components.ItemRow
 import com.example.farmerpro.ui.home.farmer.components.SalesRow
 import com.example.farmerpro.ui.home.farmer.farmViewModel
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
@@ -77,6 +60,8 @@ import kotlin.random.Random
 
 @Composable
 fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController: NavController) {
+    var selectedItem by remember { mutableStateOf("") }
+
     var sales: SaleRecords = when(val salesResponse = viewModel.salesResponse) {
         is Response.Success -> salesResponse.data
         else -> {
@@ -92,10 +77,12 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
         .mapValues { entry -> entry.value.map { it.price }.reduce { acc, price -> acc + price } }
 
     var d = pieEntries.map { (key, value) ->
-        PieEntry( value.toFloat(), key)
+        PieEntry( value.toFloat(), key, key)
     }
 
     var colors = List(d.size) { randomLightArgbColor() }
+
+    val scrollState = rememberScrollState()
 
     Scaffold { padding ->
         Column(
@@ -103,6 +90,7 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 10.dp, end = 10.dp, top = 10.dp)
+                .verticalScroll(scrollState)
         ) {
             IconButton(
                 onClick = { navController.popBackStack() },
@@ -159,38 +147,52 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Crossfade(targetState = d) { d ->
-                    AndroidView(factory = { context ->
-                        PieChart(context).apply {
-                            layoutParams = LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                1024,
-                            )
-                            this.description.isEnabled = false
-                            this.isDrawHoleEnabled = true
-                            this.legend.isEnabled = false
-                            this.setEntryLabelColor(R.color.black)
-                            val ds = PieDataSet(d, "")
-                            ds.colors = colors
-                            ds.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
-                            ds.xValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
-                            ds.sliceSpace = 2f
-                            ds.valueTextSize = 20f
-                            ds.valueTypeface = Typeface.DEFAULT_BOLD
+                if (d.isNotEmpty()) {
+                    Crossfade(targetState = d) { d ->
+                        AndroidView(factory = { context ->
+                            PieChart(context).apply {
+                                layoutParams = LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    1024,
+                                )
+                                this.description.isEnabled = false
+                                this.isDrawHoleEnabled = true
+                                this.legend.isEnabled = false
+                                this.setEntryLabelColor(R.color.black)
 
-                            this.data = PieData(ds)
-                        }
-                    },
-                        // on below line we are specifying modifier
-                        // for it and specifying padding to it.
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(5.dp)
-                    )
+                                this.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                                        if (e != null) {
+                                            selectedItem = e.data.toString()
+                                        }
+                                    }
+
+                                    override fun onNothingSelected() {
+                                        selectedItem = ""
+                                    }
+                                })
+
+                                val ds = PieDataSet(d, "")
+                                ds.colors = colors
+                                ds.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+                                ds.xValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+                                ds.sliceSpace = 2f
+                                ds.valueTextSize = 20f
+                                ds.valueTypeface = Typeface.DEFAULT_BOLD
+
+                                this.data = PieData(ds)
+                            }
+                        },
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(5.dp)
+                        )
+                    }
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Sales History",
+                text = if (selectedItem == "") "All Sales" else "$selectedItem Sales",
                 modifier = Modifier.padding(
                     bottom = 8.dp, top = 12.dp, start = 8.dp, end = 4.dp
                 ),
@@ -198,21 +200,26 @@ fun AnalyticsScreen (viewModel: farmViewModel = hiltViewModel(),  navController:
                     fontWeight = FontWeight.Bold, fontSize = 28.sp, textAlign = TextAlign.Start
                 )
             )
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                modifier = Modifier
-                    .padding(1.dp)
-                    .fillMaxSize()
-            ) {
-                sales.sales.forEach { item ->
-                    item {
-                        SalesRow(
-                            item = item,
-                            viewModel = viewModel,
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                }
+            if (d.isEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Nothing to see here",
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            sales.sales.filter { sale ->
+                sale.name.contains(selectedItem, ignoreCase = true)
+            }.forEach { item ->
+                SalesRow(
+                    item = item,
+                    viewModel = viewModel,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
