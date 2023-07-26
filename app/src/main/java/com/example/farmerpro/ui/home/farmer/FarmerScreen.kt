@@ -127,13 +127,11 @@ fun FarmerHomeScreen (
             }
         },
             floatingActionButton = {
-                if(userType == "Farmer") {
                     AddFloatingActionButton(
                         openDialog = {
                             openDialog = true
                         }
                     )
-                }
         }
     )
 }
