@@ -172,8 +172,4 @@ class CommunityFridgeViewModel @Inject constructor(
         updateFridgeResponse = Response.Loading
         updateFridgeResponse = fridgeUseCases.updateFridge(ItemId, fridgeInventory)
     }
-
-    fun isUserAdmin():Boolean {
-        return (currentUser.value?.type == "Admin")
-    }
 }
