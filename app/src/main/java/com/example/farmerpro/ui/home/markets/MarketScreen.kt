@@ -1,5 +1,6 @@
 package com.example.farmerpro.ui.home.markets
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -94,7 +95,6 @@ fun ItemsScreen(
                 } else {
                     filteredItems
                 }
-
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2), modifier = Modifier
                         .padding(1.dp)
@@ -127,6 +127,7 @@ fun ItemsScreen(
                         owner = selectedItem.uid == viewModel.userId.value,
                         deleteItem = {
                             selectedItem.id?.let { itemId ->
+                                //viewModel.deleteItem(itemId)
                                 viewModel.deleteItem(itemId)
                             }
                         },
