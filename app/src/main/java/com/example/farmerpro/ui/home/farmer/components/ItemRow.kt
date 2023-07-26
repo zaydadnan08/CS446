@@ -79,6 +79,7 @@ fun ItemRow(
         onResult = {
             if (it != null) {
                 if (it.isNotEmpty() && it[0].toDoubleOrNull() != null)
+                    selectedQuantity = (selectedQuantity.toDouble() + it?.get(0)?.toDouble()!!).toString()
                     viewModel.updateInventoryItem(item.name, item.quantity + it?.get(0)?.toDouble()!!, item.unit, item.notes)
             }
         }
