@@ -109,12 +109,12 @@ fun ItemRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp) // Spacing between buttons and quantity
             ) {
                 IconButton(onClick = {
-                    selectedQuantity = (selectedQuantity.toDouble() - 1.0).toString()
+                    selectedQuantity = if (selectedQuantity.toDouble().minus(1.0) >= 0.0) (selectedQuantity.toDouble().minus(1.0)).toString() else "0.0"
                     viewModel.updateInventoryItem(item.name, item.quantity - 1.0)
                 }) {
                     Icon(
                         Icons.Filled.KeyboardArrowDown,
-                        contentDescription = "Remove",
+                        contentDescription = "Subtract Item",
                         tint = LocalContentColor.current
                     )
                 }
@@ -143,7 +143,7 @@ fun ItemRow(
                     )
                 )
                 IconButton(onClick = {
-                    selectedQuantity = (selectedQuantity.toDouble() + 1.0).toString()
+                    selectedQuantity = selectedQuantity.toDouble().plus(1.0).toString()
                     viewModel.updateInventoryItem(item.name, item.quantity + 1.0)
                 }) {
                     Icon(

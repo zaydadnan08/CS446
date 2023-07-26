@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.farmerpro.components.Dropdown
+import com.example.farmerpro.ui.home.bottomBar.FarmerSubScreens
 import com.example.farmerpro.ui.home.farmer.components.AddInventoryAlertDialog
 import com.example.farmerpro.ui.home.farmer.components.TrackSaleDialog
 import com.example.farmerpro.ui.home.farmer.farmViewModel
@@ -114,7 +115,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     IconButton(onClick = {
-                        selectedQuantity = selectedQuantity.toDouble().minus(1.0).toString()
+                        selectedQuantity = if (selectedQuantity.toDouble().minus(1.0) >= 0.0) (selectedQuantity.toDouble().minus(1.0)).toString() else "0.0"
                     }) {
                         Icon(
                             Icons.Filled.KeyboardArrowDown,
@@ -146,7 +147,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                             }
                         )
                     )
-                    IconButton(onClick = { selectedQuantity = selectedQuantity.plus(1.0) }) {
+                    IconButton(onClick = { selectedQuantity = selectedQuantity.toDouble().plus(1.0).toString() }) {
                         Icon(
                             Icons.Filled.KeyboardArrowUp,
                             contentDescription = "Add",
@@ -215,7 +216,7 @@ fun InventoryItemScreen(viewModel: farmViewModel = hiltViewModel(), navControlle
                 Button(
                     onClick = {
                         viewModel.updateInventoryItem(name, selectedQuantity.toDouble(), selectedUnit)
-                        navController.popBackStack()
+                        navController.navigate("FarmerHome")
                     }
                 ) {
                     Text(
