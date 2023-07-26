@@ -39,6 +39,7 @@ import com.example.farmerpro.R
 import com.example.farmerpro.components.ExpandableList
 import com.example.farmerpro.components.ExpandableText
 import com.example.farmerpro.components.LocationText
+import com.example.farmerpro.components.PhoneNumberText
 import com.example.farmerpro.domain.model.FridgeItem
 import com.example.farmerpro.domain.model.FridgeRequest
 import com.example.farmerpro.domain.model.MarketplaceItem
@@ -81,7 +82,8 @@ fun FridgeDialog(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Edit",
                             tint = Color.Black,
-                            modifier = Modifier.padding(start = 8.dp)
+                            modifier = Modifier
+                                .padding(start = 8.dp)
                                 .clickable { editFridge() }
                         )
                     }
@@ -119,11 +121,7 @@ fun FridgeDialog(
                             color = Color.Black
                         )
                     )
-                    Text(
-                        text = "${fridge.contact_number.orEmpty()}",
-                        style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
-                        maxLines = 1,
-                    )
+                    PhoneNumberText(phoneNumber = fridge.contact_number.orEmpty())
                 }
 
                 if(fridge.fridgeinventory != null && fridge.fridgeinventory!!.isNotEmpty()) {
