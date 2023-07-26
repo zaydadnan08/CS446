@@ -82,9 +82,9 @@ fun ItemsScreen(
             SearchAppBar(searchQuery, setSearchQuery)
             Spacer(modifier = Modifier.height(8.dp))
 
-            //if(userType == "Farmer") {
+            if(userType == "Farmer") {
                 ToggleWithText(isChecked = isChecked, onCheckedChange = { isChecked = it })
-          //  }
+            }
             Items(itemsContent = { items ->
                 var filteredItems = if (searchQuery.isNotEmpty()) {
                     items.filter { item ->
@@ -154,11 +154,11 @@ fun ItemsScreen(
             })
         }
     }, floatingActionButton = {
-       // if(userType == "Farmer") {
+        if(userType == "Farmer") {
             AddFloatingActionButton(openDialog = {
                 openDialog = true
             })
-       // }
+        }
     })
     AddItem()
     DeleteItem()

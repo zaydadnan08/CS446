@@ -82,13 +82,13 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-               // if(userType == "Admin") {
+                if(userType == "Admin") {
                     CircleButtonWithPlus(
                         onClick = { openRequestDialog = true },
                     )
-              //  }
+                }
             }
-           // if(userType == "Admin") {
+            if(userType == "Admin") {
                 Switch(
                     checked = isCheckedRequests,
                     onCheckedChange = { isCheckedRequests = it },
@@ -99,7 +99,7 @@ fun CommunityFridgeScreen(
                         uncheckedTrackColor = Color.White
                     )
                 )
-            // }
+            }
         }
 
         FridgeRequests(requestContent = { requests ->
@@ -179,13 +179,13 @@ fun CommunityFridgeScreen(
                         fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Start
                     )
                 )
-              //  if(userType == "Admin") {
+                if(userType == "Admin") {
                     CircleButtonWithPlus(
                         onClick = { openFridgeDialog = true },
                     )
-              //  }
+                }
             }
-          //  if(userType == "Admin") {
+            if(userType == "Admin") {
                 Switch(
                     checked = isCheckedFridges,
                     onCheckedChange = { isCheckedFridges = it },
@@ -196,7 +196,7 @@ fun CommunityFridgeScreen(
                         uncheckedTrackColor = Color.White
                     )
                 )
-         //   }
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
