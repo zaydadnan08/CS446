@@ -154,11 +154,9 @@ fun ItemsScreen(
             })
         }
     }, floatingActionButton = {
-        if(userType == "Farmer") {
             AddFloatingActionButton(openDialog = {
                 openDialog = true
             })
-        }
     })
     AddItem()
     DeleteItem()
