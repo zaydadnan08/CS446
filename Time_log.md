@@ -5,6 +5,7 @@
 | 2023/05/18 |             | 2          |             |                  |           |                  | Github initialization                        |
 | 2023/06/02 | 3           | 2          | 6           | 6                | 6         | 3                | #D1: Proposal Document + Powerpoint         |
 | 2023/06/16 | 4           | 1          | 1           | 1                | 1         | 1                | #D2: Buddy team Eval                         |
+| 2023/06/16 |             |            |             |                  |           | 5                | Readings on app design                       |
 | 2023/06/22 |             | 2          |             |                  |           |                  | Further Init                                 |
 | 2023/06/25 |             | 2          |             |                  |           |                  | Basic Navigation                             |
 | 2023/06/25 |             | 1.5        |             |                  |           |                  | Main screens                                 |
@@ -42,6 +43,7 @@
 | 2023/07/16 |             | 2          |             |                  |           |                  | Reformat code for marketplace                |
 | 2023/07/16 |             | 0.5        |             |                  |           |                  | Refactor db model                            |
 | 2023/07/16 |             | 1.5        |             |                  |           |                  | Remake UI for marketplace use case           |
+| 2023/07/16 |             |            |             |                  |           | 6                | UI polishing and fixes                       |
 | 2023/07/16 |             | 0.5       |             |                  |           |                  | Screen + viewmodel refactor                  |
 | 2023/07/16 | 3           |            |             |                  |           |                  | Marketplace db backend item management       |
 | 2023/07/16 |             | 0.5        |             |                  |           |                  | Resolve merge conflict                       |
@@ -51,6 +53,7 @@
 | 2023/07/16 |             | 0.5       |             |                  |           |                  | Fixes for marketplace req                    |
 | 2023/07/16 |             | 2.5        |             |                  |           |                  | Make marketplace UI + functionality          |
 | 2023/07/16 |             | 0.5       |             |                  |           |                  | Updates description                         |
+| 2023/06/16 |             |            |             |                  |           | 8                | Readings on app design                       |
 | 2023/07/16 |             |            |             | 4                |           |                  | Farmer backend (#8)                          |
 | 2023/07/16 |             | 1          |             |                  |           |                  | Make description work                        |
 | 2023/07/16 |             | 1.5        |             |                  |           |                  | Get user info                                |
@@ -70,6 +73,7 @@
 | 2023/07/19 |             |            |             | 1.5                |           |                  | Add track sale popup (#19)                   |
 | 2023/07/20 |             | 3       |             |                  |           |                  | Add toggle (#21)                             |
 | 2023/07/20 |             |            |             |                  | 5         |                  | Request repo and fridge request stuff (#20)  |
+| 2023/07/20 |             |            |             |                  |           | 6                | Reqs readings and learning                   |
 | 2023/07/21 |             | 3          |             |                  |           | 12               | Reqs (#22)                                   |
 | 2023/07/21 | 5           | 1          | 2           | 2                | 5         | 5                | #D5: Design Pattern Examples                 |
 | 2023/07/22 |             | 0.25       |             |                  |           |                  | Fix up (#23)                                 |
