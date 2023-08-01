@@ -1,6 +1,6 @@
 
 
-| Date       | David Mehic | Zayd Adnan | Hamza Saqib | Sheryrar Suleman | Kevin Liu | Anweshi Anavadya | Task                                          |
+| Date       | David Mehic | Zayd Adnan | Hamza Saqib | Shehryar Suleman | Kevin Liu | Anweshi Anavadya | Task                                          |
 |------------|-------------|------------|-------------|------------------|-----------|------------------|----------------------------------------------|
 | 2023/05/18 |             | 2          |             |                  |           |                  | Github initialization                        |
 | 2023/06/02 | 3           | 2          | 6           | 6                | 6         | 3                | #D1: Proposal Document + Powerpoint         |
